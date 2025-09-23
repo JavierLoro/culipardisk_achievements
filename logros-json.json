@@ -1,0 +1,90 @@
+{
+  "logros": [
+    {
+      "id": "goleador",
+      "nombre": "Goleador",
+      "tipo": "publico",
+      "imagenBloqueada": "images/logros/goleador-locked.png",
+      "imagenDesbloqueada": "images/logros/goleador-unlocked.png",
+      "descripcion": "Marca 10 goles en la temporada"
+    },
+    {
+      "id": "asistente",
+      "nombre": "Asistente Estrella",
+      "tipo": "publico",
+      "imagenBloqueada": "images/logros/asistente-locked.png",
+      "imagenDesbloqueada": "images/logros/asistente-unlocked.png",
+      "descripcion": "Realiza 5 asistencias"
+    },
+    {
+      "id": "mvp",
+      "nombre": "MVP del Mes",
+      "tipo": "publico",
+      "imagenBloqueada": "images/logros/mvp-locked.png",
+      "imagenDesbloqueada": "images/logros/mvp-unlocked.png",
+      "descripcion": "Mejor jugador del mes"
+    },
+    {
+      "id": "invicto",
+      "nombre": "Muro Invencible",
+      "tipo": "publico",
+      "imagenBloqueada": "images/logros/invicto-locked.png",
+      "imagenDesbloqueada": "images/logros/invicto-unlocked.png",
+      "descripcion": "Portero con 5 partidos sin recibir goles"
+    },
+    {
+      "id": "veterano",
+      "nombre": "???",
+      "tipo": "secreto",
+      "imagenBloqueada": "images/logros/secreto-locked.png",
+      "imagenDesbloqueada": "images/logros/veterano-unlocked.png",
+      "descripcion": "100 partidos con el club"
+    },
+    {
+      "id": "leyenda",
+      "nombre": "???",
+      "tipo": "secreto",
+      "imagenBloqueada": "images/logros/secreto-locked.png",
+      "imagenDesbloqueada": "images/logros/leyenda-unlocked.png",
+      "descripcion": "Capitán durante 3 temporadas consecutivas"
+    },
+    {
+      "id": "comeback",
+      "nombre": "???",
+      "tipo": "secreto",
+      "imagenBloqueada": "images/logros/secreto-locked.png",
+      "imagenDesbloqueada": "images/logros/comeback-unlocked.png",
+      "descripcion": "Marca 3 goles en una remontada épica"
+    },
+    {
+      "id": "fairplay",
+      "nombre": "Fair Play",
+      "tipo": "publico",
+      "imagenBloqueada": "images/logros/fairplay-locked.png",
+      "imagenDesbloqueada": "images/logros/fairplay-unlocked.png",
+      "descripcion": "Temporada sin tarjetas rojas"
+    }
+  ],
+  "jugadores": [
+    {
+      "nombre": "Carlos Rodríguez",
+      "logrosDesbloqueados": ["goleador", "mvp", "veterano"]
+    },
+    {
+      "nombre": "Miguel Ángel Torres",
+      "logrosDesbloqueados": ["asistente", "fairplay"]
+    },
+    {
+      "nombre": "Javier Hernández",
+      "logrosDesbloqueados": ["goleador", "asistente", "mvp", "comeback"]
+    },
+    {
+      "nombre": "Diego Martínez",
+      "logrosDesbloqueados": ["invicto", "fairplay", "veterano"]
+    },
+    {
+      "nombre": "Roberto Silva",
+      "logrosDesbloqueados": ["leyenda", "veterano", "fairplay", "mvp"]
+    }
+  ]
+}

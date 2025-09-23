@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club Deportivo - Sistema de Logros</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        th {
+            padding: 15px 10px;
+            text-align: center;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        th:last-child {
+            border-right: none;
+        }
+
+        th:first-child {
+            text-align: left;
+            padding-left: 20px;
+            min-width: 150px;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #e0e0e0;
+            transition: background-color 0.3s ease;
+        }
+
+        tbody tr:hover {
+            background-color: #f5f5ff;
+        }
+
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        td {
+            padding: 15px 10px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        td:first-child {
+            font-weight: 600;
+            text-align: left;
+            padding-left: 20px;
+            color: #333;
+            background: linear-gradient(90deg, #f8f8ff 0%, transparent 100%);
+        }
+
+        .achievement-cell {
+            position: relative;
+            display: inline-block;
+        }
+
+        .achievement-img {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease, filter 0.3s ease;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .achievement-img:hover {
+            transform: scale(1.15);
+            filter: brightness(1.1);
+        }
+
+        .achievement-img.locked {
+            filter: grayscale(100%) brightness(0.7);
+            opacity: 0.6;
+        }
+
+        .achievement-img.secret-locked {
+            filter: grayscale(100%) brightness(0.5) contrast(1.2);
+            opacity: 0.5;
+        }
+
+        .tooltip {
+            position: absolute;
+            bottom: 110%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+            max-width: 200px;
+            text-align: center;
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 5px;
+            border-style: solid;
+            border-color: rgba(0, 0, 0, 0.9) transparent transparent transparent;
+        }
+
+        .achievement-cell:hover .tooltip {
+            opacity: 1;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2em;
+            color: #666;
+        }
+
+        .error {
+            background: #ff6b6b;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 10px;
+            text-align: center;
+            flex: 1;
+            min-width: 200px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .achievement-img {
+                width: 40px;
+                height: 40px;
+            }
+
+            th, td {
+                padding: 10px 5px;
+                font-size: 0.9em;
+            }
+
+            .stats {
+                flex-direction: column;
+            }
+
+            .stat-card {
+                min-width: 100%;
+            }
+        }
+
+        /* Animación de entrada */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        tbody tr {
+            opacity: 0;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        tbody tr:nth-child(1) { animation-delay: 0.1s; }
+        tbody tr:nth-child(2) { animation-delay: 0.2s; }
+        tbody tr:nth-child(3) { animation-delay: 0.3s; }
+        tbody tr:nth-child(4) { animation-delay: 0.4s; }
+        tbody tr:nth-child(5) { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏆 Sistema de Logros</h1>
+        <p class="subtitle">Temporada 2024-2025</p>
+        
+        <div id="stats" class="stats"></div>
+        
+        <div class="table-wrapper">
+            <table id="achievementsTable">
+                <thead id="tableHeader">
+                    <!-- Se generará dinámicamente -->
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Se generará dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div id="loading" class="loading">Cargando logros...</div>
+        <div id="error" class="error" style="display: none;"></div>
+    </div>
+
+    <script>
+        // Simulación del archivo logros.json para demostración
+        // En producción, esto se cargará desde un archivo JSON externo
+        const logrosData = {
+            "logros": [
+                {
+                    "id": "goleador",
+                    "nombre": "Goleador",
+                    "tipo": "publico",
+                    "imagenBloqueada": "https://via.placeholder.com/100/cccccc/666666?text=🔒",
+                    "imagenDesbloqueada": "https://via.placeholder.com/100/FFD700/FFFFFF?text=⚽",
+                    "descripcion": "Marca 10 goles en la temporada"
+                },
+                {
+                    "id": "asistente",
+                    "nombre": "Asistente Estrella",
+                    "tipo": "publico",
+                    "imagenBloqueada": "https://via.placeholder.com/100/cccccc/666666?text=🔒",
+                    "imagenDesbloqueada": "https://via.placeholder.com/100/4169E1/FFFFFF?text=🤝",
+                    "descripcion": "Realiza 5 asistencias"
+                },
+                {
+                    "id": "mvp",
+                    "nombre": "MVP del Mes",
+                    "tipo": "publico",
+                    "imagenBloqueada": "https://via.placeholder.com/100/cccccc/666666?text=🔒",
+                    "imagenDesbloqueada": "https://via.placeholder.com/100/FF1493/FFFFFF?text=⭐",
+                    "descripcion": "Mejor jugador del mes"
+                },
+                {
+                    "id": "invicto",
+                    "nombre": "Muro Invencible",
+                    "tipo": "publico",
+                    "imagenBloqueada": "https://via.placeholder.com/100/cccccc/666666?text=🔒",
+                    "imagenDesbloqueada": "https://via.placeholder.com/100/32CD32/FFFFFF?text=🛡️",
+                    "descripcion": "Portero con 5 partidos sin recibir goles"
+                },
+                {
+                    "id": "veterano",
+                    "nombre": "???",
+                    "tipo": "secreto",
+                    "imagenBloqueada": "https://via.placeholder.com/100/444444/222222?text=❓",
+                    "imagenDesbloqueada": "https://via.placeholder.com/100/8B4513/FFFFFF?text=🎖️",
+                    "descripcion": "100 partidos con el club"
+                },
+                {
+                    "id": "leyenda",
+                    "nombre": "???",
+                    "tipo": "secreto",
+                    "imagenBloqueada": "https://via.placeholder.com/100/444444/222222?text=❓",
+                    "imagenDesbloqueada": "https://via.placeholder.com/100/9400D3/FFFFFF?text=👑",
+                    "descripcion": "Capitán durante 3 temporadas consecutivas"
+                },
+                {
+                    "id": "comeback",
+                    "nombre": "???",
+                    "tipo": "secreto",
+                    "imagenBloqueada": "https://via.placeholder.com/100/444444/222222?text=❓",
+                    "imagenDesbloqueada": "https://via.placeholder.com/100/FF4500/FFFFFF?text=🔥",
+                    "descripcion": "Marca 3 goles en una remontada épica"
+                },
+                {
+                    "id": "fairplay",
+                    "nombre": "Fair Play",
+                    "tipo": "publico",
+                    "imagenBloqueada": "https://via.placeholder.com/100/cccccc/666666?text=🔒",
+                    "imagenDesbloqueada": "https://via.placeholder.com/100/00CED1/FFFFFF?text=🤍",
+                    "descripcion": "Temporada sin tarjetas rojas"
+                }
+            ],
+            "jugadores": [
+                {
+                    "nombre": "Carlos Rodríguez",
+                    "logrosDesbloqueados": ["goleador", "mvp", "veterano"]
+                },
+                {
+                    "nombre": "Miguel Ángel Torres",
+                    "logrosDesbloqueados": ["asistente", "fairplay"]
+                },
+                {
+                    "nombre": "Javier Hernández",
+                    "logrosDesbloqueados": ["goleador", "asistente", "mvp", "comeback"]
+                },
+                {
+                    "nombre": "Diego Martínez",
+                    "logrosDesbloqueados": ["invicto", "fairplay", "veterano"]
+                },
+                {
+                    "nombre": "Roberto Silva",
+                    "logrosDesbloqueados": ["leyenda", "veterano", "fairplay", "mvp"]
+                }
+            ]
+        };
+
+        class AchievementSystem {
+            constructor() {
+                this.data = null;
+                this.init();
+            }
+
+            async init() {
+                try {
+                    // En producción, cargar desde archivo externo:
+                    // const response = await fetch('logros.json');
+                    // this.data = await response.json();
+                    
+                    // Para demostración, usamos los datos simulados
+                    this.data = logrosData;
+                    
+                    this.render();
+                    this.hideLoading();
+                    this.renderStats();
+                } catch (error) {
+                    this.showError('Error al cargar los datos: ' + error.message);
+                }
+            }
+
+            render() {
+                this.renderHeader();
+                this.renderBody();
+            }
+
+            renderHeader() {
+                const header = document.getElementById('tableHeader');
+                let headerHTML = '<tr><th>Jugador</th>';
+                
+                this.data.logros.forEach(logro => {
+                    const displayName = logro.tipo === 'secreto' ? '???' : logro.nombre;
+                    headerHTML += `<th title="${displayName}">${displayName}</th>`;
+                });
+                
+                headerHTML += '</tr>';
+                header.innerHTML = headerHTML;
+            }
+
+            renderBody() {
+                const body = document.getElementById('tableBody');
+                let bodyHTML = '';
+                
+                this.data.jugadores.forEach(jugador => {
+                    bodyHTML += `<tr><td>${jugador.nombre}</td>`;
+                    
+                    this.data.logros.forEach(logro => {
+                        const isUnlocked = jugador.logrosDesbloqueados.includes(logro.id);
+                        bodyHTML += this.renderAchievementCell(logro, isUnlocked);
+                    });
+                    
+                    bodyHTML += '</tr>';
+                });
+                
+                body.innerHTML = bodyHTML;
+            }
+
+            renderAchievementCell(logro, isUnlocked) {
+                let imgSrc, tooltipText, imgClass;
+                
+                if (isUnlocked) {
+                    imgSrc = logro.imagenDesbloqueada;
+                    tooltipText = logro.tipo === 'secreto' ? logro.descripcion : logro.nombre;
+                    imgClass = 'achievement-img unlocked';
+                } else {
+                    imgSrc = logro.imagenBloqueada;
+                    tooltipText = logro.tipo === 'secreto' ? 'Secreto' : `${logro.nombre} - Bloqueado`;
+                    imgClass = logro.tipo === 'secreto' ? 'achievement-img secret-locked' : 'achievement-img locked';
+                }
+                
+                return `
+                    <td>
+                        <div class="achievement-cell">
+                            <img src="${imgSrc}" alt="${logro.nombre}" class="${imgClass}">
+                            <div class="tooltip">${tooltipText}</div>
+                        </div>
+                    </td>
+                `;
+            }
+
+            renderStats() {
+                const statsDiv = document.getElementById('stats');
+                
+                const totalLogros = this.data.logros.length;
+                const totalJugadores = this.data.jugadores.length;
+                let totalDesbloqueados = 0;
+                let jugadorMasLogros = '';
+                let maxLogros = 0;
+                
+                this.data.jugadores.forEach(jugador => {
+                    const count = jugador.logrosDesbloqueados.length;
+                    totalDesbloqueados += count;
+                    if (count > maxLogros) {
+                        maxLogros = count;
+                        jugadorMasLogros = jugador.nombre;
+                    }
+                });
+                
+                const porcentajeCompletado = Math.round((totalDesbloqueados / (totalLogros * totalJugadores)) * 100);
+                
+                statsDiv.innerHTML = `
+                    <div class="stat-card fade-in">
+                        <div class="stat-number">${totalJugadores}</div>
+                        <div class="stat-label">Jugadores</div>
+                    </div>
+                    <div class="stat-card fade-in" style="animation-delay: 0.1s;">
+                        <div class="stat-number">${totalLogros}</div>
+                        <div class="stat-label">Logros Disponibles</div>
+                    </div>
+                    <div class="stat-card fade-in" style="animation-delay: 0.2s;">
+                        <div class="stat-number">${porcentajeCompletado}%</div>
+                        <div class="stat-label">Completado</div>
+                    </div>
+                    <div class="stat-card fade-in" style="animation-delay: 0.3s;">
+                        <div class="stat-number">${maxLogros}/${totalLogros}</div>
+                        <div class="stat-label">Líder: ${jugadorMasLogros.split(' ')[0]}</div>
+                    </div>
+                `;
+            }
+
+            hideLoading() {
+                document.getElementById('loading').style.display = 'none';
+            }
+
+            showError(message) {
+                document.getElementById('loading').style.display = 'none';
+                const errorDiv = document.getElementById('error');
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+            }
+        }
+
+        // Inicializar el sistema cuando se carga la página
+        document.addEventListener('DOMContentLoaded', () => {
+            new AchievementSystem();
+        });
+    </script>
+</body>
+</html>
