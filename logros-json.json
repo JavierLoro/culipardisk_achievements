@@ -1,12 +1,12 @@
 {
   "logros": [
     {
-      "id": "goleador",
-      "nombre": "Goleador",
+      "id": "socio",
+      "nombre": "Socio 25/26",
       "tipo": "publico",
-      "imagenBloqueada": "images/logros/goleador-locked.png",
-      "imagenDesbloqueada": "images/logros/goleador-unlocked.png",
-      "descripcion": "Marca 10 goles en la temporada"
+      "imagenBloqueada": "images/logros/socio-locked.png",
+      "imagenDesbloqueada": "images/logros/socio-unlocked.png",
+      "descripcion": "Rellena la ficha de socio y completa el pago"
     },
     {
       "id": "asistente",
@@ -17,44 +17,12 @@
       "descripcion": "Realiza 5 asistencias"
     },
     {
-      "id": "mvp",
-      "nombre": "MVP del Mes",
-      "tipo": "publico",
-      "imagenBloqueada": "images/logros/mvp-locked.png",
-      "imagenDesbloqueada": "images/logros/mvp-unlocked.png",
-      "descripcion": "Mejor jugador del mes"
-    },
-    {
-      "id": "invicto",
-      "nombre": "Muro Invencible",
-      "tipo": "publico",
-      "imagenBloqueada": "images/logros/invicto-locked.png",
-      "imagenDesbloqueada": "images/logros/invicto-unlocked.png",
-      "descripcion": "Portero con 5 partidos sin recibir goles"
-    },
-    {
       "id": "veterano",
       "nombre": "???",
       "tipo": "secreto",
       "imagenBloqueada": "images/logros/secreto-locked.png",
       "imagenDesbloqueada": "images/logros/veterano-unlocked.png",
       "descripcion": "100 partidos con el club"
-    },
-    {
-      "id": "leyenda",
-      "nombre": "???",
-      "tipo": "secreto",
-      "imagenBloqueada": "images/logros/secreto-locked.png",
-      "imagenDesbloqueada": "images/logros/leyenda-unlocked.png",
-      "descripcion": "Capitán durante 3 temporadas consecutivas"
-    },
-    {
-      "id": "comeback",
-      "nombre": "???",
-      "tipo": "secreto",
-      "imagenBloqueada": "images/logros/secreto-locked.png",
-      "imagenDesbloqueada": "images/logros/comeback-unlocked.png",
-      "descripcion": "Marca 3 goles en una remontada épica"
     },
     {
       "id": "fairplay",
@@ -67,24 +35,80 @@
   ],
   "jugadores": [
     {
-      "nombre": "Carlos Rodríguez",
-      "logrosDesbloqueados": ["goleador", "mvp", "veterano"]
+      "nombre": "Adrian",
+      "logrosDesbloqueados": []
     },
     {
-      "nombre": "Miguel Ángel Torres",
-      "logrosDesbloqueados": ["asistente", "fairplay"]
+      "nombre": "Andres",
+      "logrosDesbloqueados": []
     },
     {
-      "nombre": "Javier Hernández",
-      "logrosDesbloqueados": ["goleador", "asistente", "mvp", "comeback"]
+      "nombre": "Alex",
+      "logrosDesbloqueados": []
     },
     {
-      "nombre": "Diego Martínez",
-      "logrosDesbloqueados": ["invicto", "fairplay", "veterano"]
+      "nombre": "Barren",
+      "logrosDesbloqueados": []
     },
     {
-      "nombre": "Roberto Silva",
-      "logrosDesbloqueados": ["leyenda", "veterano", "fairplay", "mvp"]
+      "nombre": "Carlos",
+      "logrosDesbloqueados": []
+    },
+{
+      "nombre": "Carmen",
+      "logrosDesbloqueados": []
+    },
+    {
+      "nombre": "Dani",
+      "logrosDesbloqueados": []
+    },
+    {
+      "nombre": "David",
+      "logrosDesbloqueados": []
+    },
+    {
+      "nombre": "Elena",
+      "logrosDesbloqueados": []
+    },
+    {
+      "nombre": "Fernando",
+      "logrosDesbloqueados": []
+    },
+    {
+      "nombre": "Isabel",
+      "logrosDesbloqueados": []
+    },
+    {
+      "nombre": "Javier",
+      "logrosDesbloqueados": ["socio"]
+    },
+    {
+      "nombre": "Jose",
+      "logrosDesbloqueados": []
+    },
+    {
+      "nombre": "Juan",
+      "logrosDesbloqueados": []
+    },
+    {
+      "nombre": "laura",
+      "logrosDesbloqueados": []
+    },
+    {
+      "nombre": "Maria",
+      "logrosDesbloqueados": []
+    },
+    {
+      "nombre": "Miguel",
+      "logrosDesbloqueados": []
+    },
+    {
+      "nombre": "Pato",
+      "logrosDesbloqueados": []
+    },
+    {
+      "nombre": "Sergio",
+      "logrosDesbloqueados": []
     }
   ]
 }
