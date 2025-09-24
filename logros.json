@@ -52,7 +52,7 @@
           "nombre": "Asistente bronce",
           "tipo": "publico",
           "imagenBloqueada": "images/logros/star-locked.png",
-          "imagenDesbloqueada": "images/logros/<>-unlocked.png",
+          "imagenDesbloqueada": "images/logros/star-unlocked.png",
           "descripcion": "5 entrenamientos"
         },
         {
