@@ -106,6 +106,39 @@ h1 {
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
 }
 
+/* Tarjeta del líder */
+.player-card.leader {
+    background: linear-gradient(145deg, #ffffff 0%, #f8f4ff 100%);
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    position: relative;
+}
+
+.player-card.leader::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
+    border-radius: 15px;
+    z-index: -1;
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+.player-card.leader .player-position {
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+    color: #333;
+    box-shadow: 0 2px 8px rgba(255, 215, 0, 0.4);
+}
+
+.player-card.leader .achievement-count {
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+    color: #333;
+    font-weight: 700;
+}
+
 /* Encabezado del jugador */
 .player-header {
     display: flex;
@@ -116,11 +149,36 @@ h1 {
     border-bottom: 2px solid #f0f0f0;
 }
 
+.player-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.player-position {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.9em;
+    flex-shrink: 0;
+}
+
 .player-name {
     color: #333;
     font-size: 1.3em;
     font-weight: 600;
     margin: 0;
+}
+
+.leader-badge {
+    font-size: 1.5em;
+    animation: pulse 2s infinite;
 }
 
 .achievement-count {
@@ -241,6 +299,24 @@ h1 {
     }
 }
 
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+@keyframes shimmer {
+    0%, 100% {
+        opacity: 0.8;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
 .fade-in {
     animation: fadeIn 0.5s ease forwards;
 }
@@ -315,8 +391,23 @@ h1 {
         gap: 10px;
     }
 
+    .player-info {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
     .achievement-count {
         align-self: flex-start;
+    }
+
+    .leader-badge {
+        font-size: 1.2em;
+    }
+
+    .player-position {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8em;
     }
 }
 
@@ -337,6 +428,10 @@ h1 {
     .player-card {
         background: #2a2a2a;
         color: #f0f0f0;
+    }
+
+    .player-card.leader {
+        background: linear-gradient(145deg, #2a2a2a 0%, #353535 100%);
     }
 
     .player-header {

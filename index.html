@@ -144,12 +144,24 @@
                 const playersList = document.getElementById('playersList');
                 let html = '';
                 
-                this.data.jugadores.forEach((jugador, index) => {
+                // Crear una copia de jugadores y ordenar por cantidad de logros (mayor a menor)
+                const jugadoresOrdenados = [...this.data.jugadores].sort((a, b) => {
+                    return b.logrosDesbloqueados.length - a.logrosDesbloqueados.length;
+                });
+                
+                jugadoresOrdenados.forEach((jugador, index) => {
                     const animationDelay = index * 0.1;
+                    const isLeader = index === 0 && jugador.logrosDesbloqueados.length > 0;
+                    const position = index + 1;
+                    
                     html += `
-                        <div class="player-card" style="animation-delay: ${animationDelay}s">
+                        <div class="player-card ${isLeader ? 'leader' : ''}" style="animation-delay: ${animationDelay}s">
                             <div class="player-header">
-                                <h3 class="player-name">${jugador.nombre}</h3>
+                                <div class="player-info">
+                                    <span class="player-position">#${position}</span>
+                                    <h3 class="player-name">${jugador.nombre}</h3>
+                                    ${isLeader ? '<span class="leader-badge">👑</span>' : ''}
+                                </div>
                                 <span class="achievement-count">${jugador.logrosDesbloqueados.length}/${this.data.logros.length}</span>
                             </div>
                             <div class="achievements-grid">
