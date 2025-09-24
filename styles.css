@@ -121,20 +121,20 @@ h1 {
     left: -2px;
     right: -2px;
     bottom: -2px;
-    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
+    background: linear-gradient(135deg, #d0d0d0 0%, #e8e8e8 50%, #d0d0d0 100%);
     border-radius: 15px;
     z-index: -1;
     animation: shimmer 3s ease-in-out infinite;
 }
 
 .player-card.leader .player-position {
-    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+    background: linear-gradient(135deg, #b8b8b8 0%, #d0d0d0 100%);
     color: #333;
-    box-shadow: 0 2px 8px rgba(255, 215, 0, 0.4);
+    box-shadow: 0 2px 8px rgba(160, 160, 160, 0.4);
 }
 
 .player-card.leader .achievement-count {
-    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+    background: linear-gradient(135deg, #b8b8b8 0%, #d0d0d0 100%);
     color: #333;
     font-weight: 700;
 }
