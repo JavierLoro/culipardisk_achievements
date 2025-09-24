@@ -49,11 +49,11 @@
         {
           "nivel": 1,
           "id": "name_id",
-          "nombre": "Name",
+          "nombre": "asistencia5",
           "tipo": "publico",
           "imagenBloqueada": "images/logros/star-locked.png",
           "imagenDesbloqueada": "images/logros/<>-unlocked.png",
-          "descripcion": "desc"
+          "descripcion": "5 entrenamientos"
         },
         {
           "nivel": 2,
@@ -88,7 +88,7 @@
   "jugadores": [
     {
       "nombre": "Adrian",
-      "logrosDesbloqueados": []
+      "logrosDesbloqueados": ["socio","veterano"]
     },
     {
       "nombre": "Andres",
@@ -96,11 +96,11 @@
     },
     {
       "nombre": "Alex",
-      "logrosDesbloqueados": []
+      "logrosDesbloqueados": ["socio","veterano"]
     },
     {
       "nombre": "Barren",
-      "logrosDesbloqueados": ["socio"]
+      "logrosDesbloqueados": ["socio","veterano"]
     },
     {
       "nombre": "Carlos",
@@ -112,7 +112,7 @@
     },
     {
       "nombre": "Dani",
-      "logrosDesbloqueados": ["socio"]
+      "logrosDesbloqueados": ["socio", "veterano"]
     },
     {
       "nombre": "David",
@@ -124,7 +124,7 @@
     },
     {
       "nombre": "Fernando",
-      "logrosDesbloqueados": []
+      "logrosDesbloqueados": ["socio","veterano","asistente"]
     },
     {
       "nombre": "Isabel",
@@ -134,16 +134,18 @@
       "nombre": "Javier",
       "logrosDesbloqueados": [
         "socio",
-        "spirit"
+        "spirit",
+        "veterano",
+        "asistencia5"
       ]
     },
     {
       "nombre": "Jose",
-      "logrosDesbloqueados": []
+      "logrosDesbloqueados": ["socio","veterano"]
     },
     {
       "nombre": "Juan",
-      "logrosDesbloqueados": []
+      "logrosDesbloqueados": ["socio","veterano"]
     },
     {
       "nombre": "laura",
@@ -163,7 +165,7 @@
     },
     {
       "nombre": "Sergio",
-      "logrosDesbloqueados": []
+      "logrosDesbloqueados": ["socio","veterano"]
     }
   ]
 }
