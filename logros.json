@@ -12,8 +12,8 @@
       "id": "asistente",
       "nombre": "Asistente Estrella",
       "tipo": "publico",
-      "imagenBloqueada": "images/logros/asistente-locked.png",
-      "imagenDesbloqueada": "images/logros/asistente-unlocked.png",
+      "imagenBloqueada": "images/logros/star-locked.png",
+      "imagenDesbloqueada": "images/logros/star-unlocked.png",
       "descripcion": "Realiza 5 asistencias"
     },
     {
@@ -51,7 +51,7 @@
           "id": "name_id",
           "nombre": "Name",
           "tipo": "publico",
-          "imagenBloqueada": "images/logros/<>-locked.png",
+          "imagenBloqueada": "images/logros/star-locked.png",
           "imagenDesbloqueada": "images/logros/<>-unlocked.png",
           "descripcion": "desc"
         },
