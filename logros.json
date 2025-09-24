@@ -18,19 +18,27 @@
     },
     {
       "id": "veterano",
-      "nombre": "???",
-      "tipo": "secreto",
-      "imagenBloqueada": "images/logros/secreto-locked.png",
+      "nombre": "Veterano",
+      "tipo": "publico",
+      "imagenBloqueada": "images/logros/veterano-locked.png",
       "imagenDesbloqueada": "images/logros/veterano-unlocked.png",
-      "descripcion": "100 partidos con el club"
+      "descripcion": "3 años como socio"
     },
     {
-      "id": "fairplay",
-      "nombre": "Fair Play",
+      "id": "spirit",
+      "nombre": "Graduado Spirit",
       "tipo": "publico",
-      "imagenBloqueada": "images/logros/fairplay-locked.png",
-      "imagenDesbloqueada": "images/logros/fairplay-unlocked.png",
-      "descripcion": "Temporada sin tarjetas rojas"
+      "imagenBloqueada": "images/logros/spirit-locked.png",
+      "imagenDesbloqueada": "images/logros/spirit-unlocked.png",
+      "descripcion": "Completa la certificación basica de spirit"
+    },
+    {
+      "id": "advanced",
+      "nombre": "Genio del Spirit",
+      "tipo": "secreto",
+      "imagenBloqueada": "images/logros/advanced-locked.png",
+      "imagenDesbloqueada": "images/logros/advanced-unlocked.png",
+      "descripcion": "Completa la certificación avanzada de spirit"
     }
   ],
   "jugadores": [

@@ -1,24 +1,26 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Club Deportivo Culipardisk</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <div class="container">
         <h1>🏆 CULIPARDISK</h1>
         <p class="subtitle">Temporada 2025-2026</p>
-        
+
         <div id="stats" class="stats"></div>
-        
+
         <div class="achievements-container">
             <div id="playersList" class="players-list">
                 <!-- Se generará dinámicamente -->
             </div>
         </div>
-        
+
         <div id="loading" class="loading">Cargando logros...</div>
         <div id="error" class="error" style="display: none;"></div>
     </div>
@@ -127,11 +129,11 @@
                 try {
                     // IMPORTANTE: Para pruebas locales, usar los datos simulados
                     //this.data = logrosData;
-                    
+
                     // Para producción con archivo JSON externo, descomentar estas líneas:
                     const response = await fetch('logros.json');
                     this.data = await response.json();
-                    
+
                     this.render();
                     this.hideLoading();
                     this.renderStats();
@@ -143,17 +145,17 @@
             render() {
                 const playersList = document.getElementById('playersList');
                 let html = '';
-                
+
                 // Crear una copia de jugadores y ordenar por cantidad de logros (mayor a menor)
                 const jugadoresOrdenados = [...this.data.jugadores].sort((a, b) => {
                     return b.logrosDesbloqueados.length - a.logrosDesbloqueados.length;
                 });
-                
+
                 jugadoresOrdenados.forEach((jugador, index) => {
                     const animationDelay = index * 0.1;
                     const isLeader = index === 0 && jugador.logrosDesbloqueados.length > 0;
                     const position = index + 1;
-                    
+
                     html += `
                         <div class="player-card ${isLeader ? 'leader' : ''}" style="animation-delay: ${animationDelay}s">
                             <div class="player-header">
@@ -170,59 +172,67 @@
                         </div>
                     `;
                 });
-                
+
                 playersList.innerHTML = html;
             }
 
             renderPlayerAchievements(jugador) {
                 let achievementsHTML = '';
-                
+
                 this.data.logros.forEach(logro => {
                     const isUnlocked = jugador.logrosDesbloqueados.includes(logro.id);
                     achievementsHTML += this.renderAchievement(logro, isUnlocked);
                 });
-                
+
                 return achievementsHTML;
             }
 
             renderAchievement(logro, isUnlocked) {
                 let imgSrc, tooltipText, imgClass;
-                
+
                 if (isUnlocked) {
                     imgSrc = logro.imagenDesbloqueada;
-                    tooltipText = logro.tipo === 'secreto' ? logro.descripcion : logro.nombre;
+                    // Para logros desbloqueados, mostrar nombre + descripción
+                    const nombreMostrar = logro.tipo === 'secreto' ?
+                        logro.descripcion.split(' ')[0] + '...' : // Toma primera palabra de la descripción para secretos
+                        logro.nombre;
+                    tooltipText = `<strong>${nombreMostrar}</strong><br>${logro.descripcion}`;
                     imgClass = 'achievement-img unlocked';
                 } else {
                     imgSrc = logro.imagenBloqueada;
-                    tooltipText = logro.tipo === 'secreto' ? 'Secreto' : `${logro.nombre} - Bloqueado`;
+                    if (logro.tipo === 'secreto') {
+                        tooltipText = '<strong>???</strong><br>Secreto';
+                    } else {
+                        tooltipText = `<strong>${logro.nombre}</strong><br>Bloqueado`;
+                    }
                     imgClass = logro.tipo === 'secreto' ? 'achievement-img secret-locked' : 'achievement-img locked';
                 }
-                
+
                 return `
-                    <div class="achievement-cell">
-                        <img src="${imgSrc}" alt="${logro.nombre}" class="${imgClass}">
-                        <div class="tooltip">${tooltipText}</div>
-                    </div>
-                `;
+        <div class="achievement-cell">
+            <img src="${imgSrc}" alt="${logro.nombre}" class="${imgClass}">
+            <div class="tooltip">${tooltipText}</div>
+        </div>
+    `;
             }
 
             renderStats() {
                 const statsDiv = document.getElementById('stats');
-                
+
                 const totalLogros = this.data.logros.length;
                 const totalJugadores = this.data.jugadores.length;
                 let totalDesbloqueados = 0;
                 let jugadorMasLogros = '';
                 let maxLogros = 0;
-                
+
                 // Calcular logros secretos desbloqueados
                 let secretosDesbloqueados = 0;
                 const totalSecretos = this.data.logros.filter(l => l.tipo === 'secreto').length;
-                
+
                 this.data.jugadores.forEach(jugador => {
                     const count = jugador.logrosDesbloqueados.length;
                     totalDesbloqueados += count;
-                    
+
                     // Contar secretos desbloqueados
                     jugador.logrosDesbloqueados.forEach(logroId => {
                         const logro = this.data.logros.find(l => l.id === logroId);
@@ -230,15 +240,15 @@
                             secretosDesbloqueados++;
                         }
                     });
-                    
+
                     if (count > maxLogros) {
                         maxLogros = count;
                         jugadorMasLogros = jugador.nombre;
                     }
                 });
-                
+
                 const porcentajeCompletado = Math.round((totalDesbloqueados / (totalLogros * totalJugadores)) * 100);
-                
+
                 statsDiv.innerHTML = `
                     <div class="stat-card fade-in">
                         <div class="stat-number">${totalJugadores}</div>
@@ -277,4 +287,5 @@
         });
     </script>
 </body>
+
 </html>
