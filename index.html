@@ -4,273 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Club Deportivo - Sistema de Logros</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 2.5em;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 1.1em;
-        }
-
-        .table-wrapper {
-            overflow-x: auto;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-        }
-
-        thead {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-
-        th {
-            padding: 15px 10px;
-            text-align: center;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            border-right: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        th:last-child {
-            border-right: none;
-        }
-
-        th:first-child {
-            text-align: left;
-            padding-left: 20px;
-            min-width: 150px;
-        }
-
-        tbody tr {
-            border-bottom: 1px solid #e0e0e0;
-            transition: background-color 0.3s ease;
-        }
-
-        tbody tr:hover {
-            background-color: #f5f5ff;
-        }
-
-        tbody tr:last-child {
-            border-bottom: none;
-        }
-
-        td {
-            padding: 15px 10px;
-            text-align: center;
-            vertical-align: middle;
-        }
-
-        td:first-child {
-            font-weight: 600;
-            text-align: left;
-            padding-left: 20px;
-            color: #333;
-            background: linear-gradient(90deg, #f8f8ff 0%, transparent 100%);
-        }
-
-        .achievement-cell {
-            position: relative;
-            display: inline-block;
-        }
-
-        .achievement-img {
-            width: 50px;
-            height: 50px;
-            cursor: pointer;
-            transition: transform 0.3s ease, filter 0.3s ease;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        .achievement-img:hover {
-            transform: scale(1.15);
-            filter: brightness(1.1);
-        }
-
-        .achievement-img.locked {
-            filter: grayscale(100%) brightness(0.7);
-            opacity: 0.6;
-        }
-
-        .achievement-img.secret-locked {
-            filter: grayscale(100%) brightness(0.5) contrast(1.2);
-            opacity: 0.5;
-        }
-
-        .tooltip {
-            position: absolute;
-            bottom: 110%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.9);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 14px;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            z-index: 1000;
-            max-width: 200px;
-            text-align: center;
-        }
-
-        .tooltip::after {
-            content: '';
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            border-width: 5px;
-            border-style: solid;
-            border-color: rgba(0, 0, 0, 0.9) transparent transparent transparent;
-        }
-
-        .achievement-cell:hover .tooltip {
-            opacity: 1;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 50px;
-            font-size: 1.2em;
-            color: #666;
-        }
-
-        .error {
-            background: #ff6b6b;
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            text-align: center;
-        }
-
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            margin: 30px 0;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .stat-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px 30px;
-            border-radius: 10px;
-            text-align: center;
-            flex: 1;
-            min-width: 200px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .stat-number {
-            font-size: 2em;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .stat-label {
-            font-size: 0.9em;
-            opacity: 0.9;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-            }
-
-            h1 {
-                font-size: 1.8em;
-            }
-
-            .achievement-img {
-                width: 40px;
-                height: 40px;
-            }
-
-            th, td {
-                padding: 10px 5px;
-                font-size: 0.9em;
-            }
-
-            .stats {
-                flex-direction: column;
-            }
-
-            .stat-card {
-                min-width: 100%;
-            }
-        }
-
-        /* Animación de entrada */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .fade-in {
-            animation: fadeIn 0.5s ease forwards;
-        }
-
-        tbody tr {
-            opacity: 0;
-            animation: fadeIn 0.5s ease forwards;
-        }
-
-        tbody tr:nth-child(1) { animation-delay: 0.1s; }
-        tbody tr:nth-child(2) { animation-delay: 0.2s; }
-        tbody tr:nth-child(3) { animation-delay: 0.3s; }
-        tbody tr:nth-child(4) { animation-delay: 0.4s; }
-        tbody tr:nth-child(5) { animation-delay: 0.5s; }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
@@ -279,15 +13,10 @@
         
         <div id="stats" class="stats"></div>
         
-        <div class="table-wrapper">
-            <table id="achievementsTable">
-                <thead id="tableHeader">
-                    <!-- Se generará dinámicamente -->
-                </thead>
-                <tbody id="tableBody">
-                    <!-- Se generará dinámicamente -->
-                </tbody>
-            </table>
+        <div class="achievements-container">
+            <div id="playersList" class="players-list">
+                <!-- Se generará dinámicamente -->
+            </div>
         </div>
         
         <div id="loading" class="loading">Cargando logros...</div>
@@ -412,42 +141,39 @@
             }
 
             render() {
-                this.renderHeader();
-                this.renderBody();
+                const playersList = document.getElementById('playersList');
+                let html = '';
+                
+                this.data.jugadores.forEach((jugador, index) => {
+                    const animationDelay = index * 0.1;
+                    html += `
+                        <div class="player-card" style="animation-delay: ${animationDelay}s">
+                            <div class="player-header">
+                                <h3 class="player-name">${jugador.nombre}</h3>
+                                <span class="achievement-count">${jugador.logrosDesbloqueados.length}/${this.data.logros.length}</span>
+                            </div>
+                            <div class="achievements-grid">
+                                ${this.renderPlayerAchievements(jugador)}
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                playersList.innerHTML = html;
             }
 
-            renderHeader() {
-                const header = document.getElementById('tableHeader');
-                let headerHTML = '<tr><th>Jugador</th>';
+            renderPlayerAchievements(jugador) {
+                let achievementsHTML = '';
                 
                 this.data.logros.forEach(logro => {
-                    const displayName = logro.tipo === 'secreto' ? '???' : logro.nombre;
-                    headerHTML += `<th title="${displayName}">${displayName}</th>`;
+                    const isUnlocked = jugador.logrosDesbloqueados.includes(logro.id);
+                    achievementsHTML += this.renderAchievement(logro, isUnlocked);
                 });
                 
-                headerHTML += '</tr>';
-                header.innerHTML = headerHTML;
+                return achievementsHTML;
             }
 
-            renderBody() {
-                const body = document.getElementById('tableBody');
-                let bodyHTML = '';
-                
-                this.data.jugadores.forEach(jugador => {
-                    bodyHTML += `<tr><td>${jugador.nombre}</td>`;
-                    
-                    this.data.logros.forEach(logro => {
-                        const isUnlocked = jugador.logrosDesbloqueados.includes(logro.id);
-                        bodyHTML += this.renderAchievementCell(logro, isUnlocked);
-                    });
-                    
-                    bodyHTML += '</tr>';
-                });
-                
-                body.innerHTML = bodyHTML;
-            }
-
-            renderAchievementCell(logro, isUnlocked) {
+            renderAchievement(logro, isUnlocked) {
                 let imgSrc, tooltipText, imgClass;
                 
                 if (isUnlocked) {
@@ -461,12 +187,10 @@
                 }
                 
                 return `
-                    <td>
-                        <div class="achievement-cell">
-                            <img src="${imgSrc}" alt="${logro.nombre}" class="${imgClass}">
-                            <div class="tooltip">${tooltipText}</div>
-                        </div>
-                    </td>
+                    <div class="achievement-cell">
+                        <img src="${imgSrc}" alt="${logro.nombre}" class="${imgClass}">
+                        <div class="tooltip">${tooltipText}</div>
+                    </div>
                 `;
             }
 
@@ -479,9 +203,22 @@
                 let jugadorMasLogros = '';
                 let maxLogros = 0;
                 
+                // Calcular logros secretos desbloqueados
+                let secretosDesbloqueados = 0;
+                const totalSecretos = this.data.logros.filter(l => l.tipo === 'secreto').length;
+                
                 this.data.jugadores.forEach(jugador => {
                     const count = jugador.logrosDesbloqueados.length;
                     totalDesbloqueados += count;
+                    
+                    // Contar secretos desbloqueados
+                    jugador.logrosDesbloqueados.forEach(logroId => {
+                        const logro = this.data.logros.find(l => l.id === logroId);
+                        if (logro && logro.tipo === 'secreto') {
+                            secretosDesbloqueados++;
+                        }
+                    });
+                    
                     if (count > maxLogros) {
                         maxLogros = count;
                         jugadorMasLogros = jugador.nombre;
@@ -501,11 +238,11 @@
                     </div>
                     <div class="stat-card fade-in" style="animation-delay: 0.2s;">
                         <div class="stat-number">${porcentajeCompletado}%</div>
-                        <div class="stat-label">Completado</div>
+                        <div class="stat-label">Completado Global</div>
                     </div>
                     <div class="stat-card fade-in" style="animation-delay: 0.3s;">
-                        <div class="stat-number">${maxLogros}/${totalLogros}</div>
-                        <div class="stat-label">Líder: ${jugadorMasLogros.split(' ')[0]}</div>
+                        <div class="stat-number">${secretosDesbloqueados}/${totalSecretos}</div>
+                        <div class="stat-label">Secretos Revelados</div>
                     </div>
                 `;
             }
