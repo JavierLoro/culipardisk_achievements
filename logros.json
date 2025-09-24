@@ -48,8 +48,8 @@
       "niveles": [
         {
           "nivel": 1,
-          "id": "name_id",
-          "nombre": "asistencia5",
+          "id": "asistencia5",
+          "nombre": "Asistente bronce",
           "tipo": "publico",
           "imagenBloqueada": "images/logros/star-locked.png",
           "imagenDesbloqueada": "images/logros/<>-unlocked.png",
@@ -57,7 +57,7 @@
         },
         {
           "nivel": 2,
-          "id": "name_id",
+          "id": "name_id2",
           "nombre": "Name",
           "tipo": "publico",
           "imagenBloqueada": "images/logros/<>-locked.png",
@@ -66,7 +66,7 @@
         },
         {
           "nivel": 3,
-          "id": "name_id",
+          "id": "name_id3",
           "nombre": "Name",
           "tipo": "publico",
           "imagenBloqueada": "images/logros/<>-locked.png",
@@ -75,7 +75,7 @@
         },
         {
           "nivel": 4,
-          "id": "name_id",
+          "id": "name_id4",
           "nombre": "Name",
           "tipo": "publico",
           "imagenBloqueada": "images/logros/<>-locked.png",
