@@ -188,35 +188,43 @@
             }
 
             renderAchievement(logro, isUnlocked) {
-                let imgSrc, tooltipText, imgClass;
+                let imgSrc, tooltipText, imgClass, tooltipClass = '';
 
                 if (isUnlocked) {
                     imgSrc = logro.imagenDesbloqueada;
-                    // Para logros desbloqueados
-                    if (logro.tipo === 'publico') {
-                        // Públicos: mostrar nombre + descripción
+
+                    // Determinar clase según tipo
+                    if (logro.tipo === 'especial') {
+                        imgClass = 'achievement-img special-unlocked';
+                        tooltipClass = 'special';
                         tooltipText = `<strong>${logro.nombre}</strong><br>${logro.descripcion}`;
-                    } else {
-                        // Secretos: mostrar solo el nombre del logro revelado
+                    } else if (logro.tipo === 'publico') {
+                        imgClass = 'achievement-img unlocked';
+                        tooltipText = `<strong>${logro.nombre}</strong><br>${logro.descripcion}`;
+                    } else { // secreto
+                        imgClass = 'achievement-img unlocked';
                         tooltipText = `<strong>${logro.descripcion}</strong>`;
                     }
-                    imgClass = 'achievement-img unlocked';
                 } else {
                     imgSrc = logro.imagenBloqueada;
-                    if (logro.tipo === 'secreto') {
-                        // Secretos bloqueados: solo "Secreto"
+
+                    if (logro.tipo === 'especial') {
+                        imgClass = 'achievement-img special-locked';
+                        tooltipClass = 'special';
+                        tooltipText = `<strong>${logro.nombre}</strong><br>${logro.descripcion}`;
+                    } else if (logro.tipo === 'secreto') {
+                        imgClass = 'achievement-img secret-locked';
                         tooltipText = '<strong>Secreto</strong>';
-                    } else {
-                        // Públicos bloqueados: nombre + descripción
+                    } else { // publico
+                        imgClass = 'achievement-img locked';
                         tooltipText = `<strong>${logro.nombre}</strong><br>${logro.descripcion}`;
                     }
-                    imgClass = logro.tipo === 'secreto' ? 'achievement-img secret-locked' : 'achievement-img locked';
                 }
 
                 return `
         <div class="achievement-cell">
             <img src="${imgSrc}" alt="${logro.nombre}" class="${imgClass}">
-            <div class="tooltip">${tooltipText}</div>
+            <div class="tooltip ${tooltipClass}">${tooltipText}</div>
         </div>
     `;
             }
@@ -226,52 +234,54 @@
 
                 const totalLogros = this.data.logros.length;
                 const totalJugadores = this.data.jugadores.length;
-                let totalDesbloqueados = 0;
-                let jugadorMasLogros = '';
-                let maxLogros = 0;
 
-                // Calcular logros secretos desbloqueados
+                // Contar logros por tipo
+                const logrosPublicos = this.data.logros.filter(l => l.tipo === 'publico').length;
+                const logrosSecretos = this.data.logros.filter(l => l.tipo === 'secreto').length;
+                const logrosEspeciales = this.data.logros.filter(l => l.tipo === 'especial').length;
+
+                // Contar jugadores con al menos un logro
+                const jugadoresConLogros = this.data.jugadores.filter(j => j.logrosDesbloqueados.length > 0).length;
+
+                // Calcular logros desbloqueados sin contar especiales
+                let publicosDesbloqueados = 0;
                 let secretosDesbloqueados = 0;
-                const totalSecretos = this.data.logros.filter(l => l.tipo === 'secreto').length;
 
                 this.data.jugadores.forEach(jugador => {
-                    const count = jugador.logrosDesbloqueados.length;
-                    totalDesbloqueados += count;
-
-                    // Contar secretos desbloqueados
                     jugador.logrosDesbloqueados.forEach(logroId => {
                         const logro = this.data.logros.find(l => l.id === logroId);
-                        if (logro && logro.tipo === 'secreto') {
-                            secretosDesbloqueados++;
+                        if (logro) {
+                            if (logro.tipo === 'publico') publicosDesbloqueados++;
+                            if (logro.tipo === 'secreto') secretosDesbloqueados++;
                         }
                     });
-
-                    if (count > maxLogros) {
-                        maxLogros = count;
-                        jugadorMasLogros = jugador.nombre;
-                    }
                 });
 
-                const porcentajeCompletado = Math.round((totalDesbloqueados / (totalLogros * totalJugadores)) * 100);
+                // Calcular porcentajes
+                const totalSinEspeciales = logrosPublicos + logrosSecretos;
+                const desbloqueadosSinEspeciales = publicosDesbloqueados + secretosDesbloqueados;
+                const porcentajeCompletado = Math.round((desbloqueadosSinEspeciales / (totalSinEspeciales * totalJugadores)) * 100);
+                const porcentajeSecretos = logrosSecretos > 0 ?
+                    Math.round((secretosDesbloqueados / (logrosSecretos * totalJugadores)) * 100) : 0;
 
                 statsDiv.innerHTML = `
-                    <div class="stat-card fade-in">
-                        <div class="stat-number">${totalJugadores}</div>
-                        <div class="stat-label">Jugadores</div>
-                    </div>
-                    <div class="stat-card fade-in" style="animation-delay: 0.1s;">
-                        <div class="stat-number">${totalLogros}</div>
-                        <div class="stat-label">Logros Disponibles</div>
-                    </div>
-                    <div class="stat-card fade-in" style="animation-delay: 0.2s;">
-                        <div class="stat-number">${porcentajeCompletado}%</div>
-                        <div class="stat-label">Completado Global</div>
-                    </div>
-                    <div class="stat-card fade-in" style="animation-delay: 0.3s;">
-                        <div class="stat-number">${secretosDesbloqueados}/${totalSecretos}</div>
-                        <div class="stat-label">Secretos Revelados</div>
-                    </div>
-                `;
+        <div class="stat-card fade-in">
+            <div class="stat-number">${jugadoresConLogros}/${totalJugadores}</div>
+            <div class="stat-label">Socios</div>
+        </div>
+        <div class="stat-card fade-in" style="animation-delay: 0.1s;">
+            <div class="stat-number">${totalLogros}</div>
+            <div class="stat-label">Logros Totales</div>
+        </div>
+        <div class="stat-card fade-in" style="animation-delay: 0.2s;">
+            <div class="stat-number">${porcentajeCompletado}%</div>
+            <div class="stat-label">Obtenidos club</div>
+        </div>
+        <div class="stat-card fade-in" style="animation-delay: 0.3s;">
+            <div class="stat-number">${porcentajeSecretos}%</div>
+            <div class="stat-label">Secretos Descubiertos</div>
+        </div>
+    `;
             }
 
             hideLoading() {

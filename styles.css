@@ -279,6 +279,34 @@ h1 {
     visibility: visible;
 }
 
+/* Logros Especiales - Efecto Plateado */
+.achievement-img.special-unlocked {
+    box-shadow: 0 0 15px rgba(192, 192, 192, 0.8), 
+                0 3px 10px rgba(0, 0, 0, 0.3);
+    border: 2px solid #c0c0c0;
+}
+
+.achievement-img.special-locked {
+    filter: grayscale(100%) brightness(0.8);
+    opacity: 0.7;
+    border: 2px solid #808080;
+}
+
+/* Tooltip para logros especiales */
+.achievement-cell .tooltip.special {
+    background: linear-gradient(135deg, #b8b8b8 0%, #e8e8e8 100%);
+    color: #333;
+    font-weight: 600;
+}
+
+.achievement-cell .tooltip.special::after {
+    border-color: #c0c0c0 transparent transparent transparent;
+}
+
+.achievement-cell .tooltip.special strong {
+    color: #4a4a4a;
+}
+
 /* Estados de carga y error */
 .loading {
     text-align: center;
