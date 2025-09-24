@@ -19,7 +19,7 @@
     {
       "id": "veterano",
       "nombre": "Veterano",
-      "tipo": "publico",
+      "tipo": "especial",
       "imagenBloqueada": "images/logros/veterano-locked.png",
       "imagenDesbloqueada": "images/logros/veterano-unlocked.png",
       "descripcion": "3 años como socio"
@@ -35,8 +35,8 @@
     {
       "id": "advanced",
       "nombre": "Genio del Spirit",
-      "tipo": "especial",
-      "imagenBloqueada": "images/logros/advanced-locked.png",
+      "tipo": "secreto",
+      "imagenBloqueada": "images/logros/asecret-locked.png",
       "imagenDesbloqueada": "images/logros/advanced-unlocked.png",
       "descripcion": "Completa la certificación avanzada de spirit"
     }
