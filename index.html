@@ -247,20 +247,83 @@
             renderPlayerAchievements(jugador) {
                 let achievementsHTML = '';
 
-                // Renderizar logros normales
+                // Separar logros por categorías
+                const publicosDesbloqueados = [];
+                const especialesDesbloqueados = [];
+                const secretosDesbloqueados = [];
+                const publicosBloqueados = [];
+                const especialesBloqueados = [];
+                const secretosBloqueados = [];
+
+                // Clasificar todos los logros normales
                 this.data.logros.forEach(logro => {
                     const isUnlocked = jugador.logrosDesbloqueados.includes(logro.id);
-                    achievementsHTML += this.renderAchievement(logro, isUnlocked);
+
+                    if (logro.tipo === 'secreto') {
+                        if (isUnlocked) {
+                            secretosDesbloqueados.push(logro);
+                        } else {
+                            secretosBloqueados.push(logro);
+                        }
+                    } else if (logro.tipo === 'especial') {
+                        if (isUnlocked) {
+                            especialesDesbloqueados.push(logro);
+                        } else {
+                            especialesBloqueados.push(logro);
+                        }
+                    } else { // público
+                        if (isUnlocked) {
+                            publicosDesbloqueados.push(logro);
+                        } else {
+                            publicosBloqueados.push(logro);
+                        }
+                    }
                 });
 
-                // Renderizar logros progresivos (solo el más alto de cada grupo)
+                // Obtener y separar progresivos
                 const progresivos = this.getHighestProgressiveAchievements(jugador);
-                Object.values(progresivos).forEach(prog => {
+                const progresivosArray = Object.values(progresivos);
+                const progresivosDesbloqueados = progresivosArray.filter(p => p.unlocked);
+                const progresivosBloqueados = progresivosArray.filter(p => !p.unlocked);
+
+                // ORDEN DE RENDERIZADO:
+
+                // 1. Todos los públicos y especiales DESBLOQUEADOS (mezclados)
+                [...publicosDesbloqueados, ...especialesDesbloqueados].forEach(logro => {
+                    achievementsHTML += this.renderAchievement(logro, true);
+                });
+
+                // 2. Secretos DESBLOQUEADOS
+                secretosDesbloqueados.forEach(logro => {
+                    achievementsHTML += this.renderAchievement(logro, true);
+                });
+
+                // 3. Progresivos DESBLOQUEADOS
+                progresivosDesbloqueados.forEach(prog => {
                     achievementsHTML += this.renderProgressiveAchievement(
                         prog.achievement,
-                        prog.unlocked,
+                        true,
                         prog.nextLevel
                     );
+                });
+
+                // 4. Todos los públicos y especiales BLOQUEADOS (mezclados)
+                [...publicosBloqueados, ...especialesBloqueados].forEach(logro => {
+                    achievementsHTML += this.renderAchievement(logro, false);
+                });
+
+                // 5. Progresivos BLOQUEADOS
+                progresivosBloqueados.forEach(prog => {
+                    achievementsHTML += this.renderProgressiveAchievement(
+                        prog.achievement,
+                        false,
+                        prog.nextLevel
+                    );
+                });
+
+                // 6. Secretos BLOQUEADOS (al final)
+                secretosBloqueados.forEach(logro => {
+                    achievementsHTML += this.renderAchievement(logro, false);
                 });
 
                 return achievementsHTML;
