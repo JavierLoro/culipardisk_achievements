@@ -301,7 +301,7 @@
 
                 return `
             <div class="achievement-cell">
-                <img src="${imgSrc}" alt="${logro.nombre}" class="${imgClass}">
+                <img src="${imgSrc}" alt="${logro.tipo === 'secreto' && !isUnlocked ? 'Secreto' : logro.nombre}" class="${imgClass}">
                 <div class="tooltip ${tooltipClass}">${tooltipText}</div>
             </div>
         `;
