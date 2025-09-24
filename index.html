@@ -128,11 +128,11 @@
             async init() {
                 try {
                     // Para pruebas locales
-                    this.data = logrosData;
+                    //this.data = logrosData;
 
                     // Para producción:
-                    // const response = await fetch('logros.json');
-                    // this.data = await response.json();
+                    const response = await fetch('logros.json');
+                    this.data = await response.json();
 
                     this.render();
                     this.hideLoading();
