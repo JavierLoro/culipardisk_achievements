@@ -36,7 +36,7 @@
       "id": "advanced",
       "nombre": "Genio del Spirit",
       "tipo": "secreto",
-      "imagenBloqueada": "images/logros/asecret-locked.png",
+      "imagenBloqueada": "images/logros/secret-locked.png",
       "imagenDesbloqueada": "images/logros/advanced-unlocked.png",
       "descripcion": "Completa la certificación avanzada de spirit"
     }
