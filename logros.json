@@ -100,7 +100,7 @@
     },
     {
       "nombre": "Barren",
-      "logrosDesbloqueados": []
+      "logrosDesbloqueados": ["socio"]
     },
     {
       "nombre": "Carlos",
@@ -112,7 +112,7 @@
     },
     {
       "nombre": "Dani",
-      "logrosDesbloqueados": []
+      "logrosDesbloqueados": ["socio"]
     },
     {
       "nombre": "David",
@@ -128,12 +128,13 @@
     },
     {
       "nombre": "Isabel",
-      "logrosDesbloqueados": []
+      "logrosDesbloqueados": ["socio"]
     },
     {
       "nombre": "Javier",
       "logrosDesbloqueados": [
-        "socio"
+        "socio",
+        "spirit"
       ]
     },
     {
