@@ -192,18 +192,23 @@
 
                 if (isUnlocked) {
                     imgSrc = logro.imagenDesbloqueada;
-                    // Para logros desbloqueados, mostrar nombre + descripción
-                    const nombreMostrar = logro.tipo === 'secreto' ?
-                        logro.descripcion.split(' ')[0] + '...' : // Toma primera palabra de la descripción para secretos
-                        logro.nombre;
-                    tooltipText = `<strong>${nombreMostrar}</strong><br>${logro.descripcion}`;
+                    // Para logros desbloqueados
+                    if (logro.tipo === 'publico') {
+                        // Públicos: mostrar nombre + descripción
+                        tooltipText = `<strong>${logro.nombre}</strong><br>${logro.descripcion}`;
+                    } else {
+                        // Secretos: mostrar solo el nombre del logro revelado
+                        tooltipText = `<strong>${logro.descripcion}</strong>`;
+                    }
                     imgClass = 'achievement-img unlocked';
                 } else {
                     imgSrc = logro.imagenBloqueada;
                     if (logro.tipo === 'secreto') {
-                        tooltipText = '<strong>???</strong><br>Secreto';
+                        // Secretos bloqueados: solo "Secreto"
+                        tooltipText = '<strong>Secreto</strong>';
                     } else {
-                        tooltipText = `<strong>${logro.nombre}</strong><br>Bloqueado`;
+                        // Públicos bloqueados: nombre + descripción
+                        tooltipText = `<strong>${logro.nombre}</strong><br>${logro.descripcion}`;
                     }
                     imgClass = logro.tipo === 'secreto' ? 'achievement-img secret-locked' : 'achievement-img locked';
                 }
