@@ -8,7 +8,7 @@
 /* Estilos del body */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #ea6666 0%, #a24b4b 100%);
     min-height: 100vh;
     padding: 20px;
     line-height: 1.6;
@@ -156,7 +156,7 @@ h1 {
 }
 
 .player-position {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #ea6666 0%, #a24b4b 100%);
     color: white;
     width: 32px;
     height: 32px;
@@ -182,7 +182,7 @@ h1 {
 }
 
 .achievement-count {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #ea6666 0%, #a24b4b 100%);
     color: white;
     padding: 5px 15px;
     border-radius: 20px;
