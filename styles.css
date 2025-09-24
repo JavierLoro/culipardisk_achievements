@@ -307,6 +307,104 @@ h1 {
     color: #4a4a4a;
 }
 
+/* Logros Progresivos */
+.progressive-cell {
+    position: relative;
+}
+
+.achievement-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.achievement-img.progressive {
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+.achievement-img.progressive.unlocked {
+    animation: progressivePulse 3s infinite;
+}
+
+/* Badge de nivel */
+.level-badge {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 12px;
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.level-badge.bronze {
+    background: linear-gradient(135deg, #CD7F32, #8B4513);
+    color: white;
+}
+
+.level-badge.silver {
+    background: linear-gradient(135deg, #C0C0C0, #808080);
+    color: white;
+}
+
+.level-badge.gold {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: #333;
+}
+
+.level-badge.diamond {
+    background: linear-gradient(135deg, #B9F2FF, #69D2E7);
+    color: #333;
+    animation: diamondSparkle 2s infinite;
+}
+
+/* Tooltip para progresivos */
+.tooltip.progressive {
+    min-width: 200px;
+    max-width: 300px;
+}
+
+.tooltip.progressive strong {
+    color: #ffd700;
+    font-size: 14px;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.tooltip.progressive em {
+    display: block;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+}
+
+/* Animaciones de progresivos */
+@keyframes progressivePulse {
+    0%, 100% {
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    }
+    50% {
+        box-shadow: 0 3px 15px rgba(255, 215, 0, 0.3);
+    }
+}
+
+@keyframes diamondSparkle {
+    0%, 100% {
+        transform: scale(1);
+        filter: brightness(1);
+    }
+    50% {
+        transform: scale(1.05);
+        filter: brightness(1.2);
+    }
+}
+
 /* Estados de carga y error */
 .loading {
     text-align: center;

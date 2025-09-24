@@ -41,6 +41,50 @@
       "descripcion": "Completa la certificación avanzada de spirit"
     }
   ],
+  "logrosProgresivos": [
+    {
+      "grupo": "asistencia",
+      "nombre": "Asistencia",
+      "niveles": [
+        {
+          "nivel": 1,
+          "id": "name_id",
+          "nombre": "Name",
+          "tipo": "publico",
+          "imagenBloqueada": "images/logros/<>-locked.png",
+          "imagenDesbloqueada": "images/logros/<>-unlocked.png",
+          "descripcion": "desc"
+        },
+        {
+          "nivel": 2,
+          "id": "name_id",
+          "nombre": "Name",
+          "tipo": "publico",
+          "imagenBloqueada": "images/logros/<>-locked.png",
+          "imagenDesbloqueada": "images/logros/<>-unlocked.png",
+          "descripcion": "desc"
+        },
+        {
+          "nivel": 3,
+          "id": "name_id",
+          "nombre": "Name",
+          "tipo": "publico",
+          "imagenBloqueada": "images/logros/<>-locked.png",
+          "imagenDesbloqueada": "images/logros/<>-unlocked.png",
+          "descripcion": "desc"
+        },
+        {
+          "nivel": 4,
+          "id": "name_id",
+          "nombre": "Name",
+          "tipo": "publico",
+          "imagenBloqueada": "images/logros/<>-locked.png",
+          "imagenDesbloqueada": "images/logros/<>-unlocked.png",
+          "descripcion": "desc"
+        }
+      ]
+    }
+  ],
   "jugadores": [
     {
       "nombre": "Adrian",
@@ -62,7 +106,7 @@
       "nombre": "Carlos",
       "logrosDesbloqueados": []
     },
-{
+    {
       "nombre": "Carmen",
       "logrosDesbloqueados": []
     },
@@ -88,7 +132,9 @@
     },
     {
       "nombre": "Javier",
-      "logrosDesbloqueados": ["socio"]
+      "logrosDesbloqueados": [
+        "socio"
+      ]
     },
     {
       "nombre": "Jose",

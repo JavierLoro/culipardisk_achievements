@@ -127,12 +127,12 @@
 
             async init() {
                 try {
-                    // IMPORTANTE: Para pruebas locales, usar los datos simulados
-                    //this.data = logrosData;
+                    // Para pruebas locales
+                    this.data = logrosData;
 
-                    // Para producción con archivo JSON externo, descomentar estas líneas:
-                    const response = await fetch('logros.json');
-                    this.data = await response.json();
+                    // Para producción:
+                    // const response = await fetch('logros.json');
+                    // this.data = await response.json();
 
                     this.render();
                     this.hideLoading();
@@ -142,11 +142,48 @@
                 }
             }
 
+            // Nueva función para obtener el logro progresivo más alto de cada grupo
+            getHighestProgressiveAchievements(jugador) {
+                const progresivos = {};
+
+                // Si no hay logros progresivos en el JSON, retornar vacío
+                if (!this.data.logrosProgresivos) {
+                    return progresivos;
+                }
+
+                // Para cada grupo de logros progresivos
+                this.data.logrosProgresivos.forEach(grupo => {
+                    let highestLevel = 0;
+                    let highestAchievement = null;
+
+                    // Buscar el nivel más alto desbloqueado
+                    grupo.niveles.forEach(nivel => {
+                        if (jugador.logrosDesbloqueados.includes(nivel.id) && nivel.nivel > highestLevel) {
+                            highestLevel = nivel.nivel;
+                            highestAchievement = nivel;
+                        }
+                    });
+
+                    // Si no tiene ninguno desbloqueado, mostrar el nivel 1 bloqueado
+                    if (!highestAchievement) {
+                        highestAchievement = grupo.niveles[0];
+                    }
+
+                    progresivos[grupo.grupo] = {
+                        achievement: highestAchievement,
+                        unlocked: jugador.logrosDesbloqueados.includes(highestAchievement.id),
+                        nextLevel: highestLevel < grupo.niveles.length ? grupo.niveles[highestLevel] : null
+                    };
+                });
+
+                return progresivos;
+            }
+
             render() {
                 const playersList = document.getElementById('playersList');
                 let html = '';
 
-                // Crear una copia de jugadores y ordenar por cantidad de logros (mayor a menor)
+                // Crear una copia de jugadores y ordenar por cantidad de logros
                 const jugadoresOrdenados = [...this.data.jugadores].sort((a, b) => {
                     return b.logrosDesbloqueados.length - a.logrosDesbloqueados.length;
                 });
@@ -154,34 +191,76 @@
                 jugadoresOrdenados.forEach((jugador, index) => {
                     const animationDelay = index * 0.1;
                     const isLeader = index === 0 && jugador.logrosDesbloqueados.length > 0;
-                    const position = index + 1;
 
                     html += `
-                        <div class="player-card ${isLeader ? 'leader' : ''}" style="animation-delay: ${animationDelay}s">
-                            <div class="player-header">
-                                <div class="player-info">
-                                    
-                                    <h3 class="player-name">${jugador.nombre}</h3>
-                                    
-                                </div>
-                                <span class="achievement-count">${jugador.logrosDesbloqueados.length}/${this.data.logros.length}</span>
-                            </div>
-                            <div class="achievements-grid">
-                                ${this.renderPlayerAchievements(jugador)}
-                            </div>
+                <div class="player-card ${isLeader ? 'leader' : ''}" style="animation-delay: ${animationDelay}s">
+                    <div class="player-header">
+                        <div class="player-info">
+                            <h3 class="player-name">${jugador.nombre}</h3>
+                            ${isLeader ? '<span class="leader-badge">👑</span>' : ''}
                         </div>
-                    `;
+                        <span class="achievement-count">${this.countUniqueAchievements(jugador)}/${this.getTotalUniqueAchievements()}</span>
+                    </div>
+                    <div class="achievements-grid">
+                        ${this.renderPlayerAchievements(jugador)}
+                    </div>
+                </div>
+            `;
                 });
 
                 playersList.innerHTML = html;
             }
 
+            // Contar logros únicos (considerando progresivos como uno solo)
+            countUniqueAchievements(jugador) {
+                let count = 0;
+
+                // Contar logros normales
+                this.data.logros.forEach(logro => {
+                    if (jugador.logrosDesbloqueados.includes(logro.id)) {
+                        count++;
+                    }
+                });
+
+                // Contar grupos progresivos (cada grupo cuenta como 1)
+                if (this.data.logrosProgresivos) {
+                    this.data.logrosProgresivos.forEach(grupo => {
+                        const tieneAlguno = grupo.niveles.some(nivel =>
+                            jugador.logrosDesbloqueados.includes(nivel.id)
+                        );
+                        if (tieneAlguno) count++;
+                    });
+                }
+
+                return count;
+            }
+
+            // Total de logros únicos posibles
+            getTotalUniqueAchievements() {
+                let total = this.data.logros.length;
+                if (this.data.logrosProgresivos) {
+                    total += this.data.logrosProgresivos.length;
+                }
+                return total;
+            }
+
             renderPlayerAchievements(jugador) {
                 let achievementsHTML = '';
 
+                // Renderizar logros normales
                 this.data.logros.forEach(logro => {
                     const isUnlocked = jugador.logrosDesbloqueados.includes(logro.id);
                     achievementsHTML += this.renderAchievement(logro, isUnlocked);
+                });
+
+                // Renderizar logros progresivos (solo el más alto de cada grupo)
+                const progresivos = this.getHighestProgressiveAchievements(jugador);
+                Object.values(progresivos).forEach(prog => {
+                    achievementsHTML += this.renderProgressiveAchievement(
+                        prog.achievement,
+                        prog.unlocked,
+                        prog.nextLevel
+                    );
                 });
 
                 return achievementsHTML;
@@ -193,7 +272,6 @@
                 if (isUnlocked) {
                     imgSrc = logro.imagenDesbloqueada;
 
-                    // Determinar clase según tipo
                     if (logro.tipo === 'especial') {
                         imgClass = 'achievement-img special-unlocked';
                         tooltipClass = 'special';
@@ -222,31 +300,116 @@
                 }
 
                 return `
-        <div class="achievement-cell">
-            <img src="${imgSrc}" alt="${logro.nombre}" class="${imgClass}">
-            <div class="tooltip ${tooltipClass}">${tooltipText}</div>
-        </div>
-    `;
+            <div class="achievement-cell">
+                <img src="${imgSrc}" alt="${logro.nombre}" class="${imgClass}">
+                <div class="tooltip ${tooltipClass}">${tooltipText}</div>
+            </div>
+        `;
+            }
+
+            // Nueva función para renderizar logros progresivos
+            renderProgressiveAchievement(logro, isUnlocked, nextLevel) {
+                let imgSrc, tooltipText, imgClass, tooltipClass = '';
+
+                if (isUnlocked) {
+                    imgSrc = logro.imagenDesbloqueada;
+
+                    // Añadir indicador de nivel
+                    const levelIndicator = this.getLevelIndicator(logro.nivel);
+
+                    if (logro.tipo === 'especial') {
+                        imgClass = 'achievement-img special-unlocked progressive';
+                        tooltipClass = 'special progressive';
+                    } else {
+                        imgClass = 'achievement-img unlocked progressive';
+                        tooltipClass = 'progressive';
+                    }
+
+                    tooltipText = `<strong>${logro.nombre} ${levelIndicator}</strong><br>${logro.descripcion}`;
+
+                    // Si hay siguiente nivel, mostrar progreso
+                    if (nextLevel) {
+                        tooltipText += `<br><em style="color: #ffd700; font-size: 0.9em;">Próximo: ${nextLevel.descripcion}</em>`;
+                    } else {
+                        tooltipText += `<br><em style="color: #4CAF50; font-size: 0.9em;">¡Nivel máximo alcanzado!</em>`;
+                    }
+                } else {
+                    imgSrc = logro.imagenBloqueada;
+                    imgClass = 'achievement-img locked progressive';
+                    tooltipClass = 'progressive';
+                    tooltipText = `<strong>${logro.nombre}</strong><br>${logro.descripcion}`;
+                }
+
+                // Añadir badge de nivel en la imagen
+                const levelBadge = this.getLevelBadge(logro.nivel, isUnlocked);
+
+                return `
+            <div class="achievement-cell progressive-cell">
+                <div class="achievement-wrapper">
+                    <img src="${imgSrc}" alt="${logro.nombre}" class="${imgClass}">
+                    ${levelBadge}
+                </div>
+                <div class="tooltip ${tooltipClass}">${tooltipText}</div>
+            </div>
+        `;
+            }
+
+            getLevelIndicator(level) {
+                const indicators = ['', '🥉', '🥈', '🥇', '💎'];
+                return indicators[level] || '';
+            }
+
+            getLevelBadge(level, isUnlocked) {
+                if (!isUnlocked) return '';
+
+                const badges = {
+                    1: '<span class="level-badge bronze">I</span>',
+                    2: '<span class="level-badge silver">II</span>',
+                    3: '<span class="level-badge gold">III</span>',
+                    4: '<span class="level-badge diamond">IV</span>'
+                };
+
+                return badges[level] || '';
             }
 
             renderStats() {
                 const statsDiv = document.getElementById('stats');
 
-                const totalLogros = this.data.logros.length;
                 const totalJugadores = this.data.jugadores.length;
 
-                // Contar logros por tipo
-                const logrosPublicos = this.data.logros.filter(l => l.tipo === 'publico').length;
+                // Contar logros únicos totales
+                const totalUniqueAchievements = this.getTotalUniqueAchievements();
                 const logrosSecretos = this.data.logros.filter(l => l.tipo === 'secreto').length;
-                const logrosEspeciales = this.data.logros.filter(l => l.tipo === 'especial').length;
-
+                let publicosDesbloqueados = 0;
+                let secretosDesbloqueados = 0;
                 // Contar jugadores con al menos un logro
                 const jugadoresConLogros = this.data.jugadores.filter(j => j.logrosDesbloqueados.length > 0).length;
 
-                // Calcular logros desbloqueados sin contar especiales
-                let publicosDesbloqueados = 0;
-                let secretosDesbloqueados = 0;
+                // Calcular estadísticas de progresivos
+                let totalProgresivosDesbloqueados = 0;
+                let totalProgresivosMaximos = 0;
 
+                if (this.data.logrosProgresivos) {
+                    this.data.jugadores.forEach(jugador => {
+                        this.data.logrosProgresivos.forEach(grupo => {
+                            const niveles = grupo.niveles;
+                            let maxNivel = 0;
+
+                            niveles.forEach(nivel => {
+                                if (jugador.logrosDesbloqueados.includes(nivel.id) && nivel.nivel > maxNivel) {
+                                    maxNivel = nivel.nivel;
+                                }
+                            });
+
+                            if (maxNivel > 0) {
+                                totalProgresivosDesbloqueados++;
+                                if (maxNivel === niveles.length) {
+                                    totalProgresivosMaximos++;
+                                }
+                            }
+                        });
+                    });
+                }
                 this.data.jugadores.forEach(jugador => {
                     jugador.logrosDesbloqueados.forEach(logroId => {
                         const logro = this.data.logros.find(l => l.id === logroId);
@@ -256,32 +419,29 @@
                         }
                     });
                 });
-
                 // Calcular porcentajes
-                const totalSinEspeciales = logrosPublicos + logrosSecretos;
-                const desbloqueadosSinEspeciales = publicosDesbloqueados + secretosDesbloqueados;
-                const porcentajeCompletado = Math.round((desbloqueadosSinEspeciales / (totalSinEspeciales * totalJugadores)) * 100);
-                const porcentajeSecretos = logrosSecretos > 0 ?
-                    Math.round((secretosDesbloqueados / (logrosSecretos * totalJugadores)) * 100) : 0;
+                const porcentajeProgresivos = this.data.logrosProgresivos ?
+                    Math.round((totalProgresivosMaximos / (this.data.logrosProgresivos.length * totalJugadores)) * 100) : 0;
+
 
                 statsDiv.innerHTML = `
-        <div class="stat-card fade-in">
-            <div class="stat-number">${jugadoresConLogros}/${totalJugadores}</div>
-            <div class="stat-label">Socios</div>
-        </div>
-        <div class="stat-card fade-in" style="animation-delay: 0.1s;">
-            <div class="stat-number">${totalLogros}</div>
-            <div class="stat-label">Logros Totales</div>
-        </div>
-        <div class="stat-card fade-in" style="animation-delay: 0.2s;">
-            <div class="stat-number">${porcentajeCompletado}%</div>
-            <div class="stat-label">Obtenidos club</div>
-        </div>
-        <div class="stat-card fade-in" style="animation-delay: 0.3s;">
-            <div class="stat-number">${porcentajeSecretos}%</div>
-            <div class="stat-label">Secretos Descubiertos</div>
-        </div>
-    `;
+            <div class="stat-card fade-in">
+                <div class="stat-number">${jugadoresConLogros}</div>
+                <div class="stat-label">Socios temporada</div>
+            </div>
+            <div class="stat-card fade-in" style="animation-delay: 0.1s;">
+                <div class="stat-number">${totalUniqueAchievements}</div>
+                <div class="stat-label">Total logros</div>
+            </div>
+            <div class="stat-card fade-in" style="animation-delay: 0.2s;">
+                <div class="stat-number">${totalProgresivosDesbloqueados}</div>
+                <div class="stat-label">Progresivos Activos</div>
+            </div>
+            <div class="stat-card fade-in" style="animation-delay: 0.3s;">
+                <div class="stat-number">${porcentajeProgresivos}%</div>
+                <div class="stat-label">Niveles Máximos</div>
+            </div>
+        `;
             }
 
             hideLoading() {
@@ -294,9 +454,7 @@
                 errorDiv.textContent = message;
                 errorDiv.style.display = 'block';
             }
-        }
-
-        // Inicializar el sistema cuando se carga la página
+        };// Inicializar el sistema cuando se carga la página
         document.addEventListener('DOMContentLoaded', () => {
             new AchievementSystem();
         });
