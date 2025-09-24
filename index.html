@@ -125,12 +125,12 @@
 
             async init() {
                 try {
-                    // En producción, cargar desde archivo externo:
-                    const response = await fetch('logros.json');
-                    this.data = await response.json();
+                    // IMPORTANTE: Para pruebas locales, usar los datos simulados
+                    this.data = logrosData;
                     
-                    // Para demostración, usamos los datos simulados
-                    //this.data = logrosData;
+                    // Para producción con archivo JSON externo, descomentar estas líneas:
+                    // const response = await fetch('logros.json');
+                    // this.data = await response.json();
                     
                     this.render();
                     this.hideLoading();
