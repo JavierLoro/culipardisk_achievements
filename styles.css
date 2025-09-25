@@ -1,3 +1,57 @@
+/* Variables de colores */
+:root {
+    /* Colores principales del tema */
+    --color-primary: #ea6666;
+    --color-primary-dark: #a24b4b;
+    
+    /* Colores secundarios (para stats) */
+    --color-secondary: #ea6666;
+    --color-secondary-dark: #a24b4b;
+    
+    /* Escala de grises */
+    --color-gray-light: #f0f0f0;
+    --color-gray-medium: #b0b0b0;
+    --color-gray: #858585;
+    --color-gray-dark: #666;
+    --color-gray-darker: #333;
+    --color-gray-darkest: #4a4a4a;
+    
+    /* Colores del líder */
+    --color-leader-light: #e8e8e8;
+    --color-leader-medium: #d0d0d0;
+    --color-leader-dark: #b8b8b8;
+    --color-leader-shadow: rgba(160, 160, 160, 0.4);
+    
+    /* Colores especiales */
+    --color-special: #c0c0c0;
+    --color-special-dark: #808080;
+    --color-special-shadow: rgba(192, 192, 192, 0.8);
+    
+    /* Colores de niveles */
+    --color-bronze: #CD7F32;
+    --color-bronze-dark: #8B4513;
+    --color-silver: #C0C0C0;
+    --color-silver-dark: #808080;
+    --color-gold: #FFD700;
+    --color-gold-dark: #FFA500;
+    --color-diamond: #B9F2FF;
+    --color-diamond-dark: #69D2E7;
+    
+    /* Colores de estado */
+    --color-error: #ff6b6b;
+    --color-success: #4CAF50;
+    --color-warning: #ffd700;
+    
+    /* Fondos y transparencias */
+    --bg-white: white;
+    --bg-white-transparent: rgba(255, 255, 255, 0.95);
+    --bg-black-transparent: rgba(0, 0, 0, 0.95);
+    --bg-dark-mode: rgba(30, 30, 30, 0.95);
+    --bg-dark-card: #2a2a2a;
+    --bg-dark-card-light: #353535;
+    --bg-dark-border: #444;
+}
+
 /* Reset y configuración base */
 * {
     margin: 0;
@@ -8,7 +62,7 @@
 /* Estilos del body */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #ea6666 0%, #a24b4b 100%);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
     min-height: 100vh;
     padding: 20px;
     line-height: 1.6;
@@ -18,7 +72,7 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    background: rgba(255, 255, 255, 0.95);
+    background: var(--bg-white-transparent);
     border-radius: 20px;
     padding: 30px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
@@ -27,7 +81,7 @@ body {
 /* Título principal */
 h1 {
     text-align: center;
-    color: #333;
+    color: var(--color-gray-darker);
     margin-bottom: 10px;
     font-size: 2.5em;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
@@ -36,7 +90,7 @@ h1 {
 /* Subtítulo */
 .subtitle {
     text-align: center;
-    color: #666;
+    color: var(--color-gray-dark);
     margin-bottom: 30px;
     font-size: 1.1em;
 }
@@ -52,8 +106,8 @@ h1 {
 
 /* Tarjetas de estadísticas */
 .stat-card {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-dark) 100%);
+    color: var(--bg-white);
     padding: 20px 30px;
     border-radius: 10px;
     text-align: center;
@@ -92,7 +146,7 @@ h1 {
 
 /* Tarjeta de jugador */
 .player-card {
-    background: white;
+    background: var(--bg-white);
     border-radius: 15px;
     padding: 20px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
@@ -121,21 +175,21 @@ h1 {
     left: -2px;
     right: -2px;
     bottom: -2px;
-    background: linear-gradient(135deg, #d0d0d0 0%, #e8e8e8 50%, #d0d0d0 100%);
+    background: linear-gradient(135deg, var(--color-leader-medium) 0%, var(--color-leader-light) 50%, var(--color-leader-medium) 100%);
     border-radius: 15px;
     z-index: -1;
     animation: shimmer 3s ease-in-out infinite;
 }
 
 .player-card.leader .player-position {
-    background: linear-gradient(135deg, #b8b8b8 0%, #d0d0d0 100%);
-    color: #333;
-    box-shadow: 0 2px 8px rgba(160, 160, 160, 0.4);
+    background: linear-gradient(135deg, var(--color-leader-dark) 0%, var(--color-leader-medium) 100%);
+    color: var(--color-gray-darker);
+    box-shadow: 0 2px 8px var(--color-leader-shadow);
 }
 
 .player-card.leader .achievement-count {
-    background: linear-gradient(135deg, #b8b8b8 0%, #d0d0d0 100%);
-    color: #333;
+    background: linear-gradient(135deg, var(--color-leader-dark) 0%, var(--color-leader-medium) 100%);
+    color: var(--color-gray-darker);
     font-weight: 700;
 }
 
@@ -146,7 +200,7 @@ h1 {
     align-items: center;
     margin-bottom: 15px;
     padding-bottom: 10px;
-    border-bottom: 2px solid #f0f0f0;
+    border-bottom: 2px solid var(--color-gray-light);
 }
 
 .player-info {
@@ -156,8 +210,8 @@ h1 {
 }
 
 .player-position {
-    background: linear-gradient(135deg, #ea6666 0%, #a24b4b 100%);
-    color: white;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    color: var(--bg-white);
     width: 32px;
     height: 32px;
     border-radius: 50%;
@@ -170,7 +224,7 @@ h1 {
 }
 
 .player-name {
-    color: #333;
+    color: var(--color-gray-darker);
     font-size: 1.3em;
     font-weight: 600;
     margin: 0;
@@ -182,8 +236,8 @@ h1 {
 }
 
 .achievement-count {
-    background: linear-gradient(135deg, #ea6666 0%, #a24b4b 100%);
-    color: white;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    color: var(--bg-white);
     padding: 5px 15px;
     border-radius: 20px;
     font-size: 0.9em;
@@ -238,8 +292,8 @@ h1 {
     bottom: calc(100% + 10px);
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.95);
-    color: white;
+    background: var(--bg-black-transparent);
+    color: var(--bg-white);
     padding: 10px 14px;
     border-radius: 8px;
     font-size: 13px;
@@ -260,7 +314,7 @@ h1 {
     display: block;
     font-size: 14px;
     margin-bottom: 4px;
-    color: #858585;
+    color: var(--color-gray);
 }
 
 .tooltip::after {
@@ -271,7 +325,7 @@ h1 {
     transform: translateX(-50%);
     border-width: 6px;
     border-style: solid;
-    border-color: rgba(0, 0, 0, 0.95) transparent transparent transparent;
+    border-color: var(--bg-black-transparent) transparent transparent transparent;
 }
 
 .achievement-cell:hover .tooltip {
@@ -281,30 +335,30 @@ h1 {
 
 /* Logros Especiales - Efecto Plateado */
 .achievement-img.special-unlocked {
-    box-shadow: 0 0 15px rgba(192, 192, 192, 0.8), 
+    box-shadow: 0 0 15px var(--color-special-shadow), 
                 0 3px 10px rgba(0, 0, 0, 0.3);
-    border: 2px solid #c0c0c0;
+    border: 2px solid var(--color-special);
 }
 
 .achievement-img.special-locked {
     filter: grayscale(100%) brightness(0.8);
     opacity: 0.7;
-    border: 2px solid #808080;
+    border: 2px solid var(--color-special-dark);
 }
 
 /* Tooltip para logros especiales */
 .achievement-cell .tooltip.special {
-    background: linear-gradient(135deg, #b8b8b8 0%, #e8e8e8 100%);
-    color: #333;
+    background: linear-gradient(135deg, var(--color-leader-dark) 0%, var(--color-leader-light) 100%);
+    color: var(--color-gray-darker);
     font-weight: 600;
 }
 
 .achievement-cell .tooltip.special::after {
-    border-color: #c0c0c0 transparent transparent transparent;
+    border-color: var(--color-special) transparent transparent transparent;
 }
 
 .achievement-cell .tooltip.special strong {
-    color: #4a4a4a;
+    color: var(--color-gray-darkest);
 }
 
 /* Logros Progresivos */
@@ -339,28 +393,28 @@ h1 {
     justify-content: center;
     font-weight: bold;
     font-size: 12px;
-    border: 2px solid white;
+    border: 2px solid var(--bg-white);
     box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 .level-badge.bronze {
-    background: linear-gradient(135deg, #CD7F32, #8B4513);
-    color: white;
+    background: linear-gradient(135deg, var(--color-bronze), var(--color-bronze-dark));
+    color: var(--bg-white);
 }
 
 .level-badge.silver {
-    background: linear-gradient(135deg, #C0C0C0, #808080);
-    color: white;
+    background: linear-gradient(135deg, var(--color-silver), var(--color-silver-dark));
+    color: var(--bg-white);
 }
 
 .level-badge.gold {
-    background: linear-gradient(135deg, #FFD700, #FFA500);
-    color: #333;
+    background: linear-gradient(135deg, var(--color-gold), var(--color-gold-dark));
+    color: var(--color-gray-darker);
 }
 
 .level-badge.diamond {
-    background: linear-gradient(135deg, #B9F2FF, #69D2E7);
-    color: #333;
+    background: linear-gradient(135deg, var(--color-diamond), var(--color-diamond-dark));
+    color: var(--color-gray-darker);
     animation: diamondSparkle 2s infinite;
 }
 
@@ -371,7 +425,7 @@ h1 {
 }
 
 .tooltip.progressive strong {
-    color: #ffd700;
+    color: var(--color-warning);
     font-size: 14px;
     margin-bottom: 6px;
     display: block;
@@ -410,12 +464,12 @@ h1 {
     text-align: center;
     padding: 50px;
     font-size: 1.2em;
-    color: #666;
+    color: var(--color-gray-dark);
 }
 
 .error {
-    background: #ff6b6b;
-    color: white;
+    background: var(--color-error);
+    color: var(--bg-white);
     padding: 20px;
     border-radius: 10px;
     margin: 20px 0;
@@ -549,35 +603,35 @@ h1 {
 /* Modo oscuro (opcional) */
 @media (prefers-color-scheme: dark) {
     .container {
-        background: rgba(30, 30, 30, 0.95);
+        background: var(--bg-dark-mode);
     }
 
     h1 {
-        color: #f0f0f0;
+        color: var(--color-gray-light);
     }
 
     .subtitle {
-        color: #b0b0b0;
+        color: var(--color-gray-medium);
     }
 
     .player-card {
-        background: #2a2a2a;
-        color: #f0f0f0;
+        background: var(--bg-dark-card);
+        color: var(--color-gray-light);
     }
 
     .player-card.leader {
-        background: linear-gradient(145deg, #2a2a2a 0%, #353535 100%);
+        background: linear-gradient(145deg, var(--bg-dark-card) 0%, var(--bg-dark-card-light) 100%);
     }
 
     .player-header {
-        border-bottom-color: #444;
+        border-bottom-color: var(--bg-dark-border);
     }
 
     .player-name {
-        color: #f0f0f0;
+        color: var(--color-gray-light);
     }
 
     .loading {
-        color: #b0b0b0;
+        color: var(--color-gray-medium);
     }
 }
