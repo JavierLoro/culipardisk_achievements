@@ -1,0 +1,662 @@
+/* Variables de colores */
+:root {
+    /* Colores principales del tema */
+    --color-primary: #ea6666;
+    --color-primary-dark: #a24b4b;
+    
+    /* Colores secundarios (para stats) */
+    --color-secondary: #ea6666;
+    --color-secondary-dark: #a24b4b;
+    
+    /* Escala de grises */
+    --color-gray-light: #f0f0f0;
+    --color-gray-medium: #b0b0b0;
+    --color-gray: #858585;
+    --color-gray-dark: #666;
+    --color-gray-darker: #333;
+    --color-gray-darkest: #4a4a4a;
+    
+    /* Colores del líder */
+    --color-leader-light: #e8e8e8;
+    --color-leader-medium: #d0d0d0;
+    --color-leader-dark: #b8b8b8;
+    --color-leader-shadow: rgba(160, 160, 160, 0.4);
+    
+    /* Colores especiales */
+    --color-special: #c0c0c0;
+    --color-special-dark: #808080;
+    --color-special-shadow: rgba(192, 192, 192, 0.8);
+    
+    /* Colores de niveles */
+    --color-bronze: #CD7F32;
+    --color-bronze-dark: #8B4513;
+    --color-silver: #C0C0C0;
+    --color-silver-dark: #808080;
+    --color-gold: #FFD700;
+    --color-gold-dark: #FFA500;
+    --color-diamond: #B9F2FF;
+    --color-diamond-dark: #69D2E7;
+    
+    /* Colores de estado */
+    --color-error: #ff6b6b;
+    --color-success: #4CAF50;
+    --color-warning: #ffd700;
+    
+    /* Fondos y transparencias */
+    --bg-white: white;
+    --bg-white-transparent: rgba(255, 255, 255, 0.95);
+    --bg-black-transparent: rgba(0, 0, 0, 0.95);
+    --bg-dark-mode: rgba(30, 30, 30, 0.95);
+    --bg-dark-card: #2a2a2a;
+    --bg-dark-card-light: #353535;
+    --bg-dark-border: #444;
+}
+
+/* Reset y configuración base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilos del body */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    min-height: 100vh;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+/* Contenedor principal */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: var(--bg-white-transparent);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+/* Título principal */
+h1 {
+    text-align: center;
+    color: var(--color-gray-darker);
+    margin-bottom: 10px;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Subtítulo */
+.subtitle {
+    text-align: center;
+    color: var(--color-gray-dark);
+    margin-bottom: 30px;
+    font-size: 1.1em;
+}
+
+/* Contenedor de estadísticas */
+.stats {
+    display: flex;
+    justify-content: space-around;
+    margin: 30px 0;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Tarjetas de estadísticas */
+.stat-card {
+    background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-dark) 100%);
+    color: var(--bg-white);
+    padding: 20px 30px;
+    border-radius: 10px;
+    text-align: center;
+    flex: 1;
+    min-width: 200px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-number {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 0.9em;
+    opacity: 0.9;
+}
+
+/* Contenedor de logros */
+.achievements-container {
+    margin-top: 30px;
+}
+
+/* Lista de jugadores */
+.players-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Tarjeta de jugador */
+.player-card {
+    background: var(--bg-white);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.player-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Tarjeta del líder */
+.player-card.leader {
+    background: linear-gradient(145deg, #ffffff 0%, #f8f4ff 100%);
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    position: relative;
+}
+
+.player-card.leader::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(135deg, var(--color-leader-medium) 0%, var(--color-leader-light) 50%, var(--color-leader-medium) 100%);
+    border-radius: 15px;
+    z-index: -1;
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+.player-card.leader .player-position {
+    background: linear-gradient(135deg, var(--color-leader-dark) 0%, var(--color-leader-medium) 100%);
+    color: var(--color-gray-darker);
+    box-shadow: 0 2px 8px var(--color-leader-shadow);
+}
+
+.player-card.leader .achievement-count {
+    background: linear-gradient(135deg, var(--color-leader-dark) 0%, var(--color-leader-medium) 100%);
+    color: var(--color-gray-darker);
+    font-weight: 700;
+}
+
+/* Encabezado del jugador */
+.player-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--color-gray-light);
+}
+
+.player-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.player-position {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    color: var(--bg-white);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.9em;
+    flex-shrink: 0;
+}
+
+.player-name {
+    color: var(--color-gray-darker);
+    font-size: 1.3em;
+    font-weight: 600;
+    margin: 0;
+}
+
+.leader-badge {
+    font-size: 1.5em;
+    animation: pulse 2s infinite;
+}
+
+.achievement-count {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    color: var(--bg-white);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    font-weight: 600;
+}
+
+/* Grid de logros con scroll horizontal */
+.achievements-scroll-container {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 10px;
+}
+
+.achievements-scroll-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.achievements-scroll-container::-webkit-scrollbar-track {
+    background: var(--color-gray-light);
+    border-radius: 4px;
+}
+
+.achievements-scroll-container::-webkit-scrollbar-thumb {
+    background: var(--color-primary);
+    border-radius: 4px;
+}
+
+.achievements-scroll-container::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary-dark);
+}
+
+.achievements-grid {
+    display: flex;
+    gap: 15px;
+    padding-right: 10px;
+    width: max-content;
+}
+
+/* Celda de logro */
+.achievement-cell {
+    position: relative;
+    display: inline-block;
+}
+
+/* Imagen de logro */
+.achievement-img {
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    position: relative;
+    z-index: 1;
+}
+
+.achievement-img:hover {
+    transform: scale(1.15);
+    filter: brightness(1.1);
+    z-index: 2;
+}
+
+.achievement-img.locked {
+    filter: grayscale(100%) brightness(0.7);
+    opacity: 0.6;
+}
+
+.achievement-img.secret-locked {
+    filter: grayscale(100%) brightness(0.5) contrast(1.2);
+    opacity: 0.5;
+}
+
+/* Tooltip */
+.tooltip {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg-black-transparent);
+    color: var(--bg-white);
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    white-space: normal;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 9999;
+    min-width: 150px;
+    max-width: 250px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    line-height: 1.4;
+}
+
+.tooltip strong {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: var(--color-gray);
+}
+
+.tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: var(--bg-black-transparent) transparent transparent transparent;
+}
+
+.achievement-cell:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Logros Especiales - Efecto Plateado */
+.achievement-img.special-unlocked {
+    box-shadow: 0 0 15px var(--color-special-shadow), 
+                0 3px 10px rgba(0, 0, 0, 0.3);
+    border: 2px solid var(--color-special);
+}
+
+.achievement-img.special-locked {
+    filter: grayscale(100%) brightness(0.8);
+    opacity: 0.7;
+    border: 2px solid var(--color-special-dark);
+}
+
+/* Tooltip para logros especiales */
+.achievement-cell .tooltip.special {
+    background: linear-gradient(135deg, var(--color-leader-dark) 0%, var(--color-leader-light) 100%);
+    color: var(--color-gray-darker);
+    font-weight: 600;
+}
+
+.achievement-cell .tooltip.special::after {
+    border-color: var(--color-special) transparent transparent transparent;
+}
+
+.achievement-cell .tooltip.special strong {
+    color: var(--color-gray-darkest);
+}
+
+/* Logros Progresivos */
+.progressive-cell {
+    position: relative;
+}
+
+.achievement-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.achievement-img.progressive {
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+.achievement-img.progressive.unlocked {
+    animation: progressivePulse 3s infinite;
+}
+
+/* Badge de nivel */
+.level-badge {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 12px;
+    border: 2px solid var(--bg-white);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.level-badge.bronze {
+    background: linear-gradient(135deg, var(--color-bronze), var(--color-bronze-dark));
+    color: var(--bg-white);
+}
+
+.level-badge.silver {
+    background: linear-gradient(135deg, var(--color-silver), var(--color-silver-dark));
+    color: var(--bg-white);
+}
+
+.level-badge.gold {
+    background: linear-gradient(135deg, var(--color-gold), var(--color-gold-dark));
+    color: var(--color-gray-darker);
+}
+
+.level-badge.diamond {
+    background: linear-gradient(135deg, var(--color-diamond), var(--color-diamond-dark));
+    color: var(--color-gray-darker);
+    animation: diamondSparkle 2s infinite;
+}
+
+/* Tooltip para progresivos */
+.tooltip.progressive {
+    min-width: 200px;
+    max-width: 300px;
+}
+
+.tooltip.progressive strong {
+    color: var(--color-warning);
+    font-size: 14px;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.tooltip.progressive em {
+    display: block;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+}
+
+/* Animaciones de progresivos */
+@keyframes progressivePulse {
+    0%, 100% {
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    }
+    50% {
+        box-shadow: 0 3px 15px rgba(255, 215, 0, 0.3);
+    }
+}
+
+@keyframes diamondSparkle {
+    0%, 100% {
+        transform: scale(1);
+        filter: brightness(1);
+    }
+    50% {
+        transform: scale(1.05);
+        filter: brightness(1.2);
+    }
+}
+
+/* Estados de carga y error */
+.loading {
+    text-align: center;
+    padding: 50px;
+    font-size: 1.2em;
+    color: var(--color-gray-dark);
+}
+
+.error {
+    background: var(--color-error);
+    color: var(--bg-white);
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+@keyframes shimmer {
+    0%, 100% {
+        opacity: 0.8;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+        border-radius: 15px;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    .subtitle {
+        font-size: 1em;
+    }
+
+    .stats {
+        flex-direction: column;
+    }
+
+    .stat-card {
+        min-width: 100%;
+    }
+
+    .player-card {
+        padding: 15px;
+    }
+
+    .player-name {
+        font-size: 1.1em;
+    }
+
+    .achievement-img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .achievements-grid {
+        gap: 10px;
+    }
+
+    .achievement-count {
+        padding: 4px 10px;
+        font-size: 0.85em;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 1.6em;
+    }
+
+    .achievement-img {
+        width: 45px;
+        height: 45px;
+    }
+
+    .player-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .player-info {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .achievement-count {
+        align-self: flex-start;
+    }
+
+    .leader-badge {
+        font-size: 1.2em;
+    }
+
+    .player-position {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8em;
+    }
+}
+
+/* Modo oscuro (opcional) */
+@media (prefers-color-scheme: dark) {
+    .container {
+        background: var(--bg-dark-mode);
+    }
+
+    h1 {
+        color: var(--color-gray-light);
+    }
+
+    .subtitle {
+        color: var(--color-gray-medium);
+    }
+
+    .player-card {
+        background: var(--bg-dark-card);
+        color: var(--color-gray-light);
+    }
+
+    .player-card.leader {
+        background: linear-gradient(145deg, var(--bg-dark-card) 0%, var(--bg-dark-card-light) 100%);
+    }
+
+    .player-header {
+        border-bottom-color: var(--bg-dark-border);
+    }
+
+    .player-name {
+        color: var(--color-gray-light);
+    }
+
+    .loading {
+        color: var(--color-gray-medium);
+    }
+}
