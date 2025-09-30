@@ -244,12 +244,37 @@ h1 {
     font-weight: 600;
 }
 
-/* Grid de logros */
+/* Grid de logros con scroll horizontal */
+.achievements-scroll-container {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 10px;
+}
+
+.achievements-scroll-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.achievements-scroll-container::-webkit-scrollbar-track {
+    background: var(--color-gray-light);
+    border-radius: 4px;
+}
+
+.achievements-scroll-container::-webkit-scrollbar-thumb {
+    background: var(--color-primary);
+    border-radius: 4px;
+}
+
+.achievements-scroll-container::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary-dark);
+}
+
 .achievements-grid {
     display: flex;
-    flex-wrap: wrap;
     gap: 15px;
-    justify-content: flex-start;
+    padding-right: 10px;
+    width: max-content;
 }
 
 /* Celda de logro */

@@ -26,99 +26,6 @@
     </div>
 
     <script>
-        // Simulación del archivo logros.json para demostración
-        // En producción, esto se cargará desde un archivo JSON externo
-        const logrosData = {
-            "logros": [
-                {
-                    "id": "goleador",
-                    "nombre": "Goleador",
-                    "tipo": "publico",
-                    "imagenBloqueada": "https://via.placeholder.com/100/cccccc/666666?text=🔒",
-                    "imagenDesbloqueada": "https://via.placeholder.com/100/FFD700/FFFFFF?text=⚽",
-                    "descripcion": "Marca 10 goles en la temporada"
-                },
-                {
-                    "id": "asistente",
-                    "nombre": "Asistente Estrella",
-                    "tipo": "publico",
-                    "imagenBloqueada": "https://via.placeholder.com/100/cccccc/666666?text=🔒",
-                    "imagenDesbloqueada": "https://via.placeholder.com/100/4169E1/FFFFFF?text=🤝",
-                    "descripcion": "Realiza 5 asistencias"
-                },
-                {
-                    "id": "mvp",
-                    "nombre": "MVP del Mes",
-                    "tipo": "publico",
-                    "imagenBloqueada": "https://via.placeholder.com/100/cccccc/666666?text=🔒",
-                    "imagenDesbloqueada": "https://via.placeholder.com/100/FF1493/FFFFFF?text=⭐",
-                    "descripcion": "Mejor jugador del mes"
-                },
-                {
-                    "id": "invicto",
-                    "nombre": "Muro Invencible",
-                    "tipo": "publico",
-                    "imagenBloqueada": "https://via.placeholder.com/100/cccccc/666666?text=🔒",
-                    "imagenDesbloqueada": "https://via.placeholder.com/100/32CD32/FFFFFF?text=🛡️",
-                    "descripcion": "Portero con 5 partidos sin recibir goles"
-                },
-                {
-                    "id": "veterano",
-                    "nombre": "???",
-                    "tipo": "secreto",
-                    "imagenBloqueada": "https://via.placeholder.com/100/444444/222222?text=❓",
-                    "imagenDesbloqueada": "https://via.placeholder.com/100/8B4513/FFFFFF?text=🎖️",
-                    "descripcion": "100 partidos con el club"
-                },
-                {
-                    "id": "leyenda",
-                    "nombre": "???",
-                    "tipo": "secreto",
-                    "imagenBloqueada": "https://via.placeholder.com/100/444444/222222?text=❓",
-                    "imagenDesbloqueada": "https://via.placeholder.com/100/9400D3/FFFFFF?text=👑",
-                    "descripcion": "Capitán durante 3 temporadas consecutivas"
-                },
-                {
-                    "id": "comeback",
-                    "nombre": "???",
-                    "tipo": "secreto",
-                    "imagenBloqueada": "https://via.placeholder.com/100/444444/222222?text=❓",
-                    "imagenDesbloqueada": "https://via.placeholder.com/100/FF4500/FFFFFF?text=🔥",
-                    "descripcion": "Marca 3 goles en una remontada épica"
-                },
-                {
-                    "id": "fairplay",
-                    "nombre": "Fair Play",
-                    "tipo": "publico",
-                    "imagenBloqueada": "https://via.placeholder.com/100/cccccc/666666?text=🔒",
-                    "imagenDesbloqueada": "https://via.placeholder.com/100/00CED1/FFFFFF?text=🤍",
-                    "descripcion": "Temporada sin tarjetas rojas"
-                }
-            ],
-            "jugadores": [
-                {
-                    "nombre": "Carlos Rodríguez",
-                    "logrosDesbloqueados": ["goleador", "mvp", "veterano"]
-                },
-                {
-                    "nombre": "Miguel Ángel Torres",
-                    "logrosDesbloqueados": ["asistente", "fairplay"]
-                },
-                {
-                    "nombre": "Javier Hernández",
-                    "logrosDesbloqueados": ["goleador", "asistente", "mvp", "comeback"]
-                },
-                {
-                    "nombre": "Diego Martínez",
-                    "logrosDesbloqueados": ["invicto", "fairplay", "veterano"]
-                },
-                {
-                    "nombre": "Roberto Silva",
-                    "logrosDesbloqueados": ["leyenda", "veterano", "fairplay", "mvp"]
-                }
-            ]
-        };
-
         class AchievementSystem {
             constructor() {
                 this.data = null;
@@ -127,9 +34,6 @@
 
             async init() {
                 try {
-                    // Para pruebas locales
-                    //this.data = logrosData;
-
                     // Para producción:
                     const response = await fetch('logros.json');
                     this.data = await response.json();
@@ -142,21 +46,18 @@
                 }
             }
 
-            // Nueva función para obtener el logro progresivo más alto de cada grupo
+            // Obtener el logro progresivo más alto de cada grupo
             getHighestProgressiveAchievements(jugador) {
                 const progresivos = {};
 
-                // Si no hay logros progresivos en el JSON, retornar vacío
                 if (!this.data.logrosProgresivos) {
                     return progresivos;
                 }
 
-                // Para cada grupo de logros progresivos
                 this.data.logrosProgresivos.forEach(grupo => {
                     let highestLevel = 0;
                     let highestAchievement = null;
 
-                    // Buscar el nivel más alto desbloqueado
                     grupo.niveles.forEach(nivel => {
                         if (jugador.logrosDesbloqueados.includes(nivel.id) && nivel.nivel > highestLevel) {
                             highestLevel = nivel.nivel;
@@ -164,7 +65,6 @@
                         }
                     });
 
-                    // Si no tiene ninguno desbloqueado, mostrar el nivel 1 bloqueado
                     if (!highestAchievement) {
                         highestAchievement = grupo.niveles[0];
                     }
@@ -179,63 +79,76 @@
                 return progresivos;
             }
 
+            // Calcular puntos del jugador
+            getPlayerPoints(jugador) {
+                let totalPoints = 0;
+                const config = this.data.configuracion?.valoresPorDefecto || {
+                    publico: 10,
+                    especial: 25,
+                    secreto: 15,
+                    progresivo_nivel1: 5,
+                    progresivo_nivel2: 10,
+                    progresivo_nivel3: 20,
+                    progresivo_nivel4: 30
+                };
+                
+                jugador.logrosDesbloqueados.forEach(logroId => {
+                    // Buscar en logros normales
+                    const logro = this.data.logros.find(l => l.id === logroId);
+                    if (logro) {
+                        totalPoints += logro.valor || config[logro.tipo] || 10;
+                    }
+                    
+                    // Buscar en progresivos
+                    if (this.data.logrosProgresivos) {
+                        this.data.logrosProgresivos.forEach(grupo => {
+                            const nivel = grupo.niveles.find(n => n.id === logroId);
+                            if (nivel) {
+                                totalPoints += nivel.valor || config[`progresivo_nivel${nivel.nivel}`] || 5;
+                            }
+                        });
+                    }
+                });
+                
+                return totalPoints;
+            }
+
             render() {
                 const playersList = document.getElementById('playersList');
                 let html = '';
 
-                // Crear una copia de jugadores y ordenar por cantidad de logros
+                // Ordenar jugadores por PUNTOS
                 const jugadoresOrdenados = [...this.data.jugadores].sort((a, b) => {
-                    return b.logrosDesbloqueados.length - a.logrosDesbloqueados.length;
+                    return this.getPlayerPoints(b) - this.getPlayerPoints(a);
                 });
 
                 jugadoresOrdenados.forEach((jugador, index) => {
                     const animationDelay = index * 0.1;
                     const isLeader = index === 0 && jugador.logrosDesbloqueados.length > 0;
+                    const points = this.getPlayerPoints(jugador);
 
                     html += `
-                <div class="player-card ${isLeader ? 'leader' : ''}" style="animation-delay: ${animationDelay}s">
-                    <div class="player-header">
-                        <div class="player-info">
-                            <h3 class="player-name">${jugador.nombre}</h3>
-                            ${isLeader ? '<span class="leader-badge">👑</span>' : ''}
+                        <div class="player-card ${isLeader ? 'leader' : ''}" style="animation-delay: ${animationDelay}s">
+                            <div class="player-header">
+                                <div class="player-info">
+                                    <h3 class="player-name">${jugador.nombre}</h3>
+                                    ${isLeader ? '<span class="leader-badge">👑</span>' : ''}
+                                </div>
+                                <span class="achievement-count">${points} pts</span>
+                            </div>
+                            <div class="achievements-scroll-container">
+                                <div class="achievements-grid">
+                                    ${this.renderPlayerAchievements(jugador)}
+                                </div>
+                            </div>
                         </div>
-                        <span class="achievement-count">${this.countUniqueAchievements(jugador)}/${this.getTotalUniqueAchievements()}</span>
-                    </div>
-                    <div class="achievements-grid">
-                        ${this.renderPlayerAchievements(jugador)}
-                    </div>
-                </div>
-            `;
+                    `;
                 });
 
                 playersList.innerHTML = html;
             }
 
-            // Contar logros únicos (considerando progresivos como uno solo)
-            countUniqueAchievements(jugador) {
-                let count = 0;
-
-                // Contar logros normales
-                this.data.logros.forEach(logro => {
-                    if (jugador.logrosDesbloqueados.includes(logro.id)) {
-                        count++;
-                    }
-                });
-
-                // Contar grupos progresivos (cada grupo cuenta como 1)
-                if (this.data.logrosProgresivos) {
-                    this.data.logrosProgresivos.forEach(grupo => {
-                        const tieneAlguno = grupo.niveles.some(nivel =>
-                            jugador.logrosDesbloqueados.includes(nivel.id)
-                        );
-                        if (tieneAlguno) count++;
-                    });
-                }
-
-                return count;
-            }
-
-            // Total de logros únicos posibles
+            // Contar logros únicos totales (progresivos cuentan como 1)
             getTotalUniqueAchievements() {
                 let total = this.data.logros.length;
                 if (this.data.logrosProgresivos) {
@@ -271,7 +184,7 @@
                         } else {
                             especialesBloqueados.push(logro);
                         }
-                    } else { // público
+                    } else {
                         if (isUnlocked) {
                             publicosDesbloqueados.push(logro);
                         } else {
@@ -287,18 +200,17 @@
                 const progresivosBloqueados = progresivosArray.filter(p => !p.unlocked);
 
                 // ORDEN DE RENDERIZADO:
-
-                // 1. Todos los públicos y especiales DESBLOQUEADOS (mezclados)
+                // 1. Públicos y especiales desbloqueados
                 [...publicosDesbloqueados, ...especialesDesbloqueados].forEach(logro => {
                     achievementsHTML += this.renderAchievement(logro, true);
                 });
 
-                // 2. Secretos DESBLOQUEADOS
+                // 2. Secretos desbloqueados
                 secretosDesbloqueados.forEach(logro => {
                     achievementsHTML += this.renderAchievement(logro, true);
                 });
 
-                // 3. Progresivos DESBLOQUEADOS
+                // 3. Progresivos desbloqueados
                 progresivosDesbloqueados.forEach(prog => {
                     achievementsHTML += this.renderProgressiveAchievement(
                         prog.achievement,
@@ -307,12 +219,12 @@
                     );
                 });
 
-                // 4. Todos los públicos y especiales BLOQUEADOS (mezclados)
+                // 4. Públicos y especiales bloqueados
                 [...publicosBloqueados, ...especialesBloqueados].forEach(logro => {
                     achievementsHTML += this.renderAchievement(logro, false);
                 });
 
-                // 5. Progresivos BLOQUEADOS
+                // 5. Progresivos bloqueados
                 progresivosBloqueados.forEach(prog => {
                     achievementsHTML += this.renderProgressiveAchievement(
                         prog.achievement,
@@ -321,7 +233,7 @@
                     );
                 });
 
-                // 6. Secretos BLOQUEADOS (al final)
+                // 6. Secretos bloqueados
                 secretosBloqueados.forEach(logro => {
                     achievementsHTML += this.renderAchievement(logro, false);
                 });
@@ -331,6 +243,7 @@
 
             renderAchievement(logro, isUnlocked) {
                 let imgSrc, tooltipText, imgClass, tooltipClass = '';
+                let altText = logro.nombre;
 
                 if (isUnlocked) {
                     imgSrc = logro.imagenDesbloqueada;
@@ -356,6 +269,7 @@
                     } else if (logro.tipo === 'secreto') {
                         imgClass = 'achievement-img secret-locked';
                         tooltipText = '<strong>Secreto</strong>';
+                        altText = 'Secreto';
                     } else { // publico
                         imgClass = 'achievement-img locked';
                         tooltipText = `<strong>${logro.nombre}</strong><br>${logro.descripcion}`;
@@ -363,21 +277,19 @@
                 }
 
                 return `
-            <div class="achievement-cell">
-                <img src="${imgSrc}" alt="${logro.tipo === 'secreto' && !isUnlocked ? 'Secreto' : logro.nombre}" class="${imgClass}">
-                <div class="tooltip ${tooltipClass}">${tooltipText}</div>
-            </div>
-        `;
+                    <div class="achievement-cell">
+                        <img src="${imgSrc}" alt="${altText}" class="${imgClass}">
+                        <div class="tooltip ${tooltipClass}">${tooltipText}</div>
+                    </div>
+                `;
             }
 
-            // Nueva función para renderizar logros progresivos
             renderProgressiveAchievement(logro, isUnlocked, nextLevel) {
                 let imgSrc, tooltipText, imgClass, tooltipClass = '';
 
                 if (isUnlocked) {
                     imgSrc = logro.imagenDesbloqueada;
 
-                    // Añadir indicador de nivel
                     const levelIndicator = this.getLevelIndicator(logro.nivel);
 
                     if (logro.tipo === 'especial') {
@@ -390,7 +302,6 @@
 
                     tooltipText = `<strong>${logro.nombre} ${levelIndicator}</strong><br>${logro.descripcion}`;
 
-                    // Si hay siguiente nivel, mostrar progreso
                     if (nextLevel) {
                         tooltipText += `<br><em style="color: #ffd700; font-size: 0.9em;">Próximo: ${nextLevel.descripcion}</em>`;
                     } else {
@@ -403,18 +314,17 @@
                     tooltipText = `<strong>${logro.nombre}</strong><br>${logro.descripcion}`;
                 }
 
-                // Añadir badge de nivel en la imagen
                 const levelBadge = this.getLevelBadge(logro.nivel, isUnlocked);
 
                 return `
-            <div class="achievement-cell progressive-cell">
-                <div class="achievement-wrapper">
-                    <img src="${imgSrc}" alt="${logro.nombre}" class="${imgClass}">
-                    ${levelBadge}
-                </div>
-                <div class="tooltip ${tooltipClass}">${tooltipText}</div>
-            </div>
-        `;
+                    <div class="achievement-cell progressive-cell">
+                        <div class="achievement-wrapper">
+                            <img src="${imgSrc}" alt="${logro.nombre}" class="${imgClass}">
+                            ${levelBadge}
+                        </div>
+                        <div class="tooltip ${tooltipClass}">${tooltipText}</div>
+                    </div>
+                `;
             }
 
             getLevelIndicator(level) {
@@ -438,73 +348,47 @@
             renderStats() {
                 const statsDiv = document.getElementById('stats');
 
-                const totalJugadores = this.data.jugadores.length;
-
-                // Contar logros únicos totales
+                // Calcular estadísticas
+                const totalJugadores = this.data.jugadores.filter(j => j.logrosDesbloqueados.includes('socio')).length;
                 const totalUniqueAchievements = this.getTotalUniqueAchievements();
-                const logrosSecretos = this.data.logros.filter(l => l.tipo === 'secreto').length;
-                let publicosDesbloqueados = 0;
-                let secretosDesbloqueados = 0;
-                // Contar jugadores con al menos un logro
-                const jugadoresConLogros = this.data.jugadores.filter(j => j.logrosDesbloqueados.length > 0).length;
-
-                // Calcular estadísticas de progresivos
-                let totalProgresivosDesbloqueados = 0;
-                let totalProgresivosMaximos = 0;
-
-                if (this.data.logrosProgresivos) {
-                    this.data.jugadores.forEach(jugador => {
-                        this.data.logrosProgresivos.forEach(grupo => {
-                            const niveles = grupo.niveles;
-                            let maxNivel = 0;
-
-                            niveles.forEach(nivel => {
-                                if (jugador.logrosDesbloqueados.includes(nivel.id) && nivel.nivel > maxNivel) {
-                                    maxNivel = nivel.nivel;
-                                }
-                            });
-
-                            if (maxNivel > 0) {
-                                totalProgresivosDesbloqueados++;
-                                if (maxNivel === niveles.length) {
-                                    totalProgresivosMaximos++;
-                                }
-                            }
-                        });
-                    });
-                }
+                
+                // Calcular secretos desbloqueados
+                const logrosSecretos = this.data.logros.filter(l => l.tipo === 'secreto');
+                const secretosDesbloqueados = new Set();
+                
                 this.data.jugadores.forEach(jugador => {
                     jugador.logrosDesbloqueados.forEach(logroId => {
                         const logro = this.data.logros.find(l => l.id === logroId);
-                        if (logro) {
-                            if (logro.tipo === 'publico') publicosDesbloqueados++;
-                            if (logro.tipo === 'secreto') secretosDesbloqueados++;
+                        if (logro && logro.tipo === 'secreto') {
+                            secretosDesbloqueados.add(logroId);
                         }
                     });
                 });
-                // Calcular porcentajes
-                const porcentajeProgresivos = this.data.logrosProgresivos ?
-                    Math.round((totalProgresivosMaximos / (this.data.logrosProgresivos.length * totalJugadores)) * 100) : 0;
 
+                // Calcular puntos totales
+                let puntosTotales = 0;
+                this.data.jugadores.forEach(jugador => {
+                    puntosTotales += this.getPlayerPoints(jugador);
+                });
 
                 statsDiv.innerHTML = `
-            <div class="stat-card fade-in">
-                <div class="stat-number">${jugadoresConLogros}</div>
-                <div class="stat-label">Socios temporada</div>
-            </div>
-            <div class="stat-card fade-in" style="animation-delay: 0.1s;">
-                <div class="stat-number">${totalUniqueAchievements}</div>
-                <div class="stat-label">Total logros</div>
-            </div>
-            <div class="stat-card fade-in" style="animation-delay: 0.2s;">
-                <div class="stat-number">${totalProgresivosDesbloqueados}</div>
-                <div class="stat-label">Progresivos Activos</div>
-            </div>
-            <div class="stat-card fade-in" style="animation-delay: 0.3s;">
-                <div class="stat-number">${porcentajeProgresivos}%</div>
-                <div class="stat-label">Niveles Máximos</div>
-            </div>
-        `;
+                    <div class="stat-card fade-in">
+                        <div class="stat-number">${totalJugadores}</div>
+                        <div class="stat-label">Socios</div>
+                    </div>
+                    <div class="stat-card fade-in" style="animation-delay: 0.1s;">
+                        <div class="stat-number">${totalUniqueAchievements}</div>
+                        <div class="stat-label">Total logros</div>
+                    </div>
+                    <div class="stat-card fade-in" style="animation-delay: 0.2s;">
+                        <div class="stat-number">${secretosDesbloqueados.size}/${logrosSecretos.length}</div>
+                        <div class="stat-label">Secretos revelados</div>
+                    </div>
+                    <div class="stat-card fade-in" style="animation-delay: 0.3s;">
+                        <div class="stat-number">${puntosTotales}</div>
+                        <div class="stat-label">Puntos totales</div>
+                    </div>
+                `;
             }
 
             hideLoading() {
@@ -517,11 +401,12 @@
                 errorDiv.textContent = message;
                 errorDiv.style.display = 'block';
             }
-        };// Inicializar el sistema cuando se carga la página
+        }
+
+        // Inicializar el sistema cuando se carga la página
         document.addEventListener('DOMContentLoaded', () => {
             new AchievementSystem();
         });
     </script>
 </body>
-
 </html>
