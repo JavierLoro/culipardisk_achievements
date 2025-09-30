@@ -261,7 +261,7 @@
 
     <script>
         // Configuración
-        const ADMIN_PASSWORD_HASH = '0B33885A4D6347082E53987E32D1CDE170871A72BD3BC1924D985101437A9C89'; // CAMBIAR ESTA CONTRASEÑA
+        const ADMIN_PASSWORD = 'adminculi'; // CAMBIAR ESTA CONTRASEÑA
         let logrosData = null;
         let changes = {};
 
@@ -270,7 +270,7 @@
             e.preventDefault();
             const password = document.getElementById('password').value;
             
-            if (hashFunction(password) === ADMIN_PASSWORD_HASH) {
+            if (password === ADMIN_PASSWORD_HASH) {
                 document.getElementById('loginContainer').style.display = 'none';
                 document.getElementById('adminPanel').style.display = 'block';
                 document.getElementById('saveBtn').style.display = 'block';
