@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,14 +15,14 @@
             padding-bottom: 20px;
             border-bottom: 2px solid #e0e0e0;
         }
-        
+
         .action-buttons {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
             margin-bottom: 30px;
         }
-        
+
         .action-btn {
             padding: 15px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -36,20 +37,20 @@
             align-items: center;
             gap: 5px;
         }
-        
+
         .action-btn:hover {
             transform: translateY(-2px);
         }
-        
+
         .action-btn.negative {
             background: linear-gradient(135deg, #ff6b6b 0%, #ff5252 100%);
         }
-        
+
         .action-count {
             font-size: 12px;
             opacity: 0.9;
         }
-        
+
         .player-select {
             width: 100%;
             padding: 12px;
@@ -58,7 +59,7 @@
             border-radius: 8px;
             font-size: 16px;
         }
-        
+
         .player-stats-card {
             background: white;
             border-radius: 15px;
@@ -66,39 +67,39 @@
             margin-bottom: 20px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
         }
-        
+
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 15px;
             margin-top: 15px;
         }
-        
+
         .stat-item {
             background: #f8f8f8;
             padding: 10px;
             border-radius: 8px;
             text-align: center;
         }
-        
+
         .stat-value {
             font-size: 24px;
             font-weight: bold;
             color: #333;
         }
-        
+
         .stat-name {
             font-size: 12px;
             color: #666;
             margin-top: 5px;
         }
-        
+
         .achievements-progress {
             margin-top: 20px;
             padding-top: 20px;
             border-top: 2px solid #e0e0e0;
         }
-        
+
         .progress-bar {
             width: 100%;
             height: 20px;
@@ -107,24 +108,24 @@
             overflow: hidden;
             margin: 5px 0;
         }
-        
+
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, #4CAF50 0%, #45a049 100%);
             transition: width 0.3s ease;
         }
-        
+
         .progress-item {
             margin-bottom: 15px;
         }
-        
+
         .progress-header {
             display: flex;
             justify-content: space-between;
             margin-bottom: 5px;
             font-size: 14px;
         }
-        
+
         .unlocked-badge {
             background: #4CAF50;
             color: white;
@@ -133,7 +134,7 @@
             font-size: 12px;
             margin-left: 10px;
         }
-        
+
         .save-btn {
             position: fixed;
             bottom: 30px;
@@ -148,7 +149,7 @@
             cursor: pointer;
             box-shadow: 0 5px 20px rgba(76, 175, 80, 0.4);
         }
-        
+
         .notification {
             position: fixed;
             top: 20px;
@@ -157,27 +158,28 @@
             background: #4CAF50;
             color: white;
             border-radius: 8px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
             display: none;
             animation: slideIn 0.3s ease;
         }
-        
+
         @keyframes slideIn {
             from {
                 transform: translateX(400px);
             }
+
             to {
                 transform: translateX(0);
             }
         }
-        
+
         .quick-actions {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
             margin-bottom: 20px;
         }
-        
+
         .quick-btn {
             padding: 8px 15px;
             background: #2196F3;
@@ -189,11 +191,15 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="stats-header">
             <h1>📈 Registro de Estadísticas</h1>
             <button onclick="exportStats()" class="quick-btn">📥 Exportar Estadísticas</button>
+            <button onclick="resetPlayerStats()" class="quick-btn" style="background: #ff6b6b;">
+                🗑️ Borrar Estadísticas
+            </button>
         </div>
 
         <div class="player-select-container">
@@ -205,7 +211,7 @@
         <div id="playerContent" style="display: none;">
             <div class="player-stats-card">
                 <h2 id="playerName">Jugador</h2>
-                
+
                 <div class="quick-actions">
                     <button class="quick-btn" onclick="quickAction('training')">🏃 Entrenamiento Completo</button>
                     <button class="quick-btn" onclick="quickAction('onTime')">⏰ Llegó Puntual</button>
@@ -218,59 +224,63 @@
                         <span>➕ Entrenamiento</span>
                         <span class="action-count" id="count_entrenamientos">0</span>
                     </button>
-                    
+
                     <button class="action-btn" onclick="addStat('puntual', 1)">
                         <span>⏰ Llegada Puntual</span>
                         <span class="action-count" id="count_puntual">0</span>
                     </button>
-                    
+
                     <button class="action-btn" onclick="addStat('primero', 1)">
                         <span>🥇 Primero en Llegar</span>
                         <span class="action-count" id="count_primero">0</span>
                     </button>
-                    
+
                     <button class="action-btn" onclick="addStat('lluvia', 1)">
                         <span>🌧️ Entreno con Lluvia</span>
                         <span class="action-count" id="count_lluvia">0</span>
                     </button>
-                    
+
                     <button class="action-btn" onclick="addStat('calentamiento', 1)">
                         <span>🏃 Dirigió Calentamiento</span>
                         <span class="action-count" id="count_calentamiento">0</span>
                     </button>
-                    
+
                     <button class="action-btn" onclick="addStat('estiramiento', 1)">
                         <span>🧘 Dirigió Estiramiento</span>
                         <span class="action-count" id="count_estiramiento">0</span>
                     </button>
-                    
+
                     <button class="action-btn" onclick="addStat('contenido', 1)">
                         <span>📸 Creó Contenido</span>
                         <span class="action-count" id="count_contenido">0</span>
                     </button>
-                    
+
                     <button class="action-btn" onclick="addStat('invitados', 1)">
                         <span>👥 Trajo Invitado</span>
                         <span class="action-count" id="count_invitados">0</span>
                     </button>
-                    
+
                     <button class="action-btn" onclick="addStat('eventos', 1)">
                         <span>🎉 Participó en Evento</span>
                         <span class="action-count" id="count_eventos">0</span>
                     </button>
-                    
+
                     <button class="action-btn" onclick="addStat('fotos', 1)">
                         <span>📷 Documentó Entreno</span>
                         <span class="action-count" id="count_fotos">0</span>
                     </button>
-                    
+
                     <button class="action-btn negative" onclick="addStat('entrenamientos', -1)">
                         <span>➖ Quitar Entrenamiento</span>
                     </button>
-                    
+
                     <button class="action-btn negative" onclick="addStat('puntual', -1)">
                         <span>➖ Quitar Puntual</span>
                     </button>
+                    <button onclick="resetPlayer()" class="quick-btn" style="background: #ff6b6b;">
+                        🗑️ Borrar Estadísticas Jugador
+                    </button>
+
                 </div>
 
                 <div class="stats-grid">
@@ -302,7 +312,7 @@
         </div>
 
         <button class="save-btn" onclick="saveStats()">💾 Guardar Estadísticas</button>
-        
+
         <div id="notification" class="notification"></div>
     </div>
 
@@ -311,7 +321,7 @@
         let statsData = {
             jugadores: {}
         };
-        
+
         // Requisitos de logros (mapeo con IDs del JSON)
         const achievementRequirements = {
             'puntual': { stat: 'puntual', required: 20, name: 'Puntual' },
@@ -334,17 +344,17 @@
             'reportero25': { stat: 'fotos', required: 25, name: 'Reportero Oro' },
             'reportero50': { stat: 'fotos', required: 50, name: 'Reportero Diamante' }
         };
-        
+
         let currentPlayer = null;
         let logrosData = null;
-        
+
         // Cargar datos al iniciar
         window.addEventListener('DOMContentLoaded', async () => {
             await loadLogrosData();
             loadStats();
             populatePlayerSelect();
         });
-        
+
         // Cargar datos de logros
         async function loadLogrosData() {
             try {
@@ -354,14 +364,42 @@
                 console.error('Error cargando logros.json:', error);
             }
         }
-        
+
+        function resetPlayerStats() {
+            if (confirm('⚠️ ¿Seguro que quieres borrar TODAS las estadísticas?\n\nEsta acción no se puede deshacer.')) {
+                // Hacer backup antes de borrar
+                exportStats();
+
+                // Borrar datos
+                localStorage.removeItem('playerStats');
+
+                // Reinicializar
+                statsData = { jugadores: {} };
+                loadStats();
+
+                alert('✅ Estadísticas borradas. Se ha descargado un backup por seguridad.');
+
+                // Recargar página
+                location.reload();
+            }
+        }
+
+
+        function resetPlayer(playerName) {
+            if (confirm(`¿Borrar estadísticas de ${playerName}?`)) {
+                delete statsData.jugadores[playerName];
+                localStorage.setItem('playerStats', JSON.stringify(statsData));
+                updatePlayerDisplay();
+            }
+        }
+
         // Cargar estadísticas guardadas
         function loadStats() {
             const saved = localStorage.getItem('playerStats');
             if (saved) {
                 statsData = JSON.parse(saved);
             }
-            
+
             // Inicializar jugadores del JSON
             if (logrosData) {
                 logrosData.jugadores.forEach(player => {
@@ -382,17 +420,17 @@
                 });
             }
         }
-        
+
         // Poblar selector de jugadores
         function populatePlayerSelect() {
             const select = document.getElementById('playerSelect');
             select.innerHTML = '<option value="">Selecciona un jugador...</option>';
-            
+
             if (logrosData) {
-                const sortedPlayers = [...logrosData.jugadores].sort((a, b) => 
+                const sortedPlayers = [...logrosData.jugadores].sort((a, b) =>
                     a.nombre.localeCompare(b.nombre)
                 );
-                
+
                 sortedPlayers.forEach(player => {
                     const option = document.createElement('option');
                     option.value = player.nombre;
@@ -401,66 +439,66 @@
                 });
             }
         }
-        
+
         // Seleccionar jugador
         function selectPlayer() {
             const playerName = document.getElementById('playerSelect').value;
-            
+
             if (!playerName) {
                 document.getElementById('playerContent').style.display = 'none';
                 return;
             }
-            
+
             currentPlayer = playerName;
             document.getElementById('playerContent').style.display = 'block';
             document.getElementById('playerName').textContent = playerName;
-            
+
             updatePlayerDisplay();
         }
-        
+
         // Actualizar display del jugador
         function updatePlayerDisplay() {
             if (!currentPlayer || !statsData.jugadores[currentPlayer]) return;
-            
+
             const stats = statsData.jugadores[currentPlayer];
-            
+
             // Actualizar contadores
             Object.keys(stats).forEach(stat => {
                 const countEl = document.getElementById(`count_${stat}`);
                 const statEl = document.getElementById(`stat_${stat}`);
-                
+
                 if (countEl) countEl.textContent = stats[stat];
                 if (statEl) statEl.textContent = stats[stat];
             });
-            
+
             // Actualizar progreso de logros
             updateAchievementProgress();
         }
-        
+
         // Añadir estadística
         function addStat(statName, value) {
             if (!currentPlayer) {
                 showNotification('⚠️ Selecciona un jugador primero', 'warning');
                 return;
             }
-            
+
             const stats = statsData.jugadores[currentPlayer];
             stats[statName] = Math.max(0, (stats[statName] || 0) + value);
-            
+
             updatePlayerDisplay();
             checkUnlockedAchievements(statName);
-            
+
             // Guardar automáticamente
             localStorage.setItem('playerStats', JSON.stringify(statsData));
-            
+
             if (value > 0) {
                 showNotification(`✅ +1 ${statName}`, 'success');
             }
         }
-        
+
         // Acciones rápidas
         function quickAction(action) {
-            switch(action) {
+            switch (action) {
                 case 'training':
                     addStat('entrenamientos', 1);
                     break;
@@ -479,18 +517,18 @@
                     break;
             }
         }
-        
+
         // Verificar logros desbloqueados
         function checkUnlockedAchievements(statName) {
             if (!currentPlayer) return;
-            
+
             const stats = statsData.jugadores[currentPlayer];
             const player = logrosData.jugadores.find(p => p.nombre === currentPlayer);
             if (!player) return;
-            
+
             Object.keys(achievementRequirements).forEach(achievementId => {
                 const req = achievementRequirements[achievementId];
-                
+
                 if (req.stat === statName && stats[req.stat] >= req.required) {
                     if (!player.logrosDesbloqueados.includes(achievementId)) {
                         showNotification(`🏆 ¡${req.name} DESBLOQUEADO!`, 'achievement');
@@ -498,23 +536,23 @@
                 }
             });
         }
-        
+
         // Actualizar progreso de logros
         function updateAchievementProgress() {
             if (!currentPlayer) return;
-            
+
             const stats = statsData.jugadores[currentPlayer];
             const player = logrosData.jugadores.find(p => p.nombre === currentPlayer);
             if (!player) return;
-            
+
             let html = '';
-            
+
             Object.keys(achievementRequirements).forEach(achievementId => {
                 const req = achievementRequirements[achievementId];
                 const current = stats[req.stat] || 0;
                 const progress = Math.min(100, (current / req.required) * 100);
                 const isUnlocked = player.logrosDesbloqueados.includes(achievementId);
-                
+
                 html += `
                     <div class="progress-item">
                         <div class="progress-header">
@@ -527,17 +565,17 @@
                     </div>
                 `;
             });
-            
+
             document.getElementById('progressList').innerHTML = html;
         }
-        
+
         // Guardar estadísticas
         function saveStats() {
             localStorage.setItem('playerStats', JSON.stringify(statsData));
-            
+
             // Generar reporte
             const report = generateReport();
-            
+
             const blob = new Blob([report], { type: 'text/plain' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -546,28 +584,28 @@
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-            
+
             showNotification('💾 Estadísticas guardadas', 'success');
         }
-        
+
         // Generar reporte
         function generateReport() {
             let report = 'REPORTE DE ESTADÍSTICAS\n';
             report += '========================\n\n';
-            
+
             Object.keys(statsData.jugadores).forEach(playerName => {
                 const stats = statsData.jugadores[playerName];
                 const player = logrosData.jugadores.find(p => p.nombre === playerName);
-                
+
                 report += `${playerName}\n`;
                 report += '-'.repeat(playerName.length) + '\n';
-                
+
                 Object.keys(stats).forEach(stat => {
                     if (stats[stat] > 0) {
                         report += `  ${stat}: ${stats[stat]}\n`;
                     }
                 });
-                
+
                 // Logros recomendados para desbloquear
                 report += '\n  Logros listos para desbloquear:\n';
                 Object.keys(achievementRequirements).forEach(achievementId => {
@@ -576,13 +614,13 @@
                         report += `    ✓ ${req.name}\n`;
                     }
                 });
-                
+
                 report += '\n';
             });
-            
+
             return report;
         }
-        
+
         // Exportar estadísticas
         function exportStats() {
             const jsonStr = JSON.stringify(statsData, null, 2);
@@ -595,20 +633,21 @@
             a.click();
             document.body.removeChild(a);
         }
-        
+
         // Mostrar notificación
         function showNotification(message, type = 'success') {
             const notification = document.getElementById('notification');
             notification.textContent = message;
-            notification.style.background = type === 'achievement' ? '#FFD700' : 
-                                          type === 'warning' ? '#FF9800' : '#4CAF50';
+            notification.style.background = type === 'achievement' ? '#FFD700' :
+                type === 'warning' ? '#FF9800' : '#4CAF50';
             notification.style.color = type === 'achievement' ? '#333' : 'white';
             notification.style.display = 'block';
-            
+
             setTimeout(() => {
                 notification.style.display = 'none';
             }, 3000);
         }
     </script>
 </body>
+
 </html>
