@@ -25,7 +25,47 @@
         <div id="error" class="error" style="display: none;"></div>
     </div>
 
+    <!-- Tooltip flotante -->
+    <div id="floatingTooltip" style="position: fixed; display: none; z-index: 999999; background: rgba(0,0,0,0.95); color: white; padding: 10px 14px; border-radius: 8px; font-size: 13px; max-width: 250px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); pointer-events: none;"></div>
+
     <script>
+        // Funciones para el tooltip flotante
+        function showTooltip(event, text) {
+            const tooltip = document.getElementById('floatingTooltip');
+            tooltip.innerHTML = text;
+            tooltip.style.display = 'block';
+            
+            // Posicionar el tooltip
+            const x = event.pageX;
+            const y = event.pageY;
+            
+            // Ajustar posición para que no se salga de la pantalla
+            tooltip.style.left = x + 10 + 'px';
+            tooltip.style.top = (y - tooltip.offsetHeight - 10) + 'px';
+            
+            // Si se sale por arriba, ponerlo abajo
+            if (y - tooltip.offsetHeight - 10 < window.scrollY) {
+                tooltip.style.top = (y + 20) + 'px';
+            }
+            
+            // Si se sale por la derecha
+            if (x + tooltip.offsetWidth + 10 > window.innerWidth) {
+                tooltip.style.left = (x - tooltip.offsetWidth - 10) + 'px';
+            }
+        }
+        
+        function hideTooltip() {
+            document.getElementById('floatingTooltip').style.display = 'none';
+        }
+        
+        // Mover tooltip con el mouse
+        document.addEventListener('mousemove', function(e) {
+            const tooltip = document.getElementById('floatingTooltip');
+            if (tooltip.style.display === 'block') {
+                tooltip.style.left = (e.pageX + 10) + 'px';
+                tooltip.style.top = (e.pageY - tooltip.offsetHeight - 10) + 'px';
+            }
+        });
         class AchievementSystem {
             constructor() {
                 this.data = null;
@@ -277,9 +317,8 @@
                 }
 
                 return `
-                    <div class="achievement-cell">
+                    <div class="achievement-cell" onmouseenter="showTooltip(event, \`${tooltipText.replace(/`/g, '\\`')}\`)" onmouseleave="hideTooltip()">
                         <img src="${imgSrc}" alt="${altText}" class="${imgClass}">
-                        <div class="tooltip ${tooltipClass}">${tooltipText}</div>
                     </div>
                 `;
             }
@@ -317,12 +356,11 @@
                 const levelBadge = this.getLevelBadge(logro.nivel, isUnlocked);
 
                 return `
-                    <div class="achievement-cell progressive-cell">
+                    <div class="achievement-cell progressive-cell" onmouseenter="showTooltip(event, \`${tooltipText.replace(/`/g, '\\`')}\`)" onmouseleave="hideTooltip()">
                         <div class="achievement-wrapper">
                             <img src="${imgSrc}" alt="${logro.nombre}" class="${imgClass}">
                             ${levelBadge}
                         </div>
-                        <div class="tooltip ${tooltipClass}">${tooltipText}</div>
                     </div>
                 `;
             }
