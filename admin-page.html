@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - Sistema de Logros</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Estilos adicionales para el admin */
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .login-form input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .login-form button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, var(--color-primary, #ea6666) 0%, var(--color-primary-dark, #a24b4b) 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .login-form button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .admin-panel {
+            display: none;
+        }
+        
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .logout-btn {
+            padding: 8px 20px;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        
+        .player-admin-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .player-admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .player-admin-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .player-points {
+            background: linear-gradient(135deg, var(--color-secondary, #667eea) 0%, var(--color-secondary-dark, #764ba2) 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        
+        .achievements-checkboxes {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .achievement-checkbox {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            background: #f8f8f8;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+        
+        .achievement-checkbox:hover {
+            background: #e8e8e8;
+        }
+        
+        .achievement-checkbox input {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .achievement-checkbox label {
+            cursor: pointer;
+            flex: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .achievement-type {
+            font-size: 0.8em;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-left: 10px;
+        }
+        
+        .type-publico {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .type-especial {
+            background: #FFC107;
+            color: #333;
+        }
+        
+        .type-secreto {
+            background: #9C27B0;
+            color: white;
+        }
+        
+        .type-progresivo {
+            background: #2196F3;
+            color: white;
+        }
+        
+        .save-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(76, 175, 80, 0.4);
+            transition: transform 0.2s;
+            z-index: 1000;
+        }
+        
+        .save-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .search-box {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .stats-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+        
+        .export-btn {
+            padding: 10px 20px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Login Form -->
+        <div id="loginContainer" class="login-container">
+            <h1>🔐 Acceso Administrador</h1>
+            <form id="loginForm" class="login-form">
+                <input type="password" id="password" placeholder="Contraseña" required>
+                <button type="submit">Entrar</button>
+            </form>
+            <div id="loginError" style="color: red; margin-top: 10px; display: none;">Contraseña incorrecta</div>
+        </div>
+
+        <!-- Admin Panel -->
+        <div id="adminPanel" class="admin-panel">
+            <div class="admin-header">
+                <h1>📊 Panel de Administración de Logros</h1>
+                <div>
+                    <button onclick="exportData()" class="export-btn">📥 Exportar JSON</button>
+                    <button onclick="logout()" class="logout-btn">Cerrar Sesión</button>
+                </div>
+            </div>
+
+            <div class="stats-summary" id="statsSummary">
+                <!-- Se llenará dinámicamente -->
+            </div>
+
+            <input type="text" id="searchPlayer" class="search-box" placeholder="🔍 Buscar jugador...">
+
+            <div id="playersList">
+                <!-- Se llenará dinámicamente -->
+            </div>
+        </div>
+
+        <button id="saveBtn" class="save-btn" style="display: none;" onclick="saveChanges()">
+            💾 Guardar Cambios
+        </button>
+    </div>
+
+    <script>
+        // Configuración
+        const ADMIN_PASSWORD_HASH = '0B33885A4D6347082E53987E32D1CDE170871A72BD3BC1924D985101437A9C89'; // CAMBIAR ESTA CONTRASEÑA
+        let logrosData = null;
+        let changes = {};
+
+        // Sistema de login
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const password = document.getElementById('password').value;
+            
+            if (hashFunction(password) === ADMIN_PASSWORD_HASH) {
+                document.getElementById('loginContainer').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                document.getElementById('saveBtn').style.display = 'block';
+                loadAdminPanel();
+            } else {
+                document.getElementById('loginError').style.display = 'block';
+                document.getElementById('password').value = '';
+            }
+        });
+
+        function logout() {
+            document.getElementById('loginContainer').style.display = 'block';
+            document.getElementById('adminPanel').style.display = 'none';
+            document.getElementById('saveBtn').style.display = 'none';
+            document.getElementById('password').value = '';
+            document.getElementById('loginError').style.display = 'none';
+        }
+
+        // Cargar datos
+        async function loadAdminPanel() {
+            try {
+                // En producción, cargar desde archivo externo
+                const response = await fetch('logros.json');
+                logrosData = await response.json();
+                
+                renderStatsSummary();
+                renderPlayers();
+            } catch (error) {
+                console.error('Error cargando datos:', error);
+                alert('Error al cargar los datos. Verifica el archivo logros.json');
+            }
+        }
+
+        // Renderizar estadísticas
+        function renderStatsSummary() {
+            const totalPlayers = logrosData.jugadores.length;
+            const totalAchievements = logrosData.logros.length + 
+                (logrosData.logrosProgresivos?.length || 0) * 4;
+            
+            let totalUnlocked = 0;
+            let playersWithAchievements = 0;
+            
+            logrosData.jugadores.forEach(player => {
+                if (player.logrosDesbloqueados.length > 0) {
+                    playersWithAchievements++;
+                    totalUnlocked += player.logrosDesbloqueados.length;
+                }
+            });
+            
+            document.getElementById('statsSummary').innerHTML = `
+                <div class="stat-box">
+                    <div class="stat-value">${totalPlayers}</div>
+                    <div class="stat-label">Jugadores Totales</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">${playersWithAchievements}</div>
+                    <div class="stat-label">Jugadores con Logros</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">${totalAchievements}</div>
+                    <div class="stat-label">Logros Disponibles</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">${totalUnlocked}</div>
+                    <div class="stat-label">Logros Desbloqueados</div>
+                </div>
+            `;
+        }
+
+        // Renderizar jugadores
+        function renderPlayers() {
+            const container = document.getElementById('playersList');
+            let html = '';
+            
+            logrosData.jugadores.forEach((player, index) => {
+                const points = calculatePlayerPoints(player);
+                html += `
+                    <div class="player-admin-card" data-player="${player.nombre.toLowerCase()}">
+                        <div class="player-admin-header">
+                            <span class="player-admin-name">${player.nombre}</span>
+                            <span class="player-points">${points} puntos</span>
+                        </div>
+                        <div class="achievements-checkboxes">
+                            ${renderAchievementCheckboxes(player, index)}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // Renderizar checkboxes de logros
+        function renderAchievementCheckboxes(player, playerIndex) {
+            let html = '';
+            
+            // Logros normales
+            logrosData.logros.forEach(achievement => {
+                const isChecked = player.logrosDesbloqueados.includes(achievement.id);
+                const typeClass = `type-${achievement.tipo}`;
+                
+                html += `
+                    <div class="achievement-checkbox">
+                        <input type="checkbox" 
+                               id="${playerIndex}_${achievement.id}" 
+                               ${isChecked ? 'checked' : ''}
+                               onchange="toggleAchievement('${player.nombre}', '${achievement.id}', this.checked)">
+                        <label for="${playerIndex}_${achievement.id}">
+                            <span>${achievement.nombre}</span>
+                            <span class="achievement-type ${typeClass}">${achievement.tipo}</span>
+                        </label>
+                    </div>
+                `;
+            });
+            
+            // Logros progresivos
+            if (logrosData.logrosProgresivos) {
+                logrosData.logrosProgresivos.forEach(group => {
+                    group.niveles.forEach(level => {
+                        const isChecked = player.logrosDesbloqueados.includes(level.id);
+                        
+                        html += `
+                            <div class="achievement-checkbox">
+                                <input type="checkbox" 
+                                       id="${playerIndex}_${level.id}" 
+                                       ${isChecked ? 'checked' : ''}
+                                       onchange="toggleAchievement('${player.nombre}', '${level.id}', this.checked)">
+                                <label for="${playerIndex}_${level.id}">
+                                    <span>${level.nombre}</span>
+                                    <span class="achievement-type type-progresivo">Nivel ${level.nivel}</span>
+                                </label>
+                            </div>
+                        `;
+                    });
+                });
+            }
+            
+            return html;
+        }
+
+        // Calcular puntos del jugador
+        function calculatePlayerPoints(player) {
+            let points = 0;
+            const config = logrosData.configuracion?.valoresPorDefecto || {
+                publico: 10,
+                especial: 25,
+                secreto: 15,
+                progresivo_nivel1: 5,
+                progresivo_nivel2: 10,
+                progresivo_nivel3: 20,
+                progresivo_nivel4: 30
+            };
+            
+            player.logrosDesbloqueados.forEach(achievementId => {
+                // Buscar en logros normales
+                const achievement = logrosData.logros.find(a => a.id === achievementId);
+                if (achievement) {
+                    points += achievement.valor || config[achievement.tipo] || 10;
+                }
+                
+                // Buscar en progresivos
+                if (logrosData.logrosProgresivos) {
+                    logrosData.logrosProgresivos.forEach(group => {
+                        const level = group.niveles.find(l => l.id === achievementId);
+                        if (level) {
+                            points += level.valor || config[`progresivo_nivel${level.nivel}`] || 5;
+                        }
+                    });
+                }
+            });
+            
+            return points;
+        }
+
+        // Toggle achievement
+        function toggleAchievement(playerName, achievementId, isChecked) {
+            if (!changes[playerName]) {
+                const player = logrosData.jugadores.find(p => p.nombre === playerName);
+                changes[playerName] = [...player.logrosDesbloqueados];
+            }
+            
+            if (isChecked) {
+                if (!changes[playerName].includes(achievementId)) {
+                    changes[playerName].push(achievementId);
+                }
+            } else {
+                changes[playerName] = changes[playerName].filter(id => id !== achievementId);
+            }
+            
+            // Mostrar botón de guardar
+            document.getElementById('saveBtn').style.background = 'linear-gradient(135deg, #ff9800 0%, #f57c00 100%)';
+        }
+
+        // Buscar jugadores
+        document.getElementById('searchPlayer').addEventListener('input', (e) => {
+            const search = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.player-admin-card');
+            
+            cards.forEach(card => {
+                const playerName = card.dataset.player;
+                card.style.display = playerName.includes(search) ? 'block' : 'none';
+            });
+        });
+
+        // Guardar cambios
+        function saveChanges() {
+            // Aplicar cambios a logrosData
+            Object.keys(changes).forEach(playerName => {
+                const player = logrosData.jugadores.find(p => p.nombre === playerName);
+                if (player) {
+                    player.logrosDesbloqueados = changes[playerName];
+                }
+            });
+            
+            // Generar JSON actualizado
+            const jsonStr = JSON.stringify(logrosData, null, 2);
+            
+            // Descargar archivo
+            const blob = new Blob([jsonStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'logros_actualizado.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            // Limpiar cambios
+            changes = {};
+            document.getElementById('saveBtn').style.background = '';
+            
+            alert('Archivo descargado como logros_actualizado.json\nSube este archivo a tu repositorio para aplicar los cambios.');
+            
+            // Recargar stats
+            renderStatsSummary();
+        }
+
+        // Exportar datos
+        function exportData() {
+            const jsonStr = JSON.stringify(logrosData, null, 2);
+            const blob = new Blob([jsonStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'logros_backup.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

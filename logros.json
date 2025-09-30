@@ -1,44 +1,148 @@
 {
+  "configuracion": {
+    "valoresPorDefecto": {
+      "publico": 10,
+      "especial": 25,
+      "secreto": 15,
+      "progresivo_nivel1": 5,
+      "progresivo_nivel2": 10,
+      "progresivo_nivel3": 20,
+      "progresivo_nivel4": 30
+    }
+  },
   "logros": [
     {
       "id": "socio",
       "nombre": "Socio 25/26",
       "tipo": "publico",
+      "valor": 20,
       "imagenBloqueada": "images/logros/socio-locked.png",
       "imagenDesbloqueada": "images/logros/socio-unlocked.png",
       "descripcion": "Rellena la ficha de socio y completa el pago"
     },
     {
-      "id": "asistente",
-      "nombre": "Asistente Estrella",
+      "id": "spirit",
+      "nombre": "Graduado Spirit",
       "tipo": "publico",
-      "imagenBloqueada": "images/logros/star-locked.png",
-      "imagenDesbloqueada": "images/logros/star-unlocked.png",
-      "descripcion": "Realiza 5 asistencias"
+      "valor": 15,
+      "imagenBloqueada": "images/logros/spirit-locked.png",
+      "imagenDesbloqueada": "images/logros/spirit-unlocked.png",
+      "descripcion": "Completa la certificación básica de spirit"
+    },
+    {
+      "id": "promotor",
+      "nombre": "Promotor",
+      "tipo": "publico",
+      "valor": 15,
+      "imagenBloqueada": "images/logros/promotor-locked.png",
+      "imagenDesbloqueada": "images/logros/promotor-unlocked.png",
+      "descripcion": "Participa en 3 eventos de promoción del club"
+    },
+    {
+      "id": "puntual",
+      "nombre": "Puntual",
+      "tipo": "publico",
+      "valor": 12,
+      "imagenBloqueada": "images/logros/puntual-locked.png",
+      "imagenDesbloqueada": "images/logros/puntual-unlocked.png",
+      "descripcion": "Llega a tiempo a 20 entrenamientos"
+    },
+    {
+      "id": "llueva_truene",
+      "nombre": "Llueva o Truene",
+      "tipo": "publico",
+      "valor": 15,
+      "imagenBloqueada": "images/logros/lluvia-locked.png",
+      "imagenDesbloqueada": "images/logros/lluvia-unlocked.png",
+      "descripcion": "Asiste a entrenamientos en condiciones climáticas adversas"
+    },
+    {
+      "id": "as_calentamiento",
+      "nombre": "As del Calentamiento",
+      "tipo": "publico",
+      "imagenBloqueada": "images/logros/calentamiento-locked.png",
+      "imagenDesbloqueada": "images/logros/calentamiento-unlocked.png",
+      "descripcion": "Dirige el calentamiento 5 veces"
+    },
+    {
+      "id": "as_estiramiento",
+      "nombre": "As de Estiramiento",
+      "tipo": "publico",
+      "imagenBloqueada": "images/logros/estiramiento-locked.png",
+      "imagenDesbloqueada": "images/logros/estiramiento-unlocked.png",
+      "descripcion": "Dirige el estiramiento 5 veces"
+    },
+    {
+      "id": "influencer",
+      "nombre": "Content Creator",
+      "tipo": "publico",
+      "valor": 12,
+      "imagenBloqueada": "images/logros/influencer-locked.png",
+      "imagenDesbloqueada": "images/logros/influencer-unlocked.png",
+      "descripcion": "Crea contenido para las redes del club"
+    },
+    {
+      "id": "embajador",
+      "nombre": "Embajador",
+      "tipo": "publico",
+      "valor": 20,
+      "imagenBloqueada": "images/logros/embajador-locked.png",
+      "imagenDesbloqueada": "images/logros/embajador-unlocked.png",
+      "descripcion": "Trae 1 nuevo jugador que complete 3 meses"
     },
     {
       "id": "veterano",
       "nombre": "Veterano",
       "tipo": "especial",
+      "valor": 50,
       "imagenBloqueada": "images/logros/veterano-locked.png",
       "imagenDesbloqueada": "images/logros/veterano-unlocked.png",
       "descripcion": "3 años como socio"
     },
     {
-      "id": "spirit",
-      "nombre": "Graduado Spirit",
-      "tipo": "publico",
-      "imagenBloqueada": "images/logros/spirit-locked.png",
-      "imagenDesbloqueada": "images/logros/spirit-unlocked.png",
-      "descripcion": "Completa la certificación basica de spirit"
+      "id": "tech_support",
+      "nombre": "Tech Support",
+      "tipo": "especial",
+      "valor": 30,
+      "imagenBloqueada": "images/logros/tech-locked.png",
+      "imagenDesbloqueada": "images/logros/tech-unlocked.png",
+      "descripcion": "Ayuda a digitalizar estadísticas del equipo"
+    },
+    {
+      "id": "fundador",
+      "nombre": "Fundador",
+      "tipo": "especial",
+      "valor": 60,
+      "imagenBloqueada": "images/logros/fundador-locked.png",
+      "imagenDesbloqueada": "images/logros/fundador-unlocked.png",
+      "descripcion": "Miembro fundador o antigüedad de 6+ años"
     },
     {
       "id": "advanced",
-      "nombre": "Genio del Spirit",
+      "nombre": "???",
       "tipo": "secreto",
+      "valor": 30,
       "imagenBloqueada": "images/logros/secret-locked.png",
       "imagenDesbloqueada": "images/logros/advanced-unlocked.png",
       "descripcion": "Completa la certificación avanzada de spirit"
+    },
+    {
+      "id": "primer_comentario",
+      "nombre": "???",
+      "tipo": "secreto",
+      "valor": 18,
+      "imagenBloqueada": "images/logros/secret-locked.png",
+      "imagenDesbloqueada": "images/logros/primero-unlocked.png",
+      "descripcion": "Primer jugador en llegar al campo 5 veces"
+    },
+    {
+      "id": "perfeccion_mensual",
+      "nombre": "???",
+      "tipo": "secreto",
+      "valor": 25,
+      "imagenBloqueada": "images/logros/secret-locked.png",
+      "imagenDesbloqueada": "images/logros/perfecto-unlocked.png",
+      "descripcion": "100% asistencia en un mes calendario"
     }
   ],
   "logrosProgresivos": [
@@ -49,38 +153,134 @@
         {
           "nivel": 1,
           "id": "asistencia5",
-          "nombre": "Asistente bronce",
+          "nombre": "Asistente Bronce",
           "tipo": "publico",
-          "imagenBloqueada": "images/logros/star-locked.png",
-          "imagenDesbloqueada": "images/logros/star-unlocked.png",
+          "valor": 5,
+          "imagenBloqueada": "images/logros/asistente-locked.png",
+          "imagenDesbloqueada": "images/logros/asistente-unlocked.png",
           "descripcion": "5 entrenamientos"
         },
         {
           "nivel": 2,
-          "id": "name_id2",
-          "nombre": "Name",
+          "id": "asistencia10",
+          "nombre": "Asistente Plata",
           "tipo": "publico",
-          "imagenBloqueada": "images/logros/<>-locked.png",
-          "imagenDesbloqueada": "images/logros/<>-unlocked.png",
-          "descripcion": "desc"
+          "valor": 10,
+          "imagenBloqueada": "images/logros/asistencia-locked.png",
+          "imagenDesbloqueada": "images/logros/asistente-unlocked.png",
+          "descripcion": "10 entrenamientos"
         },
         {
           "nivel": 3,
-          "id": "name_id3",
-          "nombre": "Name",
+          "id": "asistencia20",
+          "nombre": "Asistente Oro",
           "tipo": "publico",
-          "imagenBloqueada": "images/logros/<>-locked.png",
-          "imagenDesbloqueada": "images/logros/<>-unlocked.png",
-          "descripcion": "desc"
+          "valor": 25,
+          "imagenBloqueada": "images/logros/asistencia-locked.png",
+          "imagenDesbloqueada": "images/logros/asistente-unlocked.png",
+          "descripcion": "20 entrenamientos"
         },
         {
           "nivel": 4,
-          "id": "name_id4",
-          "nombre": "Name",
+          "id": "asistencia50",
+          "nombre": "Asistente Diamante",
+          "tipo": "especial",
+          "valor": 40,
+          "imagenBloqueada": "images/logros/asistencia-locked.png",
+          "imagenDesbloqueada": "images/logros/asistente-unlocked.png",
+          "descripcion": "50 entrenamientos"
+        }
+      ]
+    },
+    {
+      "grupo": "reclutador",
+      "nombre": "Reclutador",
+      "niveles": [
+        {
+          "nivel": 1,
+          "id": "reclutador1",
+          "nombre": "Reclutador Bronce",
           "tipo": "publico",
-          "imagenBloqueada": "images/logros/<>-locked.png",
-          "imagenDesbloqueada": "images/logros/<>-unlocked.png",
-          "descripcion": "desc"
+          "valor": 8,
+          "imagenBloqueada": "images/logros/reclutador-locked.png",
+          "imagenDesbloqueada": "images/logros/reclutador-unlocked.png",
+          "descripcion": "Invita a 1 jugador a probar el deporte"
+        },
+        {
+          "nivel": 2,
+          "id": "reclutador3",
+          "nombre": "Reclutador Plata",
+          "tipo": "publico",
+          "valor": 15,
+          "imagenBloqueada": "images/logros/reclutador-locked.png",
+          "imagenDesbloqueada": "images/logros/reclutador-unlocked.png",
+          "descripcion": "Invita a 3 jugadores a probar el deporte"
+        },
+        {
+          "nivel": 3,
+          "id": "reclutador5",
+          "nombre": "Reclutador Oro",
+          "tipo": "publico",
+          "valor": 25,
+          "imagenBloqueada": "images/logros/reclutador-locked.png",
+          "imagenDesbloqueada": "images/logros/reclutador-unlocked.png",
+          "descripcion": "Invita a 5 jugadores a probar el deporte"
+        },
+        {
+          "nivel": 4,
+          "id": "reclutador10",
+          "nombre": "Reclutador Diamante",
+          "tipo": "especial",
+          "valor": 35,
+          "imagenBloqueada": "images/logros/reclutador-locked.png",
+          "imagenDesbloqueada": "images/logros/reclutador-unlocked.png",
+          "descripcion": "Invita a 10 jugadores a probar el deporte"
+        }
+      ]
+    },
+    {
+      "grupo": "reportero",
+      "nombre": "Reportero",
+      "niveles": [
+        {
+          "nivel": 1,
+          "id": "reportero3",
+          "nombre": "Reportero Bronce",
+          "tipo": "publico",
+          "valor": 6,
+          "imagenBloqueada": "images/logros/reportero-locked.png",
+          "imagenDesbloqueada": "images/logros/reportero-unlocked.png",
+          "descripcion": "Documenta 3 entrenamientos con fotos o videos"
+        },
+        {
+          "nivel": 2,
+          "id": "reportero10",
+          "nombre": "Reportero Plata",
+          "tipo": "publico",
+          "valor": 12,
+          "imagenBloqueada": "images/logros/reportero-locked.png",
+          "imagenDesbloqueada": "images/logros/reportero-unlocked.png",
+          "descripcion": "Documenta 10 entrenamientos con fotos o videos"
+        },
+        {
+          "nivel": 3,
+          "id": "reportero25",
+          "nombre": "Reportero Oro",
+          "tipo": "publico",
+          "valor": 22,
+          "imagenBloqueada": "images/logros/reportero-locked.png",
+          "imagenDesbloqueada": "images/logros/reportero-unlocked.png",
+          "descripcion": "Documenta 25 entrenamientos con fotos o videos"
+        },
+        {
+          "nivel": 4,
+          "id": "reportero50",
+          "nombre": "Reportero Diamante",
+          "tipo": "especial",
+          "valor": 32,
+          "imagenBloqueada": "images/logros/reportero-locked.png",
+          "imagenDesbloqueada": "images/logros/reportero-unlocked.png",
+          "descripcion": "Documenta 50 entrenamientos con fotos o videos"
         }
       ]
     }
@@ -88,15 +288,11 @@
   "jugadores": [
     {
       "nombre": "Adrian",
-      "logrosDesbloqueados": ["socio","veterano"]
-    },
-    {
-      "nombre": "Andres",
-      "logrosDesbloqueados": []
+      "logrosDesbloqueados": ["veterano"]
     },
     {
       "nombre": "Alex",
-      "logrosDesbloqueados": ["socio","veterano"]
+      "logrosDesbloqueados": ["veterano"]
     },
     {
       "nombre": "Barren",
@@ -104,7 +300,7 @@
     },
     {
       "nombre": "Carlos",
-      "logrosDesbloqueados": []
+      "logrosDesbloqueados": ["veterano"]
     },
     {
       "nombre": "Carmen",
@@ -116,7 +312,7 @@
     },
     {
       "nombre": "David",
-      "logrosDesbloqueados": []
+      "logrosDesbloqueados": ["veterano"]
     },
     {
       "nombre": "Elena",
@@ -124,7 +320,7 @@
     },
     {
       "nombre": "Fernando",
-      "logrosDesbloqueados": ["socio","veterano","asistente"]
+      "logrosDesbloqueados": ["veterano"]
     },
     {
       "nombre": "Isabel",
@@ -148,7 +344,7 @@
       "logrosDesbloqueados": ["socio","veterano"]
     },
     {
-      "nombre": "laura",
+      "nombre": "Laura",
       "logrosDesbloqueados": []
     },
     {
