@@ -7,44 +7,6 @@
     <link rel="stylesheet" href="styles.css">
     <style>
         /* Estilos adicionales para el admin */
-        .login-container {
-            max-width: 400px;
-            margin: 100px auto;
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        
-        .login-form input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 16px;
-        }
-        
-        .login-form button {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, var(--color-primary, #ea6666) 0%, var(--color-primary-dark, #a24b4b) 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        
-        .login-form button:hover {
-            transform: translateY(-2px);
-        }
-        
-        .admin-panel {
-            display: none;
-        }
-        
         .admin-header {
             display: flex;
             justify-content: space-between;
@@ -52,15 +14,6 @@
             margin-bottom: 30px;
             padding-bottom: 20px;
             border-bottom: 2px solid #e0e0e0;
-        }
-        
-        .logout-btn {
-            padding: 8px 20px;
-            background: #ff6b6b;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
         }
         
         .player-admin-card {
@@ -175,6 +128,20 @@
             transform: scale(1.05);
         }
         
+        .save-btn.has-changes {
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        
         .search-box {
             width: 100%;
             padding: 12px;
@@ -219,27 +186,31 @@
             cursor: pointer;
             margin-left: 10px;
         }
+        
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2em;
+            color: #666;
+        }
+        
+        .error {
+            background: #ff6b6b;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Login Form -->
-        <div id="loginContainer" class="login-container">
-            <h1>🔐 Acceso Administrador</h1>
-            <form id="loginForm" class="login-form">
-                <input type="password" id="password" placeholder="Contraseña" required>
-                <button type="submit">Entrar</button>
-            </form>
-            <div id="loginError" style="color: red; margin-top: 10px; display: none;">Contraseña incorrecta</div>
-        </div>
-
-        <!-- Admin Panel -->
-        <div id="adminPanel" class="admin-panel">
+        <div id="adminPanel">
             <div class="admin-header">
                 <h1>📊 Panel de Administración de Logros</h1>
                 <div>
                     <button onclick="exportData()" class="export-btn">📥 Exportar JSON</button>
-                    <button onclick="logout()" class="logout-btn">Cerrar Sesión</button>
                 </div>
             </div>
 
@@ -250,57 +221,45 @@
             <input type="text" id="searchPlayer" class="search-box" placeholder="🔍 Buscar jugador...">
 
             <div id="playersList">
-                <!-- Se llenará dinámicamente -->
+                <div class="loading">Cargando datos...</div>
             </div>
         </div>
 
-        <button id="saveBtn" class="save-btn" style="display: none;" onclick="saveChanges()">
+        <button id="saveBtn" class="save-btn" onclick="saveChanges()">
             💾 Guardar Cambios
         </button>
     </div>
 
     <script>
-        // Configuración
-        const ADMIN_PASSWORD = 'adminculi'; // CAMBIAR ESTA CONTRASEÑA
+        // Datos y configuración
         let logrosData = null;
         let changes = {};
 
-        // Sistema de login
-        document.getElementById('loginForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const password = document.getElementById('password').value;
-            
-            if (password === ADMIN_PASSWORD_HASH) {
-                document.getElementById('loginContainer').style.display = 'none';
-                document.getElementById('adminPanel').style.display = 'block';
-                document.getElementById('saveBtn').style.display = 'block';
-                loadAdminPanel();
-            } else {
-                document.getElementById('loginError').style.display = 'block';
-                document.getElementById('password').value = '';
-            }
+        // Cargar datos al iniciar
+        window.addEventListener('DOMContentLoaded', () => {
+            loadAdminPanel();
         });
-
-        function logout() {
-            document.getElementById('loginContainer').style.display = 'block';
-            document.getElementById('adminPanel').style.display = 'none';
-            document.getElementById('saveBtn').style.display = 'none';
-            document.getElementById('password').value = '';
-            document.getElementById('loginError').style.display = 'none';
-        }
 
         // Cargar datos
         async function loadAdminPanel() {
             try {
-                // En producción, cargar desde archivo externo
+                // Cargar desde archivo externo
                 const response = await fetch('logros.json');
                 logrosData = await response.json();
                 
                 renderStatsSummary();
                 renderPlayers();
+                
+                // Quitar mensaje de carga
+                document.getElementById('playersList').classList.remove('loading');
             } catch (error) {
                 console.error('Error cargando datos:', error);
-                alert('Error al cargar los datos. Verifica el archivo logros.json');
+                document.getElementById('playersList').innerHTML = `
+                    <div class="error">
+                        Error al cargar los datos. Verifica el archivo logros.json<br>
+                        <small>${error.message}</small>
+                    </div>
+                `;
             }
         }
 
@@ -308,7 +267,8 @@
         function renderStatsSummary() {
             const totalPlayers = logrosData.jugadores.length;
             const totalAchievements = logrosData.logros.length + 
-                (logrosData.logrosProgresivos?.length || 0) * 4;
+                (logrosData.logrosProgresivos ? 
+                    logrosData.logrosProgresivos.reduce((sum, group) => sum + group.niveles.length, 0) : 0);
             
             let totalUnlocked = 0;
             let playersWithAchievements = 0;
@@ -345,7 +305,12 @@
             const container = document.getElementById('playersList');
             let html = '';
             
-            logrosData.jugadores.forEach((player, index) => {
+            // Ordenar jugadores alfabéticamente
+            const sortedPlayers = [...logrosData.jugadores].sort((a, b) => 
+                a.nombre.localeCompare(b.nombre)
+            );
+            
+            sortedPlayers.forEach((player, index) => {
                 const points = calculatePlayerPoints(player);
                 html += `
                     <div class="player-admin-card" data-player="${player.nombre.toLowerCase()}">
@@ -371,6 +336,8 @@
             logrosData.logros.forEach(achievement => {
                 const isChecked = player.logrosDesbloqueados.includes(achievement.id);
                 const typeClass = `type-${achievement.tipo}`;
+                const displayName = achievement.tipo === 'secreto' && achievement.nombre === '???' ? 
+                    `Secreto: ${achievement.descripcion}` : achievement.nombre;
                 
                 html += `
                     <div class="achievement-checkbox">
@@ -379,7 +346,7 @@
                                ${isChecked ? 'checked' : ''}
                                onchange="toggleAchievement('${player.nombre}', '${achievement.id}', this.checked)">
                         <label for="${playerIndex}_${achievement.id}">
-                            <span>${achievement.nombre}</span>
+                            <span title="${achievement.descripcion}">${displayName}</span>
                             <span class="achievement-type ${typeClass}">${achievement.tipo}</span>
                         </label>
                     </div>
@@ -399,7 +366,7 @@
                                        ${isChecked ? 'checked' : ''}
                                        onchange="toggleAchievement('${player.nombre}', '${level.id}', this.checked)">
                                 <label for="${playerIndex}_${level.id}">
-                                    <span>${level.nombre}</span>
+                                    <span title="${level.descripcion}">${level.nombre}</span>
                                     <span class="achievement-type type-progresivo">Nivel ${level.nivel}</span>
                                 </label>
                             </div>
@@ -460,8 +427,9 @@
                 changes[playerName] = changes[playerName].filter(id => id !== achievementId);
             }
             
-            // Mostrar botón de guardar
-            document.getElementById('saveBtn').style.background = 'linear-gradient(135deg, #ff9800 0%, #f57c00 100%)';
+            // Actualizar botón de guardar
+            const hasChanges = Object.keys(changes).length > 0;
+            document.getElementById('saveBtn').classList.toggle('has-changes', hasChanges);
         }
 
         // Buscar jugadores
@@ -477,6 +445,11 @@
 
         // Guardar cambios
         function saveChanges() {
+            if (Object.keys(changes).length === 0) {
+                alert('No hay cambios para guardar');
+                return;
+            }
+            
             // Aplicar cambios a logrosData
             Object.keys(changes).forEach(playerName => {
                 const player = logrosData.jugadores.find(p => p.nombre === playerName);
@@ -493,7 +466,7 @@
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'logros_actualizado.json';
+            a.download = 'logros.json';
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -501,22 +474,24 @@
             
             // Limpiar cambios
             changes = {};
-            document.getElementById('saveBtn').style.background = '';
+            document.getElementById('saveBtn').classList.remove('has-changes');
             
-            alert('Archivo descargado como logros_actualizado.json\nSube este archivo a tu repositorio para aplicar los cambios.');
+            alert('✅ Archivo descargado como logros.json\n\nSube este archivo a tu repositorio para aplicar los cambios.');
             
             // Recargar stats
             renderStatsSummary();
+            renderPlayers();
         }
 
-        // Exportar datos
+        // Exportar datos (backup)
         function exportData() {
+            const date = new Date().toISOString().split('T')[0];
             const jsonStr = JSON.stringify(logrosData, null, 2);
             const blob = new Blob([jsonStr], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'logros_backup.json';
+            a.download = `logros_backup_${date}.json`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
