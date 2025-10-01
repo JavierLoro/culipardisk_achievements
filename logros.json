@@ -2,12 +2,12 @@
   "configuracion": {
     "valoresPorDefecto": {
       "publico": 10,
-      "especial": 25,
-      "secreto": 15,
+      "especial": 1,
+      "secreto": 50,
       "progresivo_nivel1": 5,
       "progresivo_nivel2": 10,
-      "progresivo_nivel3": 20,
-      "progresivo_nivel4": 30
+      "progresivo_nivel3": 25,
+      "progresivo_nivel4": 50
     }
   },
   "logros": [
