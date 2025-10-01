@@ -208,7 +208,7 @@
                             <div class="player-header">
                                 <div class="player-info">
                                     <h3 class="player-name">${jugador.nombre}</h3>
-                                    <span class="achievement-count">${points} pts</span>
+                                    <h3 class="achievement-count">${points} pts</h3>
                                     ${isLeader ? '<span class="leader-badge">👑</span>' : ''}
                                 </div>
                                 <span class="achievement-count">${jugador.logrosDesbloqueados.length}/${this.data.logros.length}</span>
@@ -328,13 +328,13 @@
                     if (logro.tipo === 'especial') {
                         imgClass = 'achievement-img special-unlocked';
                         tooltipClass = 'special';
-                        tooltipText = `${logro.nombre}\\n${logro.descripcion}`;
+                        tooltipText = `<strong>${logro.nombre}</strong><br>${logro.descripcion}`;
                     } else if (logro.tipo === 'publico') {
                         imgClass = 'achievement-img unlocked';
-                        tooltipText = `${logro.nombre}\\n${logro.descripcion}`;
+                        tooltipText = `<strong>${logro.nombre}</strong><br>${logro.descripcion}`;
                     } else { // secreto
                         imgClass = 'achievement-img unlocked';
-                        tooltipText = logro.descripcion;
+                        tooltipText = `<strong>${logro.descripcion}</strong>`;
                     }
                 } else {
                     imgSrc = logro.imagenBloqueada;
@@ -342,22 +342,19 @@
                     if (logro.tipo === 'especial') {
                         imgClass = 'achievement-img special-locked';
                         tooltipClass = 'special';
-                        tooltipText = `${logro.nombre}\\n${logro.descripcion}`;
+                        tooltipText = `<strong>${logro.nombre}</strong><br>${logro.descripcion}`;
                     } else if (logro.tipo === 'secreto') {
                         imgClass = 'achievement-img secret-locked';
-                        tooltipText = 'Secreto';
+                        tooltipText = '<strong>Secreto</strong>';
                         altText = 'Secreto';
                     } else { // publico
                         imgClass = 'achievement-img locked';
-                        tooltipText = `${logro.nombre}\\n${logro.descripcion}`;
+                        tooltipText = `<strong>${logro.nombre}</strong><br>${logro.descripcion}`;
                     }
                 }
 
-                // Escapar comillas para el atributo
-                const escapedTooltip = tooltipText.replace(/'/g, "\\'").replace(/"/g, '\\"');
-
                 return `
-                    <div class="achievement-cell" onmouseenter="showTooltip(event, '${escapedTooltip}')" onmouseleave="hideTooltip()">
+                    <div class="achievement-cell" onmouseenter="showTooltip(event, \`${tooltipText.replace(/`/g, '\\`')}\`)" onmouseleave="hideTooltip()">
                         <img src="${imgSrc}" alt="${altText}" class="${imgClass}">
                     </div>
                 `;
