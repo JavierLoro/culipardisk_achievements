@@ -244,13 +244,6 @@ h1 {
     font-weight: 600;
 }
 
-/* Wrapper externo que permite que las imágenes sobresalgan */
-.achievements-scroll-wrapper {
-    width: 100%;
-    overflow: visible; /* allow images to grow outside */
-    position: relative;
-}
-
 /* Grid de logros con scroll horizontal */
 .achievements-scroll-container {
     width: 100%;
@@ -288,16 +281,7 @@ h1 {
 .achievement-cell {
     position: relative;
     display: inline-block;
-    transition: transform 0.3s;
-    z-index: 1; /* para que la imagen crezca por encima */
 }
-
-/* Animación al pasar el ratón */
-.achievement-cell:hover {
-    transform: scale(1.3);
-    z-index: 10; /* bring to front */
-}
-
 
 /* Imagen de logro */
 .achievement-img {
