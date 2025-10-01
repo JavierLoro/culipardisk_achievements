@@ -232,7 +232,7 @@ h1 {
 
 .leader-badge {
     font-size: 1.5em;
-    animation: pulse 2s infinite;
+    /*animation: pulse 2s infinite;*/
 }
 
 .achievement-count {
@@ -298,11 +298,11 @@ h1 {
 }
 
 /* Animación al pasar el ratón */
-.achievement-cell:hover {
+/*.achievement-cell:hover {
     transform: scale(1.15);
-    z-index: 10; /* bring to front */
+    z-index: 10; 
 }
-
+*/
 
 /* Imagen de logro */
 .achievement-img {
@@ -319,7 +319,7 @@ h1 {
 .achievement-img:hover {
     transform: scale(1.15);
     filter: brightness(1.1);
-    z-index: 2;
+    z-index: 10;
 }
 
 .achievement-img.locked {
@@ -424,7 +424,7 @@ h1 {
 }
 
 .achievement-img.progressive.unlocked {
-    animation: progressivePulse 3s infinite;
+
     z-index: 1;         /* imagen por debajo del badge */
 }
 
