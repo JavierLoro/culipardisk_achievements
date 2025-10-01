@@ -207,8 +207,8 @@
                         <div class="player-card ${isLeader ? 'leader' : ''}" style="animation-delay: ${animationDelay}s">
                             <div class="player-header">
                                 <div class="player-info">
-                                    <h3 class="player-name">${jugador.nombre}</h3>
-                                    <h3 class="achievement-count">${points} pts</h3>
+                                    <h3 class="player-name">${jugador.nombre} ${points} pts</h3>
+                                    
                                     ${isLeader ? '<span class="leader-badge">👑</span>' : ''}
                                 </div>
                                 <span class="achievement-count">${jugador.logrosDesbloqueados.length}/${this.data.logros.length}</span>
