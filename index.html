@@ -26,73 +26,77 @@
     </div>
 
     <!-- Tooltip flotante -->
-    <div id="floatingTooltip" style="position: fixed; display: none; z-index: 999999; background: rgba(0,0,0,0.95); color: white; padding: 10px 14px; border-radius: 8px; font-size: 13px; max-width: 250px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); pointer-events: none;"></div>
+    <div id="floatingTooltip"
+        style="position: fixed; display: none; z-index: 999999; background: rgba(0,0,0,0.95); color: white; padding: 10px 14px; border-radius: 8px; font-size: 13px; max-width: 250px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); pointer-events: none;">
+    </div>
 
     <script>
         // Funciones para el tooltip flotante
         function showTooltip(event, text) {
             const tooltip = document.getElementById('floatingTooltip');
-            // Convertir \n en saltos de línea HTML y aplicar estilos
+
+            // Split using literal "\n" sequences
             const formattedText = text.split('\\n').map((line, index) => {
                 if (index === 0) {
-                    // Primera línea (título) en negrita y dorado
+                    // First line (title)
                     return `<strong style="color: #ffd700; display: block; margin-bottom: 4px;">${line}</strong>`;
                 } else if (line.includes('Próximo:')) {
-                    // Línea de próximo nivel
+                    // Next level
                     return `<em style="color: #ffd700; font-size: 0.9em; display: block; margin-top: 6px;">${line}</em>`;
                 } else if (line.includes('¡Nivel máximo')) {
-                    // Nivel máximo alcanzado
+                    // Max level
                     return `<em style="color: #4CAF50; font-size: 0.9em; display: block; margin-top: 6px;">${line}</em>`;
                 } else if (line === 'Secreto') {
-                    // Logro secreto
+                    // Secret achievement
                     return `<strong style="color: #ffd700;">${line}</strong>`;
                 } else {
-                    // Descripción normal
-                    return line;
+                    // Normal description with line break
+                    return `<span style="display: block; margin-top: 2px;">${line}</span>`;
                 }
             }).join('');
-            
+
             tooltip.innerHTML = formattedText;
             tooltip.style.display = 'block';
-            
-            // Posicionar el tooltip
+
+            // Update position
             updateTooltipPosition(event);
         }
-        
+
+
         function updateTooltipPosition(event) {
             const tooltip = document.getElementById('floatingTooltip');
             const x = event.clientX;
             const y = event.clientY;
-            
+
             // Posición inicial: arriba y a la derecha del cursor
             let tooltipX = x + 10;
             let tooltipY = y - tooltip.offsetHeight - 10;
-            
+
             // Si se sale por arriba, ponerlo abajo
             if (tooltipY < 10) {
                 tooltipY = y + 20;
             }
-            
+
             // Si se sale por la derecha
             if (tooltipX + tooltip.offsetWidth > window.innerWidth - 10) {
                 tooltipX = x - tooltip.offsetWidth - 10;
             }
-            
+
             // Si se sale por la izquierda
             if (tooltipX < 10) {
                 tooltipX = 10;
             }
-            
+
             tooltip.style.left = tooltipX + 'px';
             tooltip.style.top = tooltipY + 'px';
         }
-        
+
         function hideTooltip() {
             document.getElementById('floatingTooltip').style.display = 'none';
         }
-        
+
         // Mover tooltip con el mouse
-        document.addEventListener('mousemove', function(e) {
+        document.addEventListener('mousemove', function (e) {
             const tooltip = document.getElementById('floatingTooltip');
             if (tooltip.style.display === 'block') {
                 updateTooltipPosition(e);
@@ -163,14 +167,14 @@
                     progresivo_nivel3: 20,
                     progresivo_nivel4: 30
                 };
-                
+
                 jugador.logrosDesbloqueados.forEach(logroId => {
                     // Buscar en logros normales
                     const logro = this.data.logros.find(l => l.id === logroId);
                     if (logro) {
                         totalPoints += logro.valor || config[logro.tipo] || 10;
                     }
-                    
+
                     // Buscar en progresivos
                     if (this.data.logrosProgresivos) {
                         this.data.logrosProgresivos.forEach(grupo => {
@@ -181,7 +185,7 @@
                         });
                     }
                 });
-                
+
                 return totalPoints;
             }
 
@@ -204,9 +208,10 @@
                             <div class="player-header">
                                 <div class="player-info">
                                     <h3 class="player-name">${jugador.nombre}</h3>
+                                    <span class="achievement-count">${points} pts</span>
                                     ${isLeader ? '<span class="leader-badge">👑</span>' : ''}
                                 </div>
-                                <span class="achievement-count">${points} pts</span>
+                                <span class="achievement-count">${jugador.logrosDesbloqueados.length}/${this.data.logros.length}</span>
                             </div>
                             <div class="achievements-scroll-container">
                                 <div class="achievements-grid">
@@ -389,7 +394,7 @@
                 }
 
                 const levelBadge = this.getLevelBadge(logro.nivel, isUnlocked);
-                
+
                 // Escapar comillas para el atributo
                 const escapedTooltip = tooltipText.replace(/'/g, "\\'").replace(/"/g, '\\"');
 
@@ -427,11 +432,11 @@
                 // Calcular estadísticas
                 const totalJugadores = this.data.jugadores.filter(j => j.logrosDesbloqueados.includes('socio')).length;
                 const totalUniqueAchievements = this.getTotalUniqueAchievements();
-                
+
                 // Calcular secretos desbloqueados
                 const logrosSecretos = this.data.logros.filter(l => l.tipo === 'secreto');
                 const secretosDesbloqueados = new Set();
-                
+
                 this.data.jugadores.forEach(jugador => {
                     jugador.logrosDesbloqueados.forEach(logroId => {
                         const logro = this.data.logros.find(l => l.id === logroId);
@@ -485,4 +490,5 @@
         });
     </script>
 </body>
+
 </html>
