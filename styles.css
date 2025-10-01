@@ -247,14 +247,19 @@ h1 {
 /* Wrapper externo que permite que las imágenes sobresalgan */
 .achievements-scroll-wrapper {
     width: 100%;
-    overflow: visible; /* allow images to grow outside */
     position: relative;
+    overflow: visible; /* allows images to escape */
+}
+
+.achievements-scroll-outer {
+    position: relative;
+    overflow: visible; /* important */
 }
 
 /* Grid de logros con scroll horizontal */
 .achievements-scroll-container {
     width: 100%;
-    overflow-x: auto;
+    overflow-x: auto; /* scroll only here */
     overflow-y: hidden;
     padding-bottom: 10px;
 }

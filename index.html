@@ -192,13 +192,14 @@
                                 <span class="achievement-count">${jugador.logrosDesbloqueados.length}/${this.data.logros.length}</span>
                             </div>
                             <div class="achievements-scroll-wrapper">
-                                <div class="achievements-scroll-container">
-                                    <div class="achievements-grid">
-                                        ${this.renderPlayerAchievements(jugador)}
+                                <div class="achievements-scroll-outer">
+                                    <div class="achievements-scroll-container">
+                                        <div class="achievements-grid">
+                                            ${this.renderPlayerAchievements(jugador)}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     `;
                 });
