@@ -379,12 +379,7 @@ h1 {
     visibility: visible;
 }
 
-/* Logros Especiales - Efecto Plateado */
-.achievement-img.special-unlocked {
-    box-shadow: 0 0 15px var(--color-special-shadow), 
-                0 3px 10px rgba(0, 0, 0, 0.3);
-    border: 2px solid var(--color-special);
-}
+/* Logros Especiales*/
 
 .achievement-img.special-locked {
     filter: grayscale(100%) brightness(0.8);
