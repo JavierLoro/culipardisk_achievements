@@ -32,26 +32,59 @@
         // Funciones para el tooltip flotante
         function showTooltip(event, text) {
             const tooltip = document.getElementById('floatingTooltip');
-            tooltip.innerHTML = text;
+            // Convertir \n en saltos de línea HTML y aplicar estilos
+            const formattedText = text.split('\\n').map((line, index) => {
+                if (index === 0) {
+                    // Primera línea (título) en negrita y dorado
+                    return `<strong style="color: #ffd700; display: block; margin-bottom: 4px;">${line}</strong>`;
+                } else if (line.includes('Próximo:')) {
+                    // Línea de próximo nivel
+                    return `<em style="color: #ffd700; font-size: 0.9em; display: block; margin-top: 6px;">${line}</em>`;
+                } else if (line.includes('¡Nivel máximo')) {
+                    // Nivel máximo alcanzado
+                    return `<em style="color: #4CAF50; font-size: 0.9em; display: block; margin-top: 6px;">${line}</em>`;
+                } else if (line === 'Secreto') {
+                    // Logro secreto
+                    return `<strong style="color: #ffd700;">${line}</strong>`;
+                } else {
+                    // Descripción normal
+                    return line;
+                }
+            }).join('');
+            
+            tooltip.innerHTML = formattedText;
             tooltip.style.display = 'block';
             
             // Posicionar el tooltip
-            const x = event.pageX;
-            const y = event.pageY;
+            updateTooltipPosition(event);
+        }
+        
+        function updateTooltipPosition(event) {
+            const tooltip = document.getElementById('floatingTooltip');
+            const x = event.clientX;
+            const y = event.clientY;
             
-            // Ajustar posición para que no se salga de la pantalla
-            tooltip.style.left = x + 10 + 'px';
-            tooltip.style.top = (y - tooltip.offsetHeight - 10) + 'px';
+            // Posición inicial: arriba y a la derecha del cursor
+            let tooltipX = x + 10;
+            let tooltipY = y - tooltip.offsetHeight - 10;
             
             // Si se sale por arriba, ponerlo abajo
-            if (y - tooltip.offsetHeight - 10 < window.scrollY) {
-                tooltip.style.top = (y + 20) + 'px';
+            if (tooltipY < 10) {
+                tooltipY = y + 20;
             }
             
             // Si se sale por la derecha
-            if (x + tooltip.offsetWidth + 10 > window.innerWidth) {
-                tooltip.style.left = (x - tooltip.offsetWidth - 10) + 'px';
+            if (tooltipX + tooltip.offsetWidth > window.innerWidth - 10) {
+                tooltipX = x - tooltip.offsetWidth - 10;
             }
+            
+            // Si se sale por la izquierda
+            if (tooltipX < 10) {
+                tooltipX = 10;
+            }
+            
+            tooltip.style.left = tooltipX + 'px';
+            tooltip.style.top = tooltipY + 'px';
         }
         
         function hideTooltip() {
@@ -62,8 +95,7 @@
         document.addEventListener('mousemove', function(e) {
             const tooltip = document.getElementById('floatingTooltip');
             if (tooltip.style.display === 'block') {
-                tooltip.style.left = (e.pageX + 10) + 'px';
-                tooltip.style.top = (e.pageY - tooltip.offsetHeight - 10) + 'px';
+                updateTooltipPosition(e);
             }
         });
         class AchievementSystem {
@@ -291,13 +323,13 @@
                     if (logro.tipo === 'especial') {
                         imgClass = 'achievement-img special-unlocked';
                         tooltipClass = 'special';
-                        tooltipText = `<strong>${logro.nombre}</strong><br>${logro.descripcion}`;
+                        tooltipText = `${logro.nombre}\\n${logro.descripcion}`;
                     } else if (logro.tipo === 'publico') {
                         imgClass = 'achievement-img unlocked';
-                        tooltipText = `<strong>${logro.nombre}</strong><br>${logro.descripcion}`;
+                        tooltipText = `${logro.nombre}\\n${logro.descripcion}`;
                     } else { // secreto
                         imgClass = 'achievement-img unlocked';
-                        tooltipText = `<strong>${logro.descripcion}</strong>`;
+                        tooltipText = logro.descripcion;
                     }
                 } else {
                     imgSrc = logro.imagenBloqueada;
@@ -305,19 +337,22 @@
                     if (logro.tipo === 'especial') {
                         imgClass = 'achievement-img special-locked';
                         tooltipClass = 'special';
-                        tooltipText = `<strong>${logro.nombre}</strong><br>${logro.descripcion}`;
+                        tooltipText = `${logro.nombre}\\n${logro.descripcion}`;
                     } else if (logro.tipo === 'secreto') {
                         imgClass = 'achievement-img secret-locked';
-                        tooltipText = '<strong>Secreto</strong>';
+                        tooltipText = 'Secreto';
                         altText = 'Secreto';
                     } else { // publico
                         imgClass = 'achievement-img locked';
-                        tooltipText = `<strong>${logro.nombre}</strong><br>${logro.descripcion}`;
+                        tooltipText = `${logro.nombre}\\n${logro.descripcion}`;
                     }
                 }
 
+                // Escapar comillas para el atributo
+                const escapedTooltip = tooltipText.replace(/'/g, "\\'").replace(/"/g, '\\"');
+
                 return `
-                    <div class="achievement-cell" onmouseenter="showTooltip(event, \`${tooltipText.replace(/`/g, '\\`')}\`)" onmouseleave="hideTooltip()">
+                    <div class="achievement-cell" onmouseenter="showTooltip(event, '${escapedTooltip}')" onmouseleave="hideTooltip()">
                         <img src="${imgSrc}" alt="${altText}" class="${imgClass}">
                     </div>
                 `;
@@ -339,24 +374,27 @@
                         tooltipClass = 'progressive';
                     }
 
-                    tooltipText = `<strong>${logro.nombre} ${levelIndicator}</strong><br>${logro.descripcion}`;
+                    tooltipText = `${logro.nombre} ${levelIndicator}\\n${logro.descripcion}`;
 
                     if (nextLevel) {
-                        tooltipText += `<br><em style="color: #ffd700; font-size: 0.9em;">Próximo: ${nextLevel.descripcion}</em>`;
+                        tooltipText += `\\nPróximo: ${nextLevel.descripcion}`;
                     } else {
-                        tooltipText += `<br><em style="color: #4CAF50; font-size: 0.9em;">¡Nivel máximo alcanzado!</em>`;
+                        tooltipText += `\\n¡Nivel máximo alcanzado!`;
                     }
                 } else {
                     imgSrc = logro.imagenBloqueada;
                     imgClass = 'achievement-img locked progressive';
                     tooltipClass = 'progressive';
-                    tooltipText = `<strong>${logro.nombre}</strong><br>${logro.descripcion}`;
+                    tooltipText = `${logro.nombre}\\n${logro.descripcion}`;
                 }
 
                 const levelBadge = this.getLevelBadge(logro.nivel, isUnlocked);
+                
+                // Escapar comillas para el atributo
+                const escapedTooltip = tooltipText.replace(/'/g, "\\'").replace(/"/g, '\\"');
 
                 return `
-                    <div class="achievement-cell progressive-cell" onmouseenter="showTooltip(event, \`${tooltipText.replace(/`/g, '\\`')}\`)" onmouseleave="hideTooltip()">
+                    <div class="achievement-cell progressive-cell" onmouseenter="showTooltip(event, '${escapedTooltip}')" onmouseleave="hideTooltip()">
                         <div class="achievement-wrapper">
                             <img src="${imgSrc}" alt="${logro.nombre}" class="${imgClass}">
                             ${levelBadge}
