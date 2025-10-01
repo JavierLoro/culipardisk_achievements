@@ -343,7 +343,6 @@
 
                 if (isUnlocked) {
                     imgSrc = logro.imagenDesbloqueada;
-
                     const levelIndicator = this.getLevelIndicator(logro.nivel);
 
                     if (logro.tipo === 'especial') {
@@ -354,34 +353,34 @@
                         tooltipClass = 'progressive';
                     }
 
-                    tooltipText = `${logro.nombre} ${levelIndicator}\\n${logro.descripcion}`;
+                    tooltipText = `<strong>${logro.nombre} ${levelIndicator}</strong><br>${logro.descripcion}`;
 
                     if (nextLevel) {
-                        tooltipText += `\\nPróximo: ${nextLevel.descripcion}`;
+                        tooltipText += `<br><em style="color:#ffd700;">Próximo: ${nextLevel.descripcion}</em>`;
                     } else {
-                        tooltipText += `\\n¡Nivel máximo alcanzado!`;
+                        tooltipText += `<br><em style="color:#4CAF50;">¡Nivel máximo alcanzado!</em>`;
                     }
                 } else {
                     imgSrc = logro.imagenBloqueada;
                     imgClass = 'achievement-img locked progressive';
                     tooltipClass = 'progressive';
-                    tooltipText = `${logro.nombre}\\n${logro.descripcion}`;
+                    tooltipText = `<strong>${logro.nombre}</strong><br>${logro.descripcion}`;
                 }
 
                 const levelBadge = this.getLevelBadge(logro.nivel, isUnlocked);
 
-                // Escapar comillas para el atributo
-                const escapedTooltip = tooltipText.replace(/'/g, "\\'").replace(/"/g, '\\"');
-
                 return `
-                    <div class="achievement-cell progressive-cell" onmouseenter="showTooltip(event, '${escapedTooltip}')" onmouseleave="hideTooltip()">
-                        <div class="achievement-wrapper">
-                            <img src="${imgSrc}" alt="${logro.nombre}" class="${imgClass}">
-                            ${levelBadge}
-                        </div>
-                    </div>
-                `;
+        <div class="achievement-cell progressive-cell" 
+             onmouseenter="showTooltip(event, \`${tooltipText.replace(/`/g, '\\`')}\`)" 
+             onmouseleave="hideTooltip()">
+            <div class="achievement-wrapper">
+                <img src="${imgSrc}" alt="${logro.nombre}" class="${imgClass}">
+                ${levelBadge}
+            </div>
+        </div>
+    `;
             }
+
 
             getLevelIndicator(level) {
                 const indicators = ['', '🥉', '🥈', '🥇', '💎'];
