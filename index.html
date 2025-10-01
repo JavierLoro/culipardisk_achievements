@@ -370,15 +370,15 @@
                 const levelBadge = this.getLevelBadge(logro.nivel, isUnlocked);
 
                 return `
-        <div class="achievement-cell progressive-cell" 
-             onmouseenter="showTooltip(event, \`${tooltipText.replace(/`/g, '\\`')}\`)" 
-             onmouseleave="hideTooltip()">
-            <div class="achievement-wrapper">
-                <img src="${imgSrc}" alt="${logro.nombre}" class="${imgClass}">
-                ${levelBadge}
-            </div>
-        </div>
-    `;
+                        <div class="achievement-cell progressive-cell"
+                            onmouseenter='showTooltip(event, ${JSON.stringify(tooltipText)})'
+                            onmouseleave="hideTooltip()">
+                            <div class="achievement-wrapper">
+                                <img src="${imgSrc}" alt="${logro.nombre}" class="${imgClass}">
+                                ${levelBadge}
+                            </div>
+                        </div>
+                        `;
             }
 
 
