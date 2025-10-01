@@ -15,7 +15,6 @@
       "id": "socio",
       "nombre": "Socio 25/26",
       "tipo": "publico",
-      "valor": 20,
       "imagenBloqueada": "images/logros/socio-locked.png",
       "imagenDesbloqueada": "images/logros/socio-unlocked.png",
       "descripcion": "Rellena la ficha de socio y completa el pago"
@@ -24,7 +23,6 @@
       "id": "spirit",
       "nombre": "Graduado Spirit",
       "tipo": "publico",
-      "valor": 15,
       "imagenBloqueada": "images/logros/spirit-locked.png",
       "imagenDesbloqueada": "images/logros/spirit-unlocked.png",
       "descripcion": "Completa la certificación básica de spirit"
@@ -33,7 +31,6 @@
       "id": "promotor",
       "nombre": "Promotor",
       "tipo": "publico",
-      "valor": 15,
       "imagenBloqueada": "images/logros/promotor-locked.png",
       "imagenDesbloqueada": "images/logros/promotor-unlocked.png",
       "descripcion": "Participa en 3 eventos de promoción del club"
@@ -42,7 +39,6 @@
       "id": "puntual",
       "nombre": "Puntual",
       "tipo": "publico",
-      "valor": 12,
       "imagenBloqueada": "images/logros/puntual-locked.png",
       "imagenDesbloqueada": "images/logros/puntual-unlocked.png",
       "descripcion": "Llega a tiempo a 20 entrenamientos"
@@ -51,7 +47,6 @@
       "id": "llueva_truene",
       "nombre": "Llueva o Truene",
       "tipo": "publico",
-      "valor": 15,
       "imagenBloqueada": "images/logros/lluvia-locked.png",
       "imagenDesbloqueada": "images/logros/lluvia-unlocked.png",
       "descripcion": "Asiste a entrenamientos en condiciones climáticas adversas"
@@ -76,7 +71,6 @@
       "id": "influencer",
       "nombre": "Content Creator",
       "tipo": "publico",
-      "valor": 12,
       "imagenBloqueada": "images/logros/influencer-locked.png",
       "imagenDesbloqueada": "images/logros/influencer-unlocked.png",
       "descripcion": "Crea contenido para las redes del club"
@@ -94,7 +88,6 @@
       "id": "veterano",
       "nombre": "Veterano",
       "tipo": "especial",
-      "valor": 50,
       "imagenBloqueada": "images/logros/veterano-locked.png",
       "imagenDesbloqueada": "images/logros/veterano-unlocked.png",
       "descripcion": "3 años como socio"
@@ -112,7 +105,6 @@
       "id": "fundador",
       "nombre": "Fundador",
       "tipo": "especial",
-      "valor": 60,
       "imagenBloqueada": "images/logros/fundador-locked.png",
       "imagenDesbloqueada": "images/logros/fundador-unlocked.png",
       "descripcion": "Miembro fundador o antigüedad de 6+ años"
@@ -121,7 +113,6 @@
       "id": "advanced",
       "nombre": "???",
       "tipo": "secreto",
-      "valor": 30,
       "imagenBloqueada": "images/logros/secret-locked.png",
       "imagenDesbloqueada": "images/logros/advanced-unlocked.png",
       "descripcion": "Completa la certificación avanzada de spirit"
@@ -130,7 +121,6 @@
       "id": "primer_comentario",
       "nombre": "???",
       "tipo": "secreto",
-      "valor": 18,
       "imagenBloqueada": "images/logros/secret-locked.png",
       "imagenDesbloqueada": "images/logros/primero-unlocked.png",
       "descripcion": "Primer jugador en llegar al campo 5 veces"
@@ -139,7 +129,6 @@
       "id": "perfeccion_mensual",
       "nombre": "???",
       "tipo": "secreto",
-      "valor": 25,
       "imagenBloqueada": "images/logros/secret-locked.png",
       "imagenDesbloqueada": "images/logros/perfecto-unlocked.png",
       "descripcion": "100% asistencia en un mes calendario"
@@ -155,7 +144,6 @@
           "id": "asistencia5",
           "nombre": "Asistente Bronce",
           "tipo": "publico",
-          "valor": 5,
           "imagenBloqueada": "images/logros/asistente-locked.png",
           "imagenDesbloqueada": "images/logros/asistente-unlocked.png",
           "descripcion": "5 entrenamientos"
@@ -165,7 +153,6 @@
           "id": "asistencia10",
           "nombre": "Asistente Plata",
           "tipo": "publico",
-          "valor": 10,
           "imagenBloqueada": "images/logros/asistencia-locked.png",
           "imagenDesbloqueada": "images/logros/asistente-unlocked.png",
           "descripcion": "10 entrenamientos"
@@ -175,7 +162,6 @@
           "id": "asistencia20",
           "nombre": "Asistente Oro",
           "tipo": "publico",
-          "valor": 25,
           "imagenBloqueada": "images/logros/asistencia-locked.png",
           "imagenDesbloqueada": "images/logros/asistente-unlocked.png",
           "descripcion": "20 entrenamientos"
@@ -185,7 +171,6 @@
           "id": "asistencia50",
           "nombre": "Asistente Diamante",
           "tipo": "especial",
-          "valor": 40,
           "imagenBloqueada": "images/logros/asistencia-locked.png",
           "imagenDesbloqueada": "images/logros/asistente-unlocked.png",
           "descripcion": "50 entrenamientos"
@@ -201,7 +186,6 @@
           "id": "reclutador1",
           "nombre": "Reclutador Bronce",
           "tipo": "publico",
-          "valor": 8,
           "imagenBloqueada": "images/logros/reclutador-locked.png",
           "imagenDesbloqueada": "images/logros/reclutador-unlocked.png",
           "descripcion": "Invita a 1 jugador a probar el deporte"
@@ -211,7 +195,6 @@
           "id": "reclutador3",
           "nombre": "Reclutador Plata",
           "tipo": "publico",
-          "valor": 15,
           "imagenBloqueada": "images/logros/reclutador-locked.png",
           "imagenDesbloqueada": "images/logros/reclutador-unlocked.png",
           "descripcion": "Invita a 3 jugadores a probar el deporte"
@@ -221,7 +204,6 @@
           "id": "reclutador5",
           "nombre": "Reclutador Oro",
           "tipo": "publico",
-          "valor": 25,
           "imagenBloqueada": "images/logros/reclutador-locked.png",
           "imagenDesbloqueada": "images/logros/reclutador-unlocked.png",
           "descripcion": "Invita a 5 jugadores a probar el deporte"
@@ -231,7 +213,6 @@
           "id": "reclutador10",
           "nombre": "Reclutador Diamante",
           "tipo": "especial",
-          "valor": 35,
           "imagenBloqueada": "images/logros/reclutador-locked.png",
           "imagenDesbloqueada": "images/logros/reclutador-unlocked.png",
           "descripcion": "Invita a 10 jugadores a probar el deporte"
@@ -247,7 +228,6 @@
           "id": "reportero3",
           "nombre": "Reportero Bronce",
           "tipo": "publico",
-          "valor": 6,
           "imagenBloqueada": "images/logros/reportero-locked.png",
           "imagenDesbloqueada": "images/logros/reportero-unlocked.png",
           "descripcion": "Documenta 3 entrenamientos con fotos o videos"
@@ -257,7 +237,6 @@
           "id": "reportero10",
           "nombre": "Reportero Plata",
           "tipo": "publico",
-          "valor": 12,
           "imagenBloqueada": "images/logros/reportero-locked.png",
           "imagenDesbloqueada": "images/logros/reportero-unlocked.png",
           "descripcion": "Documenta 10 entrenamientos con fotos o videos"
@@ -267,7 +246,6 @@
           "id": "reportero25",
           "nombre": "Reportero Oro",
           "tipo": "publico",
-          "valor": 22,
           "imagenBloqueada": "images/logros/reportero-locked.png",
           "imagenDesbloqueada": "images/logros/reportero-unlocked.png",
           "descripcion": "Documenta 25 entrenamientos con fotos o videos"
@@ -277,7 +255,6 @@
           "id": "reportero50",
           "nombre": "Reportero Diamante",
           "tipo": "especial",
-          "valor": 32,
           "imagenBloqueada": "images/logros/reportero-locked.png",
           "imagenDesbloqueada": "images/logros/reportero-unlocked.png",
           "descripcion": "Documenta 50 entrenamientos con fotos o videos"
