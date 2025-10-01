@@ -31,36 +31,14 @@
     </div>
 
     <script>
-        // Funciones para el tooltip flotante
         function showTooltip(event, text) {
             const tooltip = document.getElementById('floatingTooltip');
-
-            // Split using literal "\n" sequences
-            const formattedText = text.split('\\n').map((line, index) => {
-                if (index === 0) {
-                    // First line (title)
-                    return `<strong style="color: #ffd700; display: block; margin-bottom: 4px;">${line}</strong>`;
-                } else if (line.includes('Próximo:')) {
-                    // Next level
-                    return `<em style="color: #ffd700; font-size: 0.9em; display: block; margin-top: 6px;">${line}</em>`;
-                } else if (line.includes('¡Nivel máximo')) {
-                    // Max level
-                    return `<em style="color: #4CAF50; font-size: 0.9em; display: block; margin-top: 6px;">${line}</em>`;
-                } else if (line === 'Secreto') {
-                    // Secret achievement
-                    return `<strong style="color: #ffd700;">${line}</strong>`;
-                } else {
-                    // Normal description with line break
-                    return `<span style="display: block; margin-top: 2px;">${line}</span>`;
-                }
-            }).join('');
-
-            tooltip.innerHTML = formattedText;
+            tooltip.innerHTML = text; // ahora el texto ya es HTML válido
             tooltip.style.display = 'block';
-
-            // Update position
             updateTooltipPosition(event);
         }
+
+        // Funciones para el tooltip flotante
 
 
         function updateTooltipPosition(event) {
@@ -207,7 +185,7 @@
                         <div class="player-card ${isLeader ? 'leader' : ''}" style="animation-delay: ${animationDelay}s">
                             <div class="player-header">
                                 <div class="player-info">
-                                    <h3 class="player-name">${jugador.nombre} ${points} pts</h3>
+                                    <h3 class="player-name">${jugador.nombre} - ${points} pts</h3>
                                     
                                     ${isLeader ? '<span class="leader-badge">👑</span>' : ''}
                                 </div>
