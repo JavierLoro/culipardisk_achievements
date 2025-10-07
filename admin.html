@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administración - Sistema de Logros</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="scripts/config.js"></script>
     <style>
         /* Estilos adicionales para el admin */
         .admin-header {
@@ -157,6 +158,49 @@
             gap: 15px;
             margin-bottom: 30px;
         }
+
+        .auth-banner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f0f4ff;
+            border: 1px solid #cdd9ff;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+        }
+
+        .auth-banner.warning {
+            background: #fff4f4;
+            border-color: #ffcdd2;
+        }
+
+        .auth-message {
+            font-size: 0.95rem;
+            color: #333;
+        }
+
+        .auth-btn {
+            padding: 10px 18px;
+            border-radius: 20px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .auth-btn.secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .save-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
         
         .stat-box {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -207,6 +251,10 @@
 <body>
     <div class="container">
         <div id="adminPanel">
+            <div id="authBanner" class="auth-banner warning" style="display: none;">
+                <span id="authMessage" class="auth-message">Para editar los logros inicia sesión con Google.</span>
+                <button id="authButton" class="auth-btn">Iniciar sesión</button>
+            </div>
             <div class="admin-header">
                 <h1>📊 Panel de Administración de Logros</h1>
                 <div>
@@ -225,278 +273,13 @@
             </div>
         </div>
 
-        <button id="saveBtn" class="save-btn" onclick="saveChanges()">
+        <button id="saveBtn" class="save-btn" onclick="saveChanges()" disabled>
             💾 Guardar Cambios
         </button>
     </div>
 
-    <script>
-        // Datos y configuración
-        let logrosData = null;
-        let changes = {};
-
-        // Cargar datos al iniciar
-        window.addEventListener('DOMContentLoaded', () => {
-            loadAdminPanel();
-        });
-
-        // Cargar datos
-        async function loadAdminPanel() {
-            try {
-                // Cargar desde archivo externo
-                const response = await fetch('logros.json');
-                logrosData = await response.json();
-                
-                renderStatsSummary();
-                renderPlayers();
-                
-                // Quitar mensaje de carga
-                document.getElementById('playersList').classList.remove('loading');
-            } catch (error) {
-                console.error('Error cargando datos:', error);
-                document.getElementById('playersList').innerHTML = `
-                    <div class="error">
-                        Error al cargar los datos. Verifica el archivo logros.json<br>
-                        <small>${error.message}</small>
-                    </div>
-                `;
-            }
-        }
-
-        // Renderizar estadísticas
-        function renderStatsSummary() {
-            const totalPlayers = logrosData.jugadores.length;
-            const totalAchievements = logrosData.logros.length + 
-                (logrosData.logrosProgresivos ? 
-                    logrosData.logrosProgresivos.reduce((sum, group) => sum + group.niveles.length, 0) : 0);
-            
-            let totalUnlocked = 0;
-            let playersWithAchievements = 0;
-            
-            logrosData.jugadores.forEach(player => {
-                if (player.logrosDesbloqueados.length > 0) {
-                    playersWithAchievements++;
-                    totalUnlocked += player.logrosDesbloqueados.length;
-                }
-            });
-            
-            document.getElementById('statsSummary').innerHTML = `
-                <div class="stat-box">
-                    <div class="stat-value">${totalPlayers}</div>
-                    <div class="stat-label">Jugadores Totales</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-value">${playersWithAchievements}</div>
-                    <div class="stat-label">Jugadores con Logros</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-value">${totalAchievements}</div>
-                    <div class="stat-label">Logros Disponibles</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-value">${totalUnlocked}</div>
-                    <div class="stat-label">Logros Desbloqueados</div>
-                </div>
-            `;
-        }
-
-        // Renderizar jugadores
-        function renderPlayers() {
-            const container = document.getElementById('playersList');
-            let html = '';
-            
-            // Ordenar jugadores alfabéticamente
-            const sortedPlayers = [...logrosData.jugadores].sort((a, b) => 
-                a.nombre.localeCompare(b.nombre)
-            );
-            
-            sortedPlayers.forEach((player, index) => {
-                const points = calculatePlayerPoints(player);
-                html += `
-                    <div class="player-admin-card" data-player="${player.nombre.toLowerCase()}">
-                        <div class="player-admin-header">
-                            <span class="player-admin-name">${player.nombre}</span>
-                            <span class="player-points">${points} puntos</span>
-                        </div>
-                        <div class="achievements-checkboxes">
-                            ${renderAchievementCheckboxes(player, index)}
-                        </div>
-                    </div>
-                `;
-            });
-            
-            container.innerHTML = html;
-        }
-
-        // Renderizar checkboxes de logros
-        function renderAchievementCheckboxes(player, playerIndex) {
-            let html = '';
-            
-            // Logros normales
-            logrosData.logros.forEach(achievement => {
-                const isChecked = player.logrosDesbloqueados.includes(achievement.id);
-                const typeClass = `type-${achievement.tipo}`;
-                const displayName = achievement.tipo === 'secreto' && achievement.nombre === '???' ? 
-                    `Secreto: ${achievement.descripcion}` : achievement.nombre;
-                
-                html += `
-                    <div class="achievement-checkbox">
-                        <input type="checkbox" 
-                               id="${playerIndex}_${achievement.id}" 
-                               ${isChecked ? 'checked' : ''}
-                               onchange="toggleAchievement('${player.nombre}', '${achievement.id}', this.checked)">
-                        <label for="${playerIndex}_${achievement.id}">
-                            <span title="${achievement.descripcion}">${displayName}</span>
-                            <span class="achievement-type ${typeClass}">${achievement.tipo}</span>
-                        </label>
-                    </div>
-                `;
-            });
-            
-            // Logros progresivos
-            if (logrosData.logrosProgresivos) {
-                logrosData.logrosProgresivos.forEach(group => {
-                    group.niveles.forEach(level => {
-                        const isChecked = player.logrosDesbloqueados.includes(level.id);
-                        
-                        html += `
-                            <div class="achievement-checkbox">
-                                <input type="checkbox" 
-                                       id="${playerIndex}_${level.id}" 
-                                       ${isChecked ? 'checked' : ''}
-                                       onchange="toggleAchievement('${player.nombre}', '${level.id}', this.checked)">
-                                <label for="${playerIndex}_${level.id}">
-                                    <span title="${level.descripcion}">${level.nombre}</span>
-                                    <span class="achievement-type type-progresivo">Nivel ${level.nivel}</span>
-                                </label>
-                            </div>
-                        `;
-                    });
-                });
-            }
-            
-            return html;
-        }
-
-        // Calcular puntos del jugador
-        function calculatePlayerPoints(player) {
-            let points = 0;
-            const config = logrosData.configuracion?.valoresPorDefecto || {
-                publico: 10,
-                especial: 25,
-                secreto: 15,
-                progresivo_nivel1: 5,
-                progresivo_nivel2: 10,
-                progresivo_nivel3: 20,
-                progresivo_nivel4: 30
-            };
-            
-            player.logrosDesbloqueados.forEach(achievementId => {
-                // Buscar en logros normales
-                const achievement = logrosData.logros.find(a => a.id === achievementId);
-                if (achievement) {
-                    points += achievement.valor || config[achievement.tipo] || 10;
-                }
-                
-                // Buscar en progresivos
-                if (logrosData.logrosProgresivos) {
-                    logrosData.logrosProgresivos.forEach(group => {
-                        const level = group.niveles.find(l => l.id === achievementId);
-                        if (level) {
-                            points += level.valor || config[`progresivo_nivel${level.nivel}`] || 5;
-                        }
-                    });
-                }
-            });
-            
-            return points;
-        }
-
-        // Toggle achievement
-        function toggleAchievement(playerName, achievementId, isChecked) {
-            if (!changes[playerName]) {
-                const player = logrosData.jugadores.find(p => p.nombre === playerName);
-                changes[playerName] = [...player.logrosDesbloqueados];
-            }
-            
-            if (isChecked) {
-                if (!changes[playerName].includes(achievementId)) {
-                    changes[playerName].push(achievementId);
-                }
-            } else {
-                changes[playerName] = changes[playerName].filter(id => id !== achievementId);
-            }
-            
-            // Actualizar botón de guardar
-            const hasChanges = Object.keys(changes).length > 0;
-            document.getElementById('saveBtn').classList.toggle('has-changes', hasChanges);
-        }
-
-        // Buscar jugadores
-        document.getElementById('searchPlayer').addEventListener('input', (e) => {
-            const search = e.target.value.toLowerCase();
-            const cards = document.querySelectorAll('.player-admin-card');
-            
-            cards.forEach(card => {
-                const playerName = card.dataset.player;
-                card.style.display = playerName.includes(search) ? 'block' : 'none';
-            });
-        });
-
-        // Guardar cambios
-        function saveChanges() {
-            if (Object.keys(changes).length === 0) {
-                alert('No hay cambios para guardar');
-                return;
-            }
-            
-            // Aplicar cambios a logrosData
-            Object.keys(changes).forEach(playerName => {
-                const player = logrosData.jugadores.find(p => p.nombre === playerName);
-                if (player) {
-                    player.logrosDesbloqueados = changes[playerName];
-                }
-            });
-            
-            // Generar JSON actualizado
-            const jsonStr = JSON.stringify(logrosData, null, 2);
-            
-            // Descargar archivo
-            const blob = new Blob([jsonStr], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'logros.json';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            
-            // Limpiar cambios
-            changes = {};
-            document.getElementById('saveBtn').classList.remove('has-changes');
-            
-            alert('✅ Archivo descargado como logros.json\n\nSube este archivo a tu repositorio para aplicar los cambios.');
-            
-            // Recargar stats
-            renderStatsSummary();
-            renderPlayers();
-        }
-
-        // Exportar datos (backup)
-        function exportData() {
-            const date = new Date().toISOString().split('T')[0];
-            const jsonStr = JSON.stringify(logrosData, null, 2);
-            const blob = new Blob([jsonStr], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `logros_backup_${date}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
-    </script>
+    <script type="module" src="scripts/firebase-auth.js"></script>
+    <script type="module" src="scripts/data-service.js"></script>
+    <script type="module" src="scripts/admin.js"></script>
 </body>
 </html>
