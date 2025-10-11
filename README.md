@@ -176,14 +176,22 @@ Guarda el archivo sin exponer claves en el repositorio público.
 
 ### 2.3 Publicar el Apps Script como aplicación web
 
-1. Haz clic en **Deploy → Test deployments** para probar y asegurarte de que la
-   respuesta devuelva el JSON esperado.
-2. Luego selecciona **Deploy → New deployment → Web app**.
-   - **Execute as:** Tu usuario (para que la app use tus permisos).
-   - **Who has access:** Anyone (de esta forma el token de Firebase controla el
-     acceso real).
-3. Copia la URL del despliegue; termina en `/exec`. Este será el valor de
-   `scriptUrl`.
+1. Haz clic en el botón **Deploy** (en la esquina superior derecha) y elige
+   **Test deployments**. En el panel lateral pulsa **Select type → Web app** y
+   verifica que el campo **Sheet ID** esté lleno; luego haz clic en **Test**.
+   Se abrirá una ventana con la URL temporal (termina en `/dev`). Ábrela para
+   confirmar que devuelve el JSON almacenado en `A1`.
+2. Cuando la prueba funcione, vuelve a **Deploy → New deployment**. Selecciona
+   **Web app** como tipo, escribe una descripción y pulsa **Deploy**.
+   - La primera vez Google te pedirá autorizar el script; sigue los pasos y
+     acepta los permisos solicitados.
+   - Configura **Execute as:** Tu usuario (para que use tus privilegios sobre
+     la hoja).
+   - Configura **Who has access:** *Anyone* (así cualquier visitante puede
+     llamar al endpoint, pero el token de Firebase restringe las acciones de
+     escritura).
+3. Después del despliegue, copia la URL principal que termina en `/exec`; ese
+   será el valor de `scriptUrl`.
 4. Obtén el ID de la hoja desde la URL de Google Sheets (la cadena entre `/d/`
    y `/edit`).
 
