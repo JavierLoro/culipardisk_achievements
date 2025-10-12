@@ -40,7 +40,8 @@ function updateSaveButtonState() {
 
   const hasChanges = Object.keys(changes).length > 0;
   elements.saveBtn.classList.toggle('has-changes', hasChanges);
-  elements.saveBtn.disabled = !hasChanges || isSaving || !authUser;
+  const requiresLogin = isAuthConfigured();
+  elements.saveBtn.disabled = !hasChanges || isSaving || (requiresLogin && !authUser);
 }
 
 function updateAuthBanner() {
@@ -49,8 +50,12 @@ function updateAuthBanner() {
   if (!isAuthConfigured()) {
     elements.authBanner.style.display = 'block';
     elements.authBanner.classList.remove('warning');
-    elements.authMessage.textContent = 'Modo lectura: edita el archivo logros.json para actualizar los datos.';
-    elements.authButton.textContent = 'Integración no configurada';
+    if (dataService.isSheetConfigured()) {
+      elements.authMessage.textContent = 'Guardado habilitado mediante adminKey definida en scripts/config.js.';
+    } else {
+      elements.authMessage.textContent = 'Modo lectura: edita el archivo logros.json para actualizar los datos.';
+    }
+    elements.authButton.textContent = 'Autenticación desactivada';
     elements.authButton.classList.add('secondary');
     elements.authButton.disabled = true;
     return;
@@ -256,7 +261,7 @@ function calculatePlayerPoints(player) {
 function toggleAchievement(playerName, achievementId, checkboxElement) {
   const isChecked = checkboxElement.checked;
 
-  if (!authUser) {
+  if (isAuthConfigured() && !authUser) {
     checkboxElement.checked = !isChecked;
     alert('Debes iniciar sesión para editar logros.');
     return;
@@ -279,7 +284,7 @@ function toggleAchievement(playerName, achievementId, checkboxElement) {
 }
 
 async function saveChanges() {
-  if (!authUser) {
+  if (isAuthConfigured() && !authUser) {
     alert('Debes iniciar sesión para guardar cambios.');
     return;
   }

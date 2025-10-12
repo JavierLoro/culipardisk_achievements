@@ -1,5 +1,3 @@
-import { getAuthToken, isAuthConfigured } from './firebase-auth.js';
-
 class DataService {
   constructor(config) {
     this.config = config;
@@ -33,20 +31,9 @@ class DataService {
     url.searchParams.set('action', 'read');
     url.searchParams.set('sheetId', this.sheetConfig.sheetId);
 
-    const headers = new Headers();
-    if (isAuthConfigured()) {
-      const token = await getAuthToken();
-      if (token) {
-        headers.append('Authorization', `Bearer ${token}`);
-      }
-    }
-
     let response;
     try {
-      response = await fetch(url.toString(), {
-        method: 'GET',
-        headers
-      });
+      response = await fetch(url.toString());
     } catch (networkError) {
       throw this.createAppsScriptNetworkError(networkError);
     }
@@ -57,6 +44,10 @@ class DataService {
     }
 
     const payload = await response.json();
+    if (payload && payload.error) {
+      console.error('Error al leer datos desde Apps Script:', payload.error);
+      throw new Error(payload.error);
+    }
     this.cachedData = payload;
     return payload;
   }
@@ -66,21 +57,17 @@ class DataService {
       throw new Error('La integración con Google Sheets no está configurada.');
     }
 
-    const token = await getAuthToken(true);
-    if (!token) {
-      throw new Error('Debes iniciar sesión para guardar cambios.');
-    }
-
     const response = await fetch(this.sheetConfig.scriptUrl, {
       method: 'POST',
+      mode: 'cors',
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         action: 'write',
         sheetId: this.sheetConfig.sheetId,
-        payload: updatedData
+        payload: updatedData,
+        adminKey: this.sheetConfig.adminKey || 'clave123' // Simple shared key gate replaces Firebase auth.
       })
     });
 
@@ -90,6 +77,10 @@ class DataService {
     }
 
     const result = await response.json();
+    if (result && result.error) {
+      console.error('Error al guardar datos en Apps Script:', result.error);
+      throw new Error(result.error);
+    }
     this.cachedData = updatedData;
     return result;
   }
