@@ -41,10 +41,15 @@ class DataService {
       }
     }
 
-    const response = await fetch(url.toString(), {
-      method: 'GET',
-      headers
-    });
+    let response;
+    try {
+      response = await fetch(url.toString(), {
+        method: 'GET',
+        headers
+      });
+    } catch (networkError) {
+      throw this.createAppsScriptNetworkError(networkError);
+    }
 
     if (!response.ok) {
       const text = await response.text();
@@ -91,6 +96,21 @@ class DataService {
 
   clearCache() {
     this.cachedData = null;
+  }
+
+  createAppsScriptNetworkError(error) {
+    const hints = [
+      'No se pudo conectar con el Apps Script publicado.',
+      'Verifica que `googleSheet.scriptUrl` apunte a la URL de despliegue que termina en `/exec` y que el proyecto esté desplegado como aplicación web.',
+      'Si estás abriendo el sitio directamente con `file://`, levanta un servidor local (por ejemplo `python -m http.server 8000`).',
+      'Revisa en Google Apps Script que el despliegue esté activo y que la hoja acepte conexiones externas.'
+    ];
+
+    if (error?.message) {
+      hints.push(`Detalle técnico: ${error.message}`);
+    }
+
+    return new Error(hints.join(' '));
   }
 }
 

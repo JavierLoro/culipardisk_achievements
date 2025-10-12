@@ -225,6 +225,27 @@ window.APP_CONFIG = {
 4. Abre `index.html` y `stats.html` para confirmar que la lectura proviene de la
    hoja remota.
 
+## Solución de problemas comunes
+
+### Error «Error al cargar los datos. Failed to fetch»
+
+Este mensaje indica que el navegador no pudo llegar al Apps Script indicado en
+`googleSheet.scriptUrl`.
+
+- Asegúrate de que la URL usada en `scriptUrl` sea la que termina en `/exec` del
+  despliegue publicado como aplicación web.
+- Comprueba que abriste el sitio desde un servidor (por ejemplo
+  `python -m http.server 8000`); si lo cargas con `file://` el navegador puede
+  bloquear las peticiones externas.
+- Verifica en Apps Script que el despliegue esté activo, que el parámetro
+  **Who has access** esté configurado como *Anyone* y que el proyecto tenga
+  permisos sobre la hoja.
+- Abre la URL del script en una pestaña aparte: si ves el JSON de la celda `A1`
+  todo está funcionando; si aparece un error, corrígelo antes de volver al
+  sitio.
+- Revisa la consola del navegador para obtener el detalle técnico exacto (por
+  ejemplo bloqueos de CORS o problemas de red).
+
 ## Recomendaciones de seguridad
 
 - Nunca expongas tu `apiKey` ni la URL del Apps Script en repositorios públicos
