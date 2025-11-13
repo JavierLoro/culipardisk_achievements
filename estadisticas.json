@@ -25,12 +25,12 @@
       "fotos": 0
     },
     "Barren": {
-      "entrenamientos": 1,
-      "puntual": 1,
-      "primero": 1,
+      "entrenamientos": 6,
+      "puntual": 2,
+      "primero": 2,
       "lluvia": 0,
       "calentamiento": 0,
-      "estiramiento": 1,
+      "estiramiento": 2,
       "contenido": 0,
       "invitados": 0,
       "eventos": 0,
@@ -61,12 +61,12 @@
       "fotos": 0
     },
     "Dani": {
-      "entrenamientos": 1,
-      "puntual": 0,
-      "primero": 0,
+      "entrenamientos": 7,
+      "puntual": 3,
+      "primero": 2,
       "lluvia": 0,
       "calentamiento": 0,
-      "estiramiento": 0,
+      "estiramiento": 3,
       "contenido": 0,
       "invitados": 0,
       "eventos": 0,
@@ -85,11 +85,11 @@
       "fotos": 0
     },
     "Elena": {
-      "entrenamientos": 0,
+      "entrenamientos": 4,
       "puntual": 0,
       "primero": 0,
       "lluvia": 0,
-      "calentamiento": 0,
+      "calentamiento": 1,
       "estiramiento": 0,
       "contenido": 0,
       "invitados": 0,
@@ -97,31 +97,7 @@
       "fotos": 0
     },
     "Fernando": {
-      "entrenamientos": 1,
-      "puntual": 1,
-      "primero": 0,
-      "lluvia": 0,
-      "calentamiento": 0,
-      "estiramiento": 0,
-      "contenido": 0,
-      "invitados": 0,
-      "eventos": 0,
-      "fotos": 0
-    },
-    "Isabel": {
-      "entrenamientos": 1,
-      "puntual": 1,
-      "primero": 0,
-      "lluvia": 0,
-      "calentamiento": 0,
-      "estiramiento": 0,
-      "contenido": 0,
-      "invitados": 0,
-      "eventos": 0,
-      "fotos": 0
-    },
-    "Javier": {
-      "entrenamientos": 1,
+      "entrenamientos": 3,
       "puntual": 1,
       "primero": 0,
       "lluvia": 0,
@@ -132,8 +108,20 @@
       "eventos": 0,
       "fotos": 0
     },
-    "Groger": {
-      "entrenamientos": 1,
+    "Isabel": {
+      "entrenamientos": 6,
+      "puntual": 2,
+      "primero": 1,
+      "lluvia": 0,
+      "calentamiento": 1,
+      "estiramiento": 1,
+      "contenido": 0,
+      "invitados": 0,
+      "eventos": 0,
+      "fotos": 0
+    },
+    "Javier": {
+      "entrenamientos": 10,
       "puntual": 0,
       "primero": 0,
       "lluvia": 0,
@@ -144,12 +132,24 @@
       "eventos": 0,
       "fotos": 0
     },
+    "Groger": {
+      "entrenamientos": 5,
+      "puntual": 2,
+      "primero": 1,
+      "lluvia": 0,
+      "calentamiento": 0,
+      "estiramiento": 1,
+      "contenido": 0,
+      "invitados": 0,
+      "eventos": 0,
+      "fotos": 0
+    },
     "Juan": {
-      "entrenamientos": 0,
+      "entrenamientos": 4,
       "puntual": 0,
       "primero": 0,
       "lluvia": 0,
-      "calentamiento": 0,
+      "calentamiento": 2,
       "estiramiento": 0,
       "contenido": 0,
       "invitados": 0,
@@ -157,7 +157,7 @@
       "fotos": 0
     },
     "Laura": {
-      "entrenamientos": 1,
+      "entrenamientos": 2,
       "puntual": 1,
       "primero": 0,
       "lluvia": 0,
@@ -181,8 +181,8 @@
       "fotos": 0
     },
     "Miguel": {
-      "entrenamientos": 0,
-      "puntual": 0,
+      "entrenamientos": 1,
+      "puntual": 1,
       "primero": 0,
       "lluvia": 0,
       "calentamiento": 0,
