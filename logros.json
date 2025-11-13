@@ -285,7 +285,7 @@
     },
     {
       "nombre": "Dani",
-      "logrosDesbloqueados": ["socio", "veterano"]
+      "logrosDesbloqueados": ["socio", "veterano", "asistencia5"]
     },
     {
       "nombre": "David",
@@ -301,7 +301,7 @@
     },
     {
       "nombre": "Isabel",
-      "logrosDesbloqueados": ["socio"]
+      "logrosDesbloqueados": ["socio", "asistencia5"]
     },
     {
       "nombre": "Javier",
@@ -309,12 +309,12 @@
         "socio",
         "spirit",
         "veterano",
-        "fundador"
+        "fundador", "asistencia10"
       ]
     },
     {
       "nombre": "Groger",
-      "logrosDesbloqueados": ["socio","veterano","fundador"]
+      "logrosDesbloqueados": ["socio","veterano","fundador", "asistencia5"]
     },
     {
       "nombre": "Juan",
